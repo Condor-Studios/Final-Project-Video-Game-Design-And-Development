@@ -72,3 +72,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /Visceral Limbo/Library
 /Visceral Limbo/Logs
+/Visceral Limbo/Temp
+/Visceral Limbo/Logs
+/Visceral Limbo/Logs
+/Visceral Limbo/Logs
