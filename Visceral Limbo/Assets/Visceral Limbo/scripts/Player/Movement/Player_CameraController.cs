@@ -29,12 +29,19 @@ public class Player_CameraController : Visceral_Script
         transform.eulerAngles = _EulerAngles = _CameraAnchor.eulerAngles; //doble set
 
     }
-
+    /// <summary>
+    /// actualizar la posicion de la camara
+    /// </summary>
+    /// <param name="Target"> nueva posicion</param>
     public void UpdatePosition(Transform Target)
     {
         this.transform.position = Target.position;
     }
 
+    /// <summary>
+    /// actualizar la rotacion de la camara
+    /// </summary>
+    /// <param name="inputData"></param>
     public void UpdateRotation(InputStruct inputData)
     {
         _EulerAngles += new Vector3(-inputData.LookDelta.y, inputData.LookDelta.x) * sensitivity;

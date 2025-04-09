@@ -57,19 +57,23 @@ public class Player_Base : Visceral_Script
         //creo struct
         var movementInput = new InputMovement
         {
-            //set variable rotation con el valor de camera rotation
-            //usado para rotar el modelo del jugador 
-            rotation = _Player_CameraController.transform.rotation,
-            Movement = Input.Movement.ReadValue<Vector2>(),
-            Jumping = Input.Jump.WasPressedThisFrame()
-           
+            //rotation => rotacion del jugador
+            //movement => movimiento del jugador
+            //jumping/jumpsustaining => salto del jugador
 
-           
+            rotation       = _Player_CameraController.transform.rotation,
+            Movement       = Input.Movement.ReadValue<Vector2>(),
+            Jumping        = Input.Jump.WasPressedThisFrame(),
+            JumpSustaining = Input.Jump.IsPressed(),
+
+            // pseudo codigo => si el boton crouch fue presionado, devolver toggle , de no serlo devolver none
+            Crouch         = Input.Crouch.WasPressedThisFrame() ? CrouchEnum.Toggle : CrouchEnum.None,
+
+
         };
-
+        _Player_Movement.UpdateBodyPositions(Time.deltaTime);
         _Player_Movement.UpdateInput(movementInput);
         _Player_CameraController.UpdatePosition(_Player_Movement.GetCameraTarget());
-
     }
 
 

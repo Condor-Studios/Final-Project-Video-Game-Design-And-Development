@@ -11,9 +11,20 @@ public class Visceral_Script : MonoBehaviour
 
 
     //initialize, usado como start pero tenemos control más exacto de cuando
+
+    /// <summary>
+    /// esta funcion sirve para iniciar el script, similar a start. pero tiene que ser llamado de manera externa
+    /// </summary>
     public virtual void VS_Initialize() { }
 
     //Initialize with parameters, similar pero podemos pasar parametros con params
     //despues es importante castearlos explicitamente al type necesario
+
+    /// <summary>
+    /// esta funcion sirve para iniciar el script, similar a start. pero tiene que ser llamado de manera externa   
+    /// permite el uso de parametros
+    /// </summary>
+    /// <param name="a"> parametros usados a la hora de iniciar </param>
+    /// 
     public virtual void VS_InitializeWithParameters(params object[] a) { }
 }
