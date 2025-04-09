@@ -5,7 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    //[SerializeField] GameObject _optionsObject;
+    public static GameManager Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
+    }
     public void PlayGame()
     {
         SceneManager.LoadScene("SampleScene");
@@ -13,6 +24,10 @@ public class GameManager : MonoBehaviour
     public void Options(GameObject option)
     {
         option.SetActive(true);
+    }
+    public void BackMainMenu(GameObject option)
+    {
+        option.SetActive(false);
     }
     public void QuitGame()
     {
