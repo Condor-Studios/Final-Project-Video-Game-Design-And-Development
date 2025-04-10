@@ -15,8 +15,6 @@ public class Player_Base : Visceral_Script
 
     [SerializeField] private Player_Movement _Player_Movement;
     [SerializeField] private Player_CameraController _Player_CameraController;
-
-
     //PlayerInputActions es el mappeo de las acciones de Input del jugador
     //similar al Unreal con su Input Map
     private PlayerInputActions _Player_InputActions;
@@ -74,6 +72,7 @@ public class Player_Base : Visceral_Script
         _Player_Movement.UpdateBodyPositions(Time.deltaTime);
         _Player_Movement.UpdateInput(movementInput);
         _Player_CameraController.UpdatePosition(_Player_Movement.GetCameraTarget());
+
     }
 
 

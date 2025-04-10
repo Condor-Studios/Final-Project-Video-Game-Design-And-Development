@@ -2985,21 +2985,25 @@ MonoBehaviour:
   _KCCMotor: {fileID: 1764823800}
   _CameraTarget: {fileID: 1509033869}
   _RootTransform: {fileID: 1521763491}
-  _WalkSpeed: 15
+  _WalkSpeed: 12
   _CrouchSpeed: 8
   _WalkAcceleration: 25
   _CrouchAcceleration: 20
   _JumpStrenght: 20
-  _JumpSustainGravity: 0.4
+  _JumpSustainGravity: 0.6
   _GravityStrenght: -60
   _AirSpeed: 10
   _AirResponse: 120
+  _CoyoteTime: 0.2
+  _SlideStartSpeed: 25
+  _SlideEndSpeed: 15
+  _SlideFriction: 0.8
+  _SlideResponce: 30
   _StandHeight: 2
   _CrouchHeight: 1
   _CameraStandHeight: 1
   _CameraCrouchHeight: 0
   _CrouchHeightResponse: 15
-  _CurrentStance: 0
 --- !u!1 &1799041352
 GameObject:
   m_ObjectHideFlags: 0

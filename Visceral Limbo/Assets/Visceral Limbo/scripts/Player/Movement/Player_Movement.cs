@@ -18,7 +18,14 @@ public enum CrouchEnum
 /// </summary>
 public enum Stance
 {
-    Standing,crouching
+    Standing,crouching,Sliding
+}
+
+public struct CharacterState
+{
+    public bool Grounded;
+    public Stance CharStance;
+
 }
 
 //struct usado para comunicar variables de accion
@@ -84,8 +91,22 @@ public class Player_Movement : Visceral_Script, ICharacterController
     [SerializeField] private float _GravityStrenght = -90f;
     [SerializeField] private float _AirSpeed = 10f;
     [SerializeField] private float _AirResponse = 70f;
+    [SerializeField] private float _CoyoteTime = 0.2f;
 
     [Space]
+
+    [Header("Slide variables")]
+    [SerializeField] private float _SlideStartSpeed = 25f; // velocidad inicial del slide
+    [SerializeField] private float _SlideEndSpeed = 15f; // velocidad minima de slide, si va por debajo, el jugador se agacha automaticamente
+
+    [Range(0,1f)]
+    [SerializeField] private float _SlideFriction = 0.8f; // desaceleracion del slide
+
+    [SerializeField] private float _SlideResponce = 5f;  //controla que tanto se puede manejar el sentido de movimiento en el slide
+
+
+    [Space]
+
     [Header("Stance Variables")]
     [SerializeField] private float _StandHeight = 1f;
     [SerializeField] private float _CrouchHeight = 0.5f;
@@ -97,12 +118,11 @@ public class Player_Movement : Visceral_Script, ICharacterController
     [SerializeField] private float _CrouchHeightResponse =15f; // controla que tan rapido se agacha
 
     [Space]
+    [SerializeField]private CharacterState _CurrentState; //este state guarda lo que ocurre en el frame actual
+    private CharacterState _LastState; //este state guarda lo que ocurrio en el frame pasado
+    private CharacterState _TempState; //este state sirve de cache, para permitir guardar el state pasado y sobreescribirlo sin correr riesgo de necesitarlo en runtime
 
-    [SerializeField]private Stance _CurrentStance;
-    /// <summary>
-    /// El Stance actual del personaje
-    /// </summary>
-    public Stance CurrentStance { get => _CurrentStance;} // getter
+
     private Collider[] _UncrouchOverlapColliders; // solo usado para detectar si estamos golpeando algo
 
     //
@@ -117,10 +137,17 @@ public class Player_Movement : Visceral_Script, ICharacterController
     private bool _RequestedSustainJump;
     private bool _RequestedCrouch;
 
+    //estas variables son para coyote time, ya que necesito considerar el tiempo que paso entre
+    //que el player pidio el salto y el juego
+    private float _RequestedTimeSinceUngrounded;
+    private float _RequestedTimeSinceJumpRequest;
+    private bool _RequestedCoyoteTime; //este booleano evita que el jugador active el coyote time tras salta de manera normal
+
     public override void VS_Initialize()
     {
         _KCCMotor.CharacterController = this;
-        _CurrentStance = Stance.Standing;
+        _CurrentState.CharStance = Stance.Standing;
+        _LastState = _CurrentState;
         _UncrouchOverlapColliders= new Collider[8];
     }
 
@@ -142,7 +169,12 @@ public class Player_Movement : Visceral_Script, ICharacterController
 
         //seteamos RequestedJump cuando el Boton de Jump es presionado
         // y seteamos RequestedSustainJump mientras que el boton jump este presionado
+        var wasRequestingJump = _RequestedJump; //esta variable sirve para saber si el jugador estaba pidiendo saltar
         _RequestedJump = _RequestedJump || Inputs.Jumping;
+        if(_RequestedJump && !wasRequestingJump)
+        {
+            _RequestedTimeSinceJumpRequest = 0f;
+        }
 
         _RequestedSustainJump = Inputs.JumpSustaining;
 
@@ -173,10 +205,11 @@ public class Player_Movement : Visceral_Script, ICharacterController
         var NormalizedHeight = CurrentCapsuleHeight / _StandHeight;
 
         //switch de posicion de camara
-        var CameraTargetHeight = _CurrentStance switch
+        var CameraTargetHeight = _CurrentState.CharStance switch
         {
             Stance.Standing => _CameraStandHeight,
             Stance.crouching => _CameraCrouchHeight,
+            Stance.Sliding => _CameraCrouchHeight,
             _ => _CameraStandHeight,
         };
 
@@ -255,6 +288,9 @@ public class Player_Movement : Visceral_Script, ICharacterController
         if (_KCCMotor.GroundingStatus.IsStableOnGround)
         {
             #region groundmovement
+            _RequestedTimeSinceUngrounded = 0f;
+            _RequestedCoyoteTime = false;
+         
             //queremos actualizar la posicion del jugador a partir del raw input (RequestedMovement)
 
             //Problema! nuestra direccion de movimiento esta dada X la camara, entonces si miramos
@@ -273,36 +309,98 @@ public class Player_Movement : Visceral_Script, ICharacterController
                 //es necesario multiplicar por magnitud porque esta funcion devuelve una unidad de vector / mata magnitud
                 ) * _RequestedMovement.magnitude;
 
-
-            //switches para calcular la velocidad y la aceleracion del personaje
-            float movementSpeed = _CurrentStance switch
             {
-                Stance.Standing => _WalkSpeed,
-                Stance.crouching => _CrouchSpeed,
-                _ => _WalkSpeed,
-            };
+                //Start Sliding
+                var Moving = groundedMovement.sqrMagnitude > 0f; // si nos estamos moviendo
 
-            var MovementAcceleration = _CurrentStance switch
+                var CrouchingStance = _CurrentState.CharStance is Stance.crouching;
+                var wasStanding = _LastState.CharStance is Stance.Standing;
+                var wasInAir = !_LastState.Grounded;
+
+                if (Moving && CrouchingStance && (wasStanding || wasInAir))
+                {
+                    _CurrentState.CharStance = Stance.Sliding;
+
+                    //elegimos la velocidad mayor
+                    var _SlideSpeed = Mathf.Max(_SlideStartSpeed,currentVelocity.magnitude);
+                    currentVelocity = _KCCMotor.GetDirectionTangentToSurface
+                        (
+                            direction: currentVelocity,
+                            surfaceNormal: _KCCMotor.GroundingStatus.GroundNormal
+                        ) * _SlideSpeed;
+
+                }
+            }
+
+            //movimiento normal
+
+            #region walkMovement
+            //movernos de manera normal
+            if(_CurrentState.CharStance is not Stance.Sliding)
             {
-                Stance.Standing => _WalkAcceleration,
-                Stance.crouching => _CrouchAcceleration,
-                _ => _WalkSpeed,
-            };
+                //switches para calcular la velocidad y la aceleracion del personaje
+                float movementSpeed = _CurrentState.CharStance switch
+                {
+                    Stance.Standing => _WalkSpeed,
+                    Stance.crouching => _CrouchSpeed,
+                    _ => _WalkSpeed,
+                };
 
-            //movernos suavemente en la direccion deseada
-            var TargetVelocity = movementSpeed * groundedMovement;
-            currentVelocity = Vector3.Lerp
-                (
-                    a: currentVelocity,
-                    b: TargetVelocity,
-                    t: 1f - Mathf.Exp(-MovementAcceleration * deltaTime)
-                );
+                var MovementAcceleration = _CurrentState.CharStance switch
+                {
+                    Stance.Standing => _WalkAcceleration,
+                    Stance.crouching => _CrouchAcceleration,
+                    _ => _WalkSpeed,
+                };
+
+                //movernos suavemente en la direccion deseada
+                var TargetVelocity = movementSpeed * groundedMovement;
+                currentVelocity = Vector3.Lerp
+                    (
+                        a: currentVelocity,
+                        b: TargetVelocity,
+                        t: 1f - Mathf.Exp(-MovementAcceleration * deltaTime)
+                    );
+
+            }
             #endregion
+
+            //continuar con el sliding
+            else
+            {
+                //friccion
+                currentVelocity -= currentVelocity * (_SlideFriction*deltaTime);
+
+                //steering
+                {
+
+                    //usado para evitar que la fuerza de steer sume velocidad total
+                    var clampSpeed = currentVelocity.magnitude;
+
+                    //Target Velocity es la direccion de movimiento en la velocidad actual
+                    var targetVelocity = groundedMovement * currentVelocity.magnitude;
+                    var steerForce = _SlideResponce * deltaTime * (targetVelocity - currentVelocity);
+
+                    //añadimos velocidad de steer, pero clampeamos la velocidad total para evitar sumar velocidad extra por steer
+                    currentVelocity += steerForce;
+                    currentVelocity = Vector3.ClampMagnitude(currentVelocity, clampSpeed);
+                }
+
+                //parar
+                if(currentVelocity.magnitude < _SlideEndSpeed)
+                {
+                    _CurrentState.CharStance = Stance.crouching;
+                }
+            }
+            #endregion
+
+       
         }
         else
         //estamos en el aire
         {
             #region airmovement
+            _RequestedTimeSinceUngrounded += deltaTime;
             //si estamos en el aire tratando de movernos
             if (_RequestedMovement.sqrMagnitude> 0f)
             {
@@ -323,16 +421,37 @@ public class Player_Movement : Visceral_Script, ICharacterController
                     );
 
                 //calcular la fuerza de movimiento
-                var InAirMovementForce = AirTimePlanarMovement * _AirResponse * deltaTime;
+                var InAirMovementForce = _AirResponse * deltaTime * AirTimePlanarMovement;
 
-                //añadir el valor de fuerza a la velocidad planar actual para tener un objetivo de movimiento
-                var TargetAirMovementForce = currentPlanarVelocity + InAirMovementForce;
 
-                //limitamos la velocidad maxima a la velocidad de movimiento del aire
-                TargetAirMovementForce = Vector3.ClampMagnitude(TargetAirMovementForce, _AirSpeed);
+                //si nos estamos moviendo mas lento que la velocidad maxima del aire, tratar movementforce como un steer normal
+                //esto permite que nos podamos mover mas rapido en el aire, sin perder el clamp de velocidad maxima normal
+                if (currentPlanarVelocity.magnitude < _AirSpeed) 
+                {
+                    //añadir el valor de fuerza a la velocidad planar actual para tener un objetivo de movimiento
+                    var TargetAirMovementForce = currentPlanarVelocity + InAirMovementForce;
 
+                    //limitamos la velocidad maxima a la velocidad de movimiento del aire
+                    TargetAirMovementForce = Vector3.ClampMagnitude(TargetAirMovementForce, _AirSpeed);
+
+                    InAirMovementForce = TargetAirMovementForce - currentPlanarVelocity;
+                }
+
+                // si no ocurre lo anterior, vamos a nerfear la fuerza de movimiento del aire, para evitar dar acceleracion extra
+                else if(Vector3.Dot(currentPlanarVelocity,InAirMovementForce) > 0)
+                {
+                    //proyectamos la fuerza de movimiento a un plano cuya normal es la velocidad de movimiento actual
+                    var constrainedMovementForce = Vector3.ProjectOnPlane
+                        (
+                            vector: InAirMovementForce,
+                            planeNormal: currentPlanarVelocity.normalized
+                        );
+
+                    InAirMovementForce = constrainedMovementForce;
+                }
                 //steer hacia la velocidad objetivo
-                currentVelocity += TargetAirMovementForce - currentPlanarVelocity;
+                currentVelocity += InAirMovementForce;
+                print((int)currentVelocity.magnitude);
             }
 
             //aplicar gravedad
@@ -347,22 +466,36 @@ public class Player_Movement : Visceral_Script, ICharacterController
         }
 
         // saltar del suelo
-        if (_RequestedJump && _KCCMotor.GroundingStatus.IsStableOnGround)
+        if (_RequestedJump)
         {
-            _RequestedJump = false;
+            var CanCoyoteTime = _RequestedTimeSinceUngrounded < _CoyoteTime && !_RequestedCoyoteTime;
+            if (_KCCMotor.GroundingStatus.IsStableOnGround || CanCoyoteTime)
+            {
+                _RequestedJump = false;
+                _RequestedCrouch = false; // no permite que el jugador siga agachado o slideando al saltar
 
-            //despegamos al personaje del suelo
-            //(funcion del KCC)
+                //despegamos al personaje del suelo
+                //(funcion del KCC)
 
-            _KCCMotor.ForceUnground(0f);
+                _KCCMotor.ForceUnground(0f);
+                _RequestedCoyoteTime = true;
+                //seteamos la velocidad minima vertical a la de salto
+                var CurrentVerticalSpeed = Vector3.Dot(currentVelocity, _KCCMotor.CharacterUp);
+                var TargetVecticalSpeed = Mathf.Max(CurrentVerticalSpeed, _JumpStrenght);
 
-            //seteamos la velocidad minima vertical a la de salto
-            var CurrentVerticalSpeed = Vector3.Dot(currentVelocity, _KCCMotor.CharacterUp);
-            var TargetVecticalSpeed = Mathf.Max(CurrentVerticalSpeed, _JumpStrenght);
+                //añadimos la diferencia entre velocidad actual y la deseada al KCC
 
-            //añadimos la diferencia entre velocidad actual y la deseada al KCC
+                currentVelocity += _KCCMotor.CharacterUp * (TargetVecticalSpeed - CurrentVerticalSpeed);
+            }
+            else
+            {
+                //chequear si es posible poner en queue el salto pedido
+                _RequestedTimeSinceJumpRequest += deltaTime;
 
-            currentVelocity += _KCCMotor.CharacterUp * (TargetVecticalSpeed - CurrentVerticalSpeed);
+                //queue del salto, si es posible, el jugador saltara tan solo toque el suelo
+                var CanQueueJump = _RequestedTimeSinceJumpRequest < _CoyoteTime;
+                _RequestedJump = CanQueueJump;
+            }       
         }
 
     }
@@ -371,7 +504,7 @@ public class Player_Movement : Visceral_Script, ICharacterController
     public void AfterCharacterUpdate(float deltaTime)
     {
         //probamos dejar de agacharnos
-        if(!_RequestedCrouch && _CurrentStance is not Stance.Standing)
+        if(!_RequestedCrouch && _CurrentState.CharStance is not Stance.Standing)
         {
             //_CurrentStance = Stance.Standing;
             _KCCMotor.SetCapsuleDimensions(_KCCMotor.Capsule.radius, _StandHeight, _StandHeight * 0.5f);
@@ -387,20 +520,26 @@ public class Player_Movement : Visceral_Script, ICharacterController
             else
             {
                 //levantarnos
-                _CurrentStance = Stance.Standing;
+                _CurrentState.CharStance = Stance.Standing;
             }
         }
 
+        //actualizar el estado del CHT para reflejar lo que ocurrio en este frame y el pasado
+        _CurrentState.Grounded = _KCCMotor.GroundingStatus.IsStableOnGround;
+        _LastState = _TempState;
+      
     }
 
 
     //este evento corre antes de la logica de movimiento
     public void BeforeCharacterUpdate(float deltaTime)
     {
+        _TempState = _CurrentState;
+
         //agacharse
-        if (_RequestedCrouch&& _CurrentStance is Stance.Standing)
+        if (_RequestedCrouch&& _CurrentState.CharStance is Stance.Standing)
         {
-            _CurrentStance = Stance.crouching;
+            _CurrentState.CharStance = Stance.crouching;
             _KCCMotor.SetCapsuleDimensions(_KCCMotor.Capsule.radius, _CrouchHeight, _CrouchHeight * 0.5f);
         }
 
@@ -426,9 +565,13 @@ public class Player_Movement : Visceral_Script, ICharacterController
 
     }
 
+    //esta funcion se activa cuando hay un cambio en el estado de grounding
     public void PostGroundingUpdate(float deltaTime)
     {
-
+        if(!_KCCMotor.GroundingStatus.IsStableOnGround && _CurrentState.CharStance is Stance.Sliding)
+        {
+            _CurrentState.CharStance = Stance.crouching;
+        }
     }
 
     public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, ref HitStabilityReport hitStabilityReport)
@@ -446,4 +589,14 @@ public class Player_Movement : Visceral_Script, ICharacterController
     // añadi : comentarios y summaries a (casi) todas las funciones custom
     // acomode las variables para mas legibilidad
     // 
+    //
+    // patricio: 10/4/2025 - 21:30 - 01:47
+    // añadi : sliding, slide steering
+    // añadi : rework movimiento en el aire
+    // añadi : Coyote Timing
+    // añadi : Jump Queue
+    // añadi : StateReferences (saber el estado del jugador en el frame pasado)
+    // ligera refactorizacion de movimiento del suelo
+    //
+    // comentarios : no estoy seguro si llego con melee para esta entrega
 }
