@@ -2737,6 +2737,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Player_Movement: {fileID: 1764823802}
   _Player_CameraController: {fileID: 622939742}
+  _DashTest: {fileID: 1764823803}
 --- !u!4 &1505970134
 Transform:
   m_ObjectHideFlags: 0
@@ -2882,6 +2883,7 @@ GameObject:
   - component: {fileID: 1764823802}
   - component: {fileID: 1764823801}
   - component: {fileID: 1764823800}
+  - component: {fileID: 1764823803}
   m_Layer: 6
   m_Name: PlayerModel
   m_TagString: Untagged
@@ -3004,6 +3006,20 @@ MonoBehaviour:
   _CameraStandHeight: 1
   _CameraCrouchHeight: 0
   _CrouchHeightResponse: 15
+--- !u!114 &1764823803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764823798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29703345ce17fa0458c625dd70c00e6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _KCCMotorMovement: {fileID: 0}
+  _DashStrenght: 30
 --- !u!1 &1799041352
 GameObject:
   m_ObjectHideFlags: 0
