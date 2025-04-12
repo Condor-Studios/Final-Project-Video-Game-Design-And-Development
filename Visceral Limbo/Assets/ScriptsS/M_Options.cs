@@ -18,4 +18,9 @@ public class M_Options : MonoBehaviour
     {
         QualitySettings.SetQualityLevel(index);
     }
+
+    public void SetSensibility(float value)
+    {
+        //mouseSensitivity = value;
+    }
 }
