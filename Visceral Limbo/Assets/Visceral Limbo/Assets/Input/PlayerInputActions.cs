@@ -71,6 +71,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mouse1"",
+                    ""type"": ""Button"",
+                    ""id"": ""a03270f4-9a76-455d-ab89-11b53ccf85fa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -260,6 +269,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Ability_Support"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63cdbdbe-516a-4308-8599-eb3a8ce78e7e"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mouse1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -273,6 +293,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
         m_Gameplay_Ability_Support = m_Gameplay.FindAction("Ability_Support", throwIfNotFound: true);
+        m_Gameplay_Mouse1 = m_Gameplay.FindAction("Mouse1", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -339,6 +360,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Crouch;
     private readonly InputAction m_Gameplay_Ability_Support;
+    private readonly InputAction m_Gameplay_Mouse1;
     public struct GameplayActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -348,6 +370,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @Crouch => m_Wrapper.m_Gameplay_Crouch;
         public InputAction @Ability_Support => m_Wrapper.m_Gameplay_Ability_Support;
+        public InputAction @Mouse1 => m_Wrapper.m_Gameplay_Mouse1;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -372,6 +395,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Ability_Support.started += instance.OnAbility_Support;
             @Ability_Support.performed += instance.OnAbility_Support;
             @Ability_Support.canceled += instance.OnAbility_Support;
+            @Mouse1.started += instance.OnMouse1;
+            @Mouse1.performed += instance.OnMouse1;
+            @Mouse1.canceled += instance.OnMouse1;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -391,6 +417,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Ability_Support.started -= instance.OnAbility_Support;
             @Ability_Support.performed -= instance.OnAbility_Support;
             @Ability_Support.canceled -= instance.OnAbility_Support;
+            @Mouse1.started -= instance.OnMouse1;
+            @Mouse1.performed -= instance.OnMouse1;
+            @Mouse1.canceled -= instance.OnMouse1;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -415,5 +444,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnAbility_Support(InputAction.CallbackContext context);
+        void OnMouse1(InputAction.CallbackContext context);
     }
 }

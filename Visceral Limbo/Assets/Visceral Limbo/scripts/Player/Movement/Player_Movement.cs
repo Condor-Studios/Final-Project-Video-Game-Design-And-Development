@@ -61,7 +61,20 @@ public struct InputMovement
     /// </summary>
     public CrouchEnum Crouch;
 
+    /// <summary>
+    /// booleano que indica que el jugador uso la habilidad soporte
+    /// </summary>
     public bool Ability_Support;
+
+    /// <summary>
+    /// booleano que indica que el presiono el click izquierdo
+    /// </summary>
+    public bool LeftMouseClick;
+
+    /// <summary>
+    /// booleano que indica que el jugador mantiene presionado el click izquierdo
+    /// </summary>
+    public bool SustainedLeftMouseClick;
 }
 
 //  patricio malvasio maddalena
