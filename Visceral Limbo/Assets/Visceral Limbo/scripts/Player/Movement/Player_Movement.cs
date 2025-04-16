@@ -75,6 +75,11 @@ public struct InputMovement
     /// booleano que indica que el jugador mantiene presionado el click izquierdo
     /// </summary>
     public bool SustainedLeftMouseClick;
+
+    /// <summary>
+    /// booleano que indica que el jugador solto el click izquierdo
+    /// </summary>
+    public bool ReleasedLeftMouseClick;
 }
 
 //  patricio malvasio maddalena

@@ -17,6 +17,7 @@ public class Player_Base : Visceral_Script
     [SerializeField] private Player_CameraController _Player_CameraController;
     [SerializeField] private Player_DashTest _DashTest;
     [SerializeField] private Player_MeleeAttack _MeleeAttack;
+    [SerializeField] private Player_ChargedMeleeCombat _ChargedMeleeCombat;
     //PlayerInputActions es el mappeo de las acciones de Input del jugador
     //similar al Unreal con su Input Map
     private PlayerInputActions _Player_InputActions;
@@ -70,19 +71,20 @@ public class Player_Base : Visceral_Script
 
             // pseudo codigo => si el boton crouch fue presionado, devolver toggle , de no serlo devolver none
             Crouch = Input.Crouch.WasPressedThisFrame() ? CrouchEnum.Toggle : CrouchEnum.None,
-            
-            
+
+
             Ability_Support = Input.Ability_Support.WasPressedThisFrame(),
             LeftMouseClick = Input.Mouse1.WasPressedThisFrame(),
             SustainedLeftMouseClick = Input.Mouse1.IsPressed(),
-
+            ReleasedLeftMouseClick = Input.Mouse1.WasReleasedThisFrame(),
         };
         _Player_Movement.UpdateBodyPositions(Time.deltaTime);
         _Player_Movement.UpdateInput(movementInput);
         _DashTest.PerformDash(movementInput);
         _Player_CameraController.UpdatePosition(_Player_Movement.GetCameraTarget());
 
-        _MeleeAttack.RunData(movementInput);
+        //_MeleeAttack.RunData(movementInput);
+        _ChargedMeleeCombat.VS_Runlogic(movementInput);
     }
 
 

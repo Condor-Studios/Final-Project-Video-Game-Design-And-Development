@@ -29,9 +29,9 @@ public class Player_MeleeAttack : Visceral_Script
 
     private void Attack()
     {
-        if(Time.time - _LastComboEnd > _TimeBetweenCombos && _ComboCounter <= SwordCombo.Length)
+        CancelInvoke(nameof(EndCombo));
+        if (Time.time - _LastComboEnd > _TimeBetweenCombos && _ComboCounter <= SwordCombo.Length)
         {
-            CancelInvoke(nameof(EndCombo));
 
             if(Time.time - _LastClickedTime >= _TimebetweenAttacks)
             {

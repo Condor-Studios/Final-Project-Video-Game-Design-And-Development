@@ -4,33 +4,33 @@ using UnityEngine;
 
 public class SwordTest : Visceral_WeaponBase
 {
-    
+    public override void Attacking()
+    {
+        EnableWeaponCollision();
+    }
+
+    public override void StopAttacking()
+    {
+        DisableWeaponCollision();
+    }
 
     protected override void DisableWeaponCollision()
     {
 
         foreach (var Item in _WeaponColliders)
         {
-            Item.enabled = false;
+            Item.Activate(false);
+            Item.UpdateValues(Damage, KnockBack);
         }
     }
 
     protected override void EnableWeaponCollision()
     {
-        foreach(var Item in _WeaponColliders)
+        foreach (var Item in _WeaponColliders)
         {
-            Item.enabled = true;
+            Item.Activate(true);
+            Item.UpdateValues(Damage, KnockBack);
         }
-       
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("trigger!!");
-        if(other.TryGetComponent(out Health_Component HPComp))
-        {
-            var dir = (other.transform.position - this.transform.position).normalized;
-            HPComp.TakeDamageWithKnockback(Damage, dir, KnockBack);
-        }
     }
 }

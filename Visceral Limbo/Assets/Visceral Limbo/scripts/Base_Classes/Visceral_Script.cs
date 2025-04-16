@@ -27,4 +27,18 @@ public class Visceral_Script : MonoBehaviour
     /// <param name="a"> parametros usados a la hora de iniciar </param>
     /// 
     public virtual void VS_InitializeWithParameters(params object[] a) { }
+
+    /// <summary>
+    /// esta funcion sirve como nuestro update, pero necesita de ser llamado por otro script
+    /// </summary>
+    public virtual void VS_RunLogic()
+    {
+
+    }
+    /// <summary>
+    /// esta funcion sirve como nuestro update, pero necesita de ser llamado por otro script
+    /// tambien puede recibir parametros
+    /// </summary>
+    /// <param name="a"> array de parametros, utilizar type casting</param>
+    public virtual void VS_Runlogic(params object[] a) { }
 }
