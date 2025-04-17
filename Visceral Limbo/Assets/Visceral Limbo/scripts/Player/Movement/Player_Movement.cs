@@ -77,7 +77,7 @@ public struct InputMovement
     public bool SustainedLeftMouseClick;
 
     /// <summary>
-    /// booleano que indica que el jugador solto el click izquierdo
+    /// booleano que indica que el jugador solto  el click izquierdo
     /// </summary>
     public bool ReleasedLeftMouseClick;
 }

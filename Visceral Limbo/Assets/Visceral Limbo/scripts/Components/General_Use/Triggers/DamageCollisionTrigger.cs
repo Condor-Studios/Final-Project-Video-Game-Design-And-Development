@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class DamageCollisionTrigger : MonoBehaviour
 {
+    [SerializeField]Collider _Collider;
     float Damage, KnockBack;
     bool CanDealDamage;
+
+    private void Start()
+    {
+        _Collider= GetComponent<Collider>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("trigger!!");
@@ -25,5 +31,6 @@ public class DamageCollisionTrigger : MonoBehaviour
     public void Activate(bool NewValue)
     {
         CanDealDamage = NewValue;
+        _Collider.enabled = true;
     }
 }

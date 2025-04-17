@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _AnimatorOV: {fileID: 22100000, guid: 802d7948353ad2d47a04e2b452750b5a, type: 2}
   Damage: 10
-  KnockBack: 1
+  KnockBack: 10
   HyperArmor: 0
   AttackName: Attack_0

@@ -15,6 +15,11 @@ public class Player_ChargedMeleeCombat : Visceral_Script
 
     InputMovement PlayerInputs;
 
+    public override void VS_Initialize()
+    {
+        _Weapon.EndAttack += FinishAttack;
+    }
+
     public override void VS_Runlogic(params object[] a)
     {
         if (a == null || a.Length == 0)
@@ -24,7 +29,9 @@ public class Player_ChargedMeleeCombat : Visceral_Script
         }
         PlayerInputs = (InputMovement)a[0];
 
-        if(PlayerInputs.SustainedLeftMouseClick && !_Anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        CancelInvoke(nameof(FinishAttack));
+
+        if (PlayerInputs.SustainedLeftMouseClick && !_Anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
             _ChargeAmount += Time.deltaTime; 
             if(_ChargeAmount> _MaximumCharge)
@@ -44,7 +51,7 @@ public class Player_ChargedMeleeCombat : Visceral_Script
             _ChargeAmount = 0;
         }
 
-        FinishAttack();
+        Invoke(nameof(FinishAttack), 0);
 
         UpdateUI();
     }
@@ -65,12 +72,13 @@ public class Player_ChargedMeleeCombat : Visceral_Script
 
     }
 
-    private void FinishAttack()
+    public void FinishAttack()
     {
-        if(_Anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && _Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f)
+        if(_Anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && _Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f)
         {
             _Weapon.StopAttacking();
             _Anim.SetTrigger("AttackTrigger");
+            Debug.Log("finishing attack");
         }
     }
 

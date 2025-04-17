@@ -8,6 +8,9 @@ public class Visceral_WeaponBase : Visceral_Script
     public float Damage,KnockBack;
     [SerializeField] protected DamageCollisionTrigger[] _WeaponColliders;
 
+    public Action StartAttack;
+    public Action EndAttack;
+
     protected virtual void EnableWeaponCollision() { }
 
     protected virtual void DisableWeaponCollision() { }
