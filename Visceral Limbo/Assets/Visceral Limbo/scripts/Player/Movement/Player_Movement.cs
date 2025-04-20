@@ -80,6 +80,19 @@ public struct InputMovement
     /// booleano que indica que el jugador solto  el click izquierdo
     /// </summary>
     public bool ReleasedLeftMouseClick;
+
+    /// <summary>
+    /// booleano que indica que el jugador presiono la habilidad 1
+    /// </summary>
+    public bool Ability_1;
+    /// <summary>
+    /// booleano que indica que el jugador presiono la habilidad 2
+    /// </summary>
+    public bool Ability_2;
+    /// <summary>
+    /// booleano que indica que el jugador presiono la Ultimate
+    /// </summary>
+    public bool Ultimate;
 }
 
 //  patricio malvasio maddalena

@@ -80,6 +80,33 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ability_1"",
+                    ""type"": ""Button"",
+                    ""id"": ""2356bd06-51d9-4cf2-8f1e-eacde2aa0c68"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ability_2"",
+                    ""type"": ""Button"",
+                    ""id"": ""28167f98-78be-481d-8c11-29d362893dc6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ultimate"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f1257e8-9de9-47cc-8a09-dc413a850a3d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -280,6 +307,39 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Mouse1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""91f96d2f-c270-470b-9876-2a92e95c81e1"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ability_1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f1a3c68-fba1-4039-8cec-b3a8358b1294"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ability_2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc0312da-25a9-42dc-9187-95a8546224c1"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ultimate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -294,6 +354,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
         m_Gameplay_Ability_Support = m_Gameplay.FindAction("Ability_Support", throwIfNotFound: true);
         m_Gameplay_Mouse1 = m_Gameplay.FindAction("Mouse1", throwIfNotFound: true);
+        m_Gameplay_Ability_1 = m_Gameplay.FindAction("Ability_1", throwIfNotFound: true);
+        m_Gameplay_Ability_2 = m_Gameplay.FindAction("Ability_2", throwIfNotFound: true);
+        m_Gameplay_Ultimate = m_Gameplay.FindAction("Ultimate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -361,6 +424,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Crouch;
     private readonly InputAction m_Gameplay_Ability_Support;
     private readonly InputAction m_Gameplay_Mouse1;
+    private readonly InputAction m_Gameplay_Ability_1;
+    private readonly InputAction m_Gameplay_Ability_2;
+    private readonly InputAction m_Gameplay_Ultimate;
     public struct GameplayActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -371,6 +437,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Crouch => m_Wrapper.m_Gameplay_Crouch;
         public InputAction @Ability_Support => m_Wrapper.m_Gameplay_Ability_Support;
         public InputAction @Mouse1 => m_Wrapper.m_Gameplay_Mouse1;
+        public InputAction @Ability_1 => m_Wrapper.m_Gameplay_Ability_1;
+        public InputAction @Ability_2 => m_Wrapper.m_Gameplay_Ability_2;
+        public InputAction @Ultimate => m_Wrapper.m_Gameplay_Ultimate;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -398,6 +467,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Mouse1.started += instance.OnMouse1;
             @Mouse1.performed += instance.OnMouse1;
             @Mouse1.canceled += instance.OnMouse1;
+            @Ability_1.started += instance.OnAbility_1;
+            @Ability_1.performed += instance.OnAbility_1;
+            @Ability_1.canceled += instance.OnAbility_1;
+            @Ability_2.started += instance.OnAbility_2;
+            @Ability_2.performed += instance.OnAbility_2;
+            @Ability_2.canceled += instance.OnAbility_2;
+            @Ultimate.started += instance.OnUltimate;
+            @Ultimate.performed += instance.OnUltimate;
+            @Ultimate.canceled += instance.OnUltimate;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -420,6 +498,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Mouse1.started -= instance.OnMouse1;
             @Mouse1.performed -= instance.OnMouse1;
             @Mouse1.canceled -= instance.OnMouse1;
+            @Ability_1.started -= instance.OnAbility_1;
+            @Ability_1.performed -= instance.OnAbility_1;
+            @Ability_1.canceled -= instance.OnAbility_1;
+            @Ability_2.started -= instance.OnAbility_2;
+            @Ability_2.performed -= instance.OnAbility_2;
+            @Ability_2.canceled -= instance.OnAbility_2;
+            @Ultimate.started -= instance.OnUltimate;
+            @Ultimate.performed -= instance.OnUltimate;
+            @Ultimate.canceled -= instance.OnUltimate;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -445,5 +532,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnCrouch(InputAction.CallbackContext context);
         void OnAbility_Support(InputAction.CallbackContext context);
         void OnMouse1(InputAction.CallbackContext context);
+        void OnAbility_1(InputAction.CallbackContext context);
+        void OnAbility_2(InputAction.CallbackContext context);
+        void OnUltimate(InputAction.CallbackContext context);
     }
 }
