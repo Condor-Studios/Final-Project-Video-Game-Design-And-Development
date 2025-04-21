@@ -1,113 +1,116 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pathfinding : MonoBehaviour
+namespace AI.General
 {
-    private Grid grid;
-
-    private const int MOVE_STRAIGHT_COST = 10;
-    private const int MOVE_DIAGONAL_COST = 14;
-
-    public void Setup(Grid grid)
+    public class Pathfinding : MonoBehaviour
     {
-        this.grid = grid;
-    }
+        private NodeGrid nodeGrid;
 
-    public List<Node> FindPath(Vector3 startWorldPos, Vector3 endWorldPos)
-    {
-        grid.GetXZ(startWorldPos, out int startX, out int startZ);
-        grid.GetXZ(endWorldPos, out int endX, out int endZ);
+        private const int MOVE_STRAIGHT_COST = 10;
+        private const int MOVE_DIAGONAL_COST = 14;
 
-        Node startNode = grid.GetNode(startX, startZ);
-        Node endNode = grid.GetNode(endX, endZ);
-
-        if (startNode == null || endNode == null || !startNode.isWalkable || !endNode.isWalkable)
+        public void Setup(NodeGrid nodeGrid)
         {
-            return null; // No hay camino posible
+            this.nodeGrid = nodeGrid;
         }
 
-        List<Node> openList = new List<Node> { startNode };
-        HashSet<Node> closedList = new HashSet<Node>();
-
-        foreach (Node node in grid.GetAllNodes())
+        public List<Node> FindPath(Vector3 startWorldPos, Vector3 endWorldPos)
         {
-            node.gScore = float.MaxValue;
-            node.hScore = 0;
-            node.cameFromIndex = -1;
-        }
+            nodeGrid.GetXZ(startWorldPos, out int startX, out int startZ);
+            nodeGrid.GetXZ(endWorldPos, out int endX, out int endZ);
 
-        startNode.gScore = 0;
-        startNode.hScore = CalculateDistanceCost(startNode, endNode);
+            Node startNode = nodeGrid.GetNode(startX, startZ);
+            Node endNode = nodeGrid.GetNode(endX, endZ);
 
-        while (openList.Count > 0)
-        {
-            Node currentNode = GetLowestFScoreNode(openList);
-            if (currentNode == endNode)
+            if (startNode == null || endNode == null || !startNode.isWalkable || !endNode.isWalkable)
             {
-                return ReconstructPath(endNode);
+                return null; // No hay camino posible
             }
 
-            openList.Remove(currentNode);
-            closedList.Add(currentNode);
+            List<Node> openList = new List<Node> { startNode };
+            HashSet<Node> closedList = new HashSet<Node>();
 
-            foreach (Node neighbour in grid.GetNeighbours(currentNode))
+            foreach (Node node in nodeGrid.GetAllNodes())
             {
-                if (!neighbour.isWalkable || closedList.Contains(neighbour)) continue;
+                node.gScore = float.MaxValue;
+                node.hScore = 0;
+                node.cameFromIndex = -1;
+            }
 
-                float tentativeGScore = currentNode.gScore + CalculateDistanceCost(currentNode, neighbour);
-                if (tentativeGScore < neighbour.gScore)
+            startNode.gScore = 0;
+            startNode.hScore = CalculateDistanceCost(startNode, endNode);
+
+            while (openList.Count > 0)
+            {
+                Node currentNode = GetLowestFScoreNode(openList);
+                if (currentNode == endNode)
                 {
-                    neighbour.cameFromIndex = currentNode.index;
-                    neighbour.gScore = tentativeGScore;
-                    neighbour.hScore = CalculateDistanceCost(neighbour, endNode);
+                    return ReconstructPath(endNode);
+                }
 
-                    if (!openList.Contains(neighbour))
+                openList.Remove(currentNode);
+                closedList.Add(currentNode);
+
+                foreach (Node neighbour in nodeGrid.GetNeighbours(currentNode))
+                {
+                    if (!neighbour.isWalkable || closedList.Contains(neighbour)) continue;
+
+                    float tentativeGScore = currentNode.gScore + CalculateDistanceCost(currentNode, neighbour);
+                    if (tentativeGScore < neighbour.gScore)
                     {
-                        openList.Add(neighbour);
+                        neighbour.cameFromIndex = currentNode.index;
+                        neighbour.gScore = tentativeGScore;
+                        neighbour.hScore = CalculateDistanceCost(neighbour, endNode);
+
+                        if (!openList.Contains(neighbour))
+                        {
+                            openList.Add(neighbour);
+                        }
                     }
                 }
             }
+
+            return null; // No se encontro camino
         }
 
-        return null; // No se encontró camino
-    }
-
-    private List<Node> ReconstructPath(Node endNode)
-    {
-        List<Node> path = new List<Node>();
-        Node currentNode = endNode;
-        path.Add(currentNode);
-
-        while (currentNode.cameFromIndex != -1)
+        private List<Node> ReconstructPath(Node endNode)
         {
-            int x = currentNode.cameFromIndex % grid.Width;
-            int z = currentNode.cameFromIndex / grid.Width;
-            currentNode = grid.GetNode(x, z);
+            List<Node> path = new List<Node>();
+            Node currentNode = endNode;
             path.Add(currentNode);
-        }
 
-        path.Reverse();
-        return path;
-    }
-
-    private float CalculateDistanceCost(Node a, Node b)
-    {
-        int xDistance = Mathf.Abs(a.x - b.x);
-        int zDistance = Mathf.Abs(a.z - b.z);
-        int remaining = Mathf.Abs(xDistance - zDistance);
-        return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance) + MOVE_STRAIGHT_COST * remaining;
-    }
-
-    private Node GetLowestFScoreNode(List<Node> nodeList)
-    {
-        Node lowest = nodeList[0];
-        for (int i = 1; i < nodeList.Count; i++)
-        {
-            if (nodeList[i].FScore < lowest.FScore)
+            while (currentNode.cameFromIndex != -1)
             {
-                lowest = nodeList[i];
+                int x = currentNode.cameFromIndex % nodeGrid.Width;
+                int z = currentNode.cameFromIndex / nodeGrid.Width;
+                currentNode = nodeGrid.GetNode(x, z);
+                path.Add(currentNode);
             }
+
+            path.Reverse();
+            return path;
         }
-        return lowest;
+
+        private float CalculateDistanceCost(Node a, Node b)
+        {
+            int xDistance = Mathf.Abs(a.x - b.x);
+            int zDistance = Mathf.Abs(a.z - b.z);
+            int remaining = Mathf.Abs(xDistance - zDistance);
+            return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance) + MOVE_STRAIGHT_COST * remaining;
+        }
+
+        private Node GetLowestFScoreNode(List<Node> nodeList)
+        {
+            Node lowest = nodeList[0];
+            for (int i = 1; i < nodeList.Count; i++)
+            {
+                if (nodeList[i].FScore < lowest.FScore)
+                {
+                    lowest = nodeList[i];
+                }
+            }
+            return lowest;
+        }
     }
 }
