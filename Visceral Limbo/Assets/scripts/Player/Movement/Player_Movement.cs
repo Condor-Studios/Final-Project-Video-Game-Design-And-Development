@@ -60,6 +60,39 @@ public struct InputMovement
     /// Enum que indica que estamos agachandonos
     /// </summary>
     public CrouchEnum Crouch;
+
+    /// <summary>
+    /// booleano que indica que el jugador uso la habilidad soporte
+    /// </summary>
+    public bool Ability_Support;
+
+    /// <summary>
+    /// booleano que indica que el presiono el click izquierdo
+    /// </summary>
+    public bool LeftMouseClick;
+
+    /// <summary>
+    /// booleano que indica que el jugador mantiene presionado el click izquierdo
+    /// </summary>
+    public bool SustainedLeftMouseClick;
+
+    /// <summary>
+    /// booleano que indica que el jugador solto  el click izquierdo
+    /// </summary>
+    public bool ReleasedLeftMouseClick;
+
+    /// <summary>
+    /// booleano que indica que el jugador presiono la habilidad 1
+    /// </summary>
+    public bool Ability_1;
+    /// <summary>
+    /// booleano que indica que el jugador presiono la habilidad 2
+    /// </summary>
+    public bool Ability_2;
+    /// <summary>
+    /// booleano que indica que el jugador presiono la Ultimate
+    /// </summary>
+    public bool Ultimate;
 }
 
 //  patricio malvasio maddalena
@@ -74,6 +107,7 @@ public class Player_Movement : Visceral_Script, ICharacterController
     [SerializeField] private KinematicCharacterMotor _KCCMotor; //controlador kinematico
     [SerializeField] private Transform _CameraTarget; //la posicion donde quiero que este la camara
     [SerializeField] private Transform _RootTransform; // el transform del padre maximo del jugador
+    public KinematicCharacterMotor KKCMotor { get { return _KCCMotor; } }
     [Space]
 
     [Header("Ground Movement Variables")]
@@ -121,6 +155,7 @@ public class Player_Movement : Visceral_Script, ICharacterController
     [SerializeField]private CharacterState _CurrentState; //este state guarda lo que ocurre en el frame actual
     private CharacterState _LastState; //este state guarda lo que ocurrio en el frame pasado
     private CharacterState _TempState; //este state sirve de cache, para permitir guardar el state pasado y sobreescribirlo sin correr riesgo de necesitarlo en runtime
+    public CharacterState CurrentState { get { return _CurrentState; } }
 
 
     private Collider[] _UncrouchOverlapColliders; // solo usado para detectar si estamos golpeando algo
@@ -133,6 +168,7 @@ public class Player_Movement : Visceral_Script, ICharacterController
     //
     private Quaternion _RequestedRotation;
     private Vector3 _RequestedMovement;
+    private Vector3 _RequestedAdditiveVelocity; // esta velocidad sera añadida por encima de la velocidad actual del jugador
     private bool _RequestedJump;
     private bool _RequestedSustainJump;
     private bool _RequestedCrouch;
@@ -142,7 +178,6 @@ public class Player_Movement : Visceral_Script, ICharacterController
     private float _RequestedTimeSinceUngrounded;
     private float _RequestedTimeSinceJumpRequest;
     private bool _RequestedCoyoteTime; //este booleano evita que el jugador active el coyote time tras salta de manera normal
-
     public override void VS_Initialize()
     {
         _KCCMotor.CharacterController = this;
@@ -252,6 +287,27 @@ public class Player_Movement : Visceral_Script, ICharacterController
             _KCCMotor.BaseVelocity = Vector3.zero;
         }
     }
+
+/// <summary>
+/// Esta funcion sirve para sumar fuerzas y/o velocidades externas al movimiento del jugador
+/// </summary>
+/// <param name="Velocity">la fuerza que queremos sumar</param>
+/// <param name="Unground"> controla si queremos que la fuerza sumada pueda levantar al jugador del suelo</param>
+    public void AddExternalVelocity(Vector3 Velocity,bool Unground =false)
+    {
+        if (!Unground)
+        {
+            _RequestedAdditiveVelocity += Velocity;
+        }
+        else
+        {
+            _KCCMotor.ForceUnground();
+            _RequestedAdditiveVelocity += Velocity;
+        }
+
+        
+    }
+ 
     ///
     ///
     ///--------- Kinematic Character Controller Functions
@@ -451,7 +507,6 @@ public class Player_Movement : Visceral_Script, ICharacterController
                 }
                 //steer hacia la velocidad objetivo
                 currentVelocity += InAirMovementForce;
-                print((int)currentVelocity.magnitude);
             }
 
             //aplicar gravedad
@@ -496,6 +551,14 @@ public class Player_Movement : Visceral_Script, ICharacterController
                 var CanQueueJump = _RequestedTimeSinceJumpRequest < _CoyoteTime;
                 _RequestedJump = CanQueueJump;
             }       
+        }
+
+        //sumamos cualquier velocidad externa que queramos que tenga el jugador
+        // por ejemplo, un dash seria una velocidad externa que tiene sumada por la funcion
+        if(_RequestedAdditiveVelocity.sqrMagnitude > 0f)
+        {
+            currentVelocity += _RequestedAdditiveVelocity;
+            _RequestedAdditiveVelocity = Vector3.zero;
         }
 
     }
