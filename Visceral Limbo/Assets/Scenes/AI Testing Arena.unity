@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028356, g: 0.2257137, b: 0.3069222, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -305,6 +305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 207452686}
   - component: {fileID: 207452687}
+  - component: {fileID: 207452688}
   m_Layer: 6
   m_Name: Agent A
   m_TagString: Enemy
@@ -335,12 +336,39 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 207452685}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcb2af602ce33460281747de4f4621c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pathfinding: {fileID: 1167883299}
+  grid: {fileID: 234762372}
   moveSpeed: 6
+--- !u!114 &207452688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207452685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ab6fa3cab3a3e43b1e09e73c178e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathfinding: {fileID: 1167883299}
+  grid: {fileID: 234762372}
+  moveSpeed: 5
+  idleDuration: 5
+  roamRange: 5
+  visionRange: 2
+  visionAngle: 45
+  attackRange: 1.5
+  attackInterval: 3
+  attackDamage: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &234762367
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Security.Principal;
+using System.Diagnostics;
 using Common.Entities;
 using UnityEngine;
 
@@ -7,27 +7,27 @@ namespace AI.General
 {
     public class Agent : Entity
     {
-        private Pathfinding pathfinding;
-        private NodeGrid grid;
-        private List<Node> path;
-        private int currentPathIndex;
+        [SerializeField]
+        protected Pathfinding pathfinding;
+        [SerializeField]
+        protected NodeGrid grid;
+        protected List<Node> path;
+        protected int currentPathIndex;
 
         [SerializeField]
-        private float moveSpeed = 5f;
+        protected float moveSpeed = 5f;
 
-        private void Start()
+        protected void Awake()
         {
-            grid = FindObjectOfType<NodeGrid>();
-            pathfinding = FindObjectOfType<Pathfinding>();
             pathfinding.Setup(grid);
         }
 
-        private void Update()
+        protected void Update()
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 Node targetNode = GetCurrentTargetNode();
-                if (targetNode)
+                if (targetNode != null)
                 {
                     RequestPath(targetNode);
                 }
@@ -36,20 +36,19 @@ namespace AI.General
             FollowPath();
         }
 
-        private void RequestPath(Node targetNode)
+        public void RequestPath(Node targetNode)
         {
             Vector3 startWorldPos = transform.position;
             Vector3 endWorldPos = targetNode.transform.position;
             path = pathfinding.FindPath(startWorldPos, endWorldPos);
 
-            if (path != null && path.Count > 0)  currentPathIndex = 0;
+            if (path != null && path.Count > 0)
+                currentPathIndex = 0;
             else
-            {
-                Debug.LogWarning("No se encontró un camino al destino.");
-            }
+                UnityEngine.Debug.LogWarning("No se encontró un camino al destino.");
         }
 
-        private void FollowPath()
+        protected void FollowPath()
         {
             if (path == null || currentPathIndex >= path.Count) return;
 
@@ -65,7 +64,7 @@ namespace AI.General
             }
         }
 
-        private Node GetCurrentTargetNode()
+        protected Node GetCurrentTargetNode()
         {
             Node[] allNodes = grid.GetAllNodes();
             foreach (Node node in allNodes)
@@ -76,6 +75,16 @@ namespace AI.General
                 }
             }
             return null;
+        }
+
+        public bool HasReachedDestination()
+        {
+            return path == null || currentPathIndex >= path.Count;
+        }
+
+        public void StopMoving()
+        {
+            path = null;
         }
     }
 }

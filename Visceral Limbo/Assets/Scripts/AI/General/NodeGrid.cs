@@ -78,6 +78,40 @@ namespace AI.General
             return null;
         }
 
+        public Node GetNodeFromWorldPosition(Vector3 worldPosition)
+        {
+            int x = Mathf.FloorToInt(worldPosition.x / cellSize);
+            int z = Mathf.FloorToInt(worldPosition.z / cellSize);
+            return GetNode(x, z);
+        }
+
+        public Node GetNearestWalkableNode(Vector3 worldPosition)
+        {
+            Node centerNode = GetNodeFromWorldPosition(worldPosition);
+            if (centerNode == null) return null;
+
+            if (centerNode.isWalkable) return centerNode;
+
+            int searchRadius = 1;
+            while (searchRadius < Mathf.Max(width, height))
+            {
+                for (int x = -searchRadius; x <= searchRadius; x++)
+                {
+                    for (int z = -searchRadius; z <= searchRadius; z++)
+                    {
+                        Node checkNode = GetNode(centerNode.x + x, centerNode.z + z);
+                        if (checkNode != null && checkNode.isWalkable)
+                        {
+                            return checkNode;
+                        }
+                    }
+                }
+                searchRadius++;
+            }
+            return null;
+        }
+
+
         public Node[] GetAllNodes()
         {
             List<Node> nodeList = new List<Node>();
@@ -116,6 +150,13 @@ namespace AI.General
         {
             x = Mathf.FloorToInt((worldPosition.x + 46f) / cellSize);
             z = Mathf.FloorToInt((worldPosition.z + 46f) / cellSize);
+        }
+
+        public void Setup(Node[,] nodes)
+        {
+            gridArray = nodes;
+            width = nodes.GetLength(0);
+            height = nodes.GetLength(1);
         }
 
         public int Width => width;
