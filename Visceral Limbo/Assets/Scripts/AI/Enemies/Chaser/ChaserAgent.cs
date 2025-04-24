@@ -35,10 +35,15 @@ namespace AI.Enemies.Chaser
 
         private float lostPlayerTimer = 0f;
         private float maxLostPlayerTime = 5f;
+        
+        public NodeGrid Grid => grid;
+        public Transform PlayerTarget => playerTarget;
+        public Entity PlayerEntity => playerEntity;
 
         private void Start()
         {
             base.Awake();
+            Debug.Log(grid);
 
             var states = new Dictionary<Enum, IState>
             {
@@ -53,7 +58,7 @@ namespace AI.Enemies.Chaser
 
         private void Update()
         {
-            base.Update(); // Sigue manejando movimiento y escucha de tecla Enter si querés mantenerlo
+            base.Update(); // Sigue manejando movimiento y escucha de tecla Enter si querï¿½s mantenerlo
             stateMachine.Update();
             DetectPlayer();
         }
@@ -78,10 +83,6 @@ namespace AI.Enemies.Chaser
             return lostPlayerTimer >= maxLostPlayerTime;
         }
 
-        public NodeGrid Grid => grid;
-        public Transform PlayerTarget => playerTarget;
-        public Entity PlayerEntity => playerEntity;
-
         private void DetectPlayer()
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, visionRange, playerLayer);
@@ -100,9 +101,9 @@ namespace AI.Enemies.Chaser
                 }
             }
 
-            if (playerTarget != null && hits.Length == 0)
+            if (playerTarget && hits.Length == 0)
             {
-                // Perdió de vista al jugador
+                // Perdio de vista al jugador
                 playerTarget = null;
                 playerEntity = null;
             }
@@ -117,6 +118,10 @@ namespace AI.Enemies.Chaser
             Gizmos.DrawRay(transform.position, leftBoundary * visionRange);
             Gizmos.DrawRay(transform.position, rightBoundary * visionRange);
             Gizmos.DrawWireSphere(transform.position, visionRange);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position,roamRange);
         }
     }
 }

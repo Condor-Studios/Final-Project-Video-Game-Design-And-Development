@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Mathematics.Geometry;
 using UnityEngine;
 namespace AI.General
 {
@@ -71,9 +72,9 @@ namespace AI.General
 
         public Node GetNode(int x, int z)
         {
-            if (x >= 0 && z >= 0 && x < width && z < height)
+            if (!(Mathf.Abs(x) > width) && !(Mathf.Abs(z) > height))
             {
-                return gridArray[x, z];
+                return gridArray[Mathf.Abs(x), Mathf.Abs(z)];
             }
             return null;
         }
@@ -82,6 +83,7 @@ namespace AI.General
         {
             int x = Mathf.FloorToInt(worldPosition.x / cellSize);
             int z = Mathf.FloorToInt(worldPosition.z / cellSize);
+            Debug.Log($"width: {width} height: {height} x: {x} z: {z}");
             return GetNode(x, z);
         }
 

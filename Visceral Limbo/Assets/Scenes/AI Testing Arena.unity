@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028356, g: 0.2257137, b: 0.3069222, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -322,7 +322,7 @@ Transform:
   m_GameObject: {fileID: 207452685}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -2.09, y: 1, z: 34.39}
+  m_LocalPosition: {x: 0, y: 1, z: 34.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -360,10 +360,10 @@ MonoBehaviour:
   grid: {fileID: 234762372}
   moveSpeed: 5
   idleDuration: 5
-  roamRange: 5
-  visionRange: 2
-  visionAngle: 45
-  attackRange: 1.5
+  roamRange: 25
+  visionRange: 20
+  visionAngle: 60
+  attackRange: 10
   attackInterval: 3
   attackDamage: 1
   playerLayer:

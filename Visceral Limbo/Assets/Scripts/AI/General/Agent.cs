@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using Common.Entities;
 using UnityEngine;
 
@@ -20,6 +19,7 @@ namespace AI.General
         protected void Awake()
         {
             pathfinding.Setup(grid);
+            Debug.Log(grid);
         }
 
         protected void Update()
@@ -27,7 +27,7 @@ namespace AI.General
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 Node targetNode = GetCurrentTargetNode();
-                if (targetNode != null)
+                if (targetNode)
                 {
                     RequestPath(targetNode);
                 }

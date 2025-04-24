@@ -1,16 +1,14 @@
 using AI.FSM;
 using UnityEngine;
 using System.Collections.Generic;
-using System;
 using AI.General;
-using AI.Enemies.Chaser;
 
 namespace AI.Enemies.Chaser.States
 {
     public class RoamState : IState
     {
-        private ChaserAgent agent;
-        private float roamRange;
+        private readonly ChaserAgent agent;
+        private readonly float roamRange;
 
         public RoamState(ChaserAgent agent, float roamRange)
         {
@@ -37,6 +35,7 @@ namespace AI.Enemies.Chaser.States
         {
             Node startNode = agent.Grid.GetNodeFromWorldPosition(agent.transform.position);
             List<Node> candidates = new List<Node>();
+            
 
             for (int x = -5; x <= 5; x++)
             {
@@ -46,7 +45,7 @@ namespace AI.Enemies.Chaser.States
                     int checkZ = startNode.z + z;
 
                     Node candidate = agent.Grid.GetNode(checkX, checkZ);
-                    if (candidate != null && candidate.isWalkable && (Mathf.Abs(x) + Mathf.Abs(z)) <= roamRange)
+                    if (candidate && candidate.isWalkable && (Mathf.Abs(x) + Mathf.Abs(z)) <= roamRange)
                     {
                         candidates.Add(candidate);
                     }
@@ -55,8 +54,15 @@ namespace AI.Enemies.Chaser.States
 
             if (candidates.Count > 0)
             {
-                Node selected = candidates[UnityEngine.Random.Range(0, candidates.Count)];
-                agent.RequestPath(selected);
+                Node selected = candidates[Random.Range(0, candidates.Count)];
+                if (selected.TrySetAsTarget())
+                {
+                    agent.RequestPath(selected);
+                }
+                else
+                {
+                    TryFindNewTarget();
+                }
             }
             else
             {

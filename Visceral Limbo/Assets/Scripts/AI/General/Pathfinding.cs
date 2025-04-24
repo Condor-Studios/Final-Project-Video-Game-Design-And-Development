@@ -23,7 +23,7 @@ namespace AI.General
             Node startNode = nodeGrid.GetNode(startX, startZ);
             Node endNode = nodeGrid.GetNode(endX, endZ);
 
-            if (startNode == null || endNode == null || !startNode.isWalkable || !endNode.isWalkable)
+            if (!startNode || !endNode || !startNode.isWalkable || !endNode.isWalkable)
             {
                 return null; // No hay camino posible
             }

@@ -95,11 +95,12 @@ namespace AI.General
             }
         }
 
-        private void TrySetAsTarget()
+        public bool TrySetAsTarget()
         {
             if (!isWalkable)
             {
                 Debug.Log("No puedes establecer como destino un nodo no caminable.");
+                return false;
             }
 
             else if (_currentTargetNode == this)
@@ -107,6 +108,7 @@ namespace AI.General
                 _currentTargetNode.isTargetNode = false;
                 _currentTargetNode.SetMaterial(_currentTargetNode.isWalkable);
                 _currentTargetNode = null;
+                return false;
             }
             else if (_currentTargetNode != null)
             {
@@ -115,12 +117,14 @@ namespace AI.General
                 _currentTargetNode = this;
                 isTargetNode = true;
                 SetMaterial(true); // Forzamos a usar el material de destino (targetMat)
+                return true;
             }
             else
             {
                 _currentTargetNode = this;
                 isTargetNode = true;
                 SetMaterial(true); // Forzamos a usar el material de destino (targetMat)
+                return true;
             }
             
         }
