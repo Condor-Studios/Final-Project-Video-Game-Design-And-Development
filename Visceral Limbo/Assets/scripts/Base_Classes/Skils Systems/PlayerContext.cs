@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KinematicCharacterController;
 
 /// <summary>
 /// Este script servirá para pasar contexto basico del usuario, elementos que sepamos que van a ser utiles o muy pesados de andar obteniendo
@@ -20,9 +21,14 @@ public class PlayerContext : Visceral_Script
     /// </summary>
     public Transform PlayerTransform;
 
+    /// <summary>
+    /// El Kinematic Character Motor del usuario
+    /// </summary>
+    public KinematicCharacterMotor KCCMotor;
+
     public override void VS_Initialize()
     {
-        PlayerGameObject = gameObject;
-        PlayerTransform= GetComponent<Transform>();
+        //PlayerGameObject = gameObject;
+        //PlayerTransform= GetComponent<Transform>();
     }
 }

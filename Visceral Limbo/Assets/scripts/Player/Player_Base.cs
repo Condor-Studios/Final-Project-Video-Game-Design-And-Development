@@ -27,6 +27,7 @@ public class Player_Base : Visceral_Script
     void Start()
     {
         _PlayerContext = GetComponent<PlayerContext>();
+        _PlayerContext.KCCMotor = _Player_Movement.KKCMotor;
         _PlayerContext.VS_Initialize();
         _Player_Movement.VS_Initialize();
         _Player_CameraController.VS_InitializeWithParameters(_Player_Movement.GetCameraTarget());
@@ -111,7 +112,7 @@ public class Player_Base : Visceral_Script
         }
         if (Inputs.Ultimate)
         {
-            _SkillManager.TryUseSkill("pew3");
+            _SkillManager.TryUseSkill("Homing_Bolt");
         }
 
         _SkillManager.VS_RunLogic();
