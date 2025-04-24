@@ -9,14 +9,22 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - InvisibleCamera
   - Water
   - UI
+<<<<<<< HEAD
   - Agents
   - Obstacle
   - Floor
   - Walls
   - Player
+=======
+  - Player
+  - 
+  - 
+  - 
+  - 
+>>>>>>> testing
   - 
   - 
   - 
