@@ -15,4 +15,4 @@ MonoBehaviour:
   Skill_Loadout:
   - {fileID: 11400000, guid: 447def4bb83945046b00566f52873f50, type: 2}
   - {fileID: 11400000, guid: e0e5167c98cc05244938304a2414052b, type: 2}
-  - {fileID: 11400000, guid: 414613e66a398eb4e952bdd45db3bae5, type: 2}
+  - {fileID: 11400000, guid: 4aad340148cf1ba4b866ea1072292836, type: 2}
