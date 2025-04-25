@@ -118,7 +118,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 91
+  controlID: 119
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 92
+  controlID: 120
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 93
+  controlID: 121
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 94
+  controlID: 122
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -439,10 +439,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 105}
-      m_SelectedIDs: 5eb6ffff
+      scrollPos: {x: 0, y: 788}
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 16fbffffd8700000ea720000
+      m_ExpandedIDs: eedcffff96f4ffff16fbfffff670000010730000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -862,9 +862,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 892.04614, y: 661.983, z: -1626.6428}
+    m_Target: {x: 888.50183, y: 658.5698, z: -1690.9774}
     speed: 2
-    m_Value: {x: 892.04614, y: 661.983, z: -1626.6428}
+    m_Value: {x: 888.50183, y: 658.5698, z: -1690.9774}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -910,13 +910,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.08067491, y: 0.87856025, z: -0.4427684, w: -0.16018726}
+    m_Target: {x: -0.08447689, y: 0.8868579, z: -0.17961772, w: -0.41733387}
     speed: 2
-    m_Value: {x: -0.080007456, y: 0.8787643, z: -0.44287112, w: -0.15886286}
+    m_Value: {x: -0.08474268, y: 0.886194, z: -0.17948331, w: -0.41864622}
   m_Size:
-    m_Target: 46.51463
+    m_Target: 23.72202
     speed: 2
-    m_Value: 48.706417
+    m_Value: 22.700497
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1077,25 +1077,25 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/ART/TEXTURE/Alfombra/Esquina sup izq
+    - Assets/Prefabs/Enviroment
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
-  m_StartGridSize: 16
+  m_StartGridSize: 65
   m_LastFolders:
-  - Assets/ART/TEXTURE/Alfombra/Esquina sup izq
-  m_LastFoldersGridSize: 16
+  - Assets/Prefabs/Enviroment
+  m_LastFoldersGridSize: 65
   m_LastProjectPath: D:\Da Vinci\Tesis\Final-Project-Video-Game-Design-And-Development\Visceral
     Limbo
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 68}
-    m_SelectedIDs: 58790000
-    m_LastClickedID: 31064
-    m_ExpandedIDs: 0000000080760000827600008476000086760000887600008a760000b0780000bc780000
+    scrollPos: {x: 0, y: 340}
+    m_SelectedIDs: 96790000
+    m_LastClickedID: 31126
+    m_ExpandedIDs: 00000000b6760000b8760000ba760000bc760000be760000c076000072790000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1123,7 +1123,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000080760000827600008476000086760000887600008a760000
+    m_ExpandedIDs: 00000000b6760000b8760000ba760000bc760000be760000c0760000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1176,7 +1176,7 @@ MonoBehaviour:
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
     m_ScrollPosition: {x: 0, y: 0}
-    m_GridSize: 16
+    m_GridSize: 65
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 207
 --- !u!114 &18
