@@ -8,6 +8,7 @@ using UnityEngine;
 public class DialogueData : ScriptableObject
 {
 
-    public List<DialogueNode> DialogueNodes;
+ 
+    [SerializeReference] public List<DialogueNode> DialogueNodes = new List<DialogueNode>();
 
 }

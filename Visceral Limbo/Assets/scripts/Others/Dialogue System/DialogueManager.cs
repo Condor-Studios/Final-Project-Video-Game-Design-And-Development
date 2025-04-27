@@ -8,6 +8,9 @@ public class DialogueManager : Visceral_Script
 {
     [Header("UI")]
     public TextMeshProUGUI DialogueText;
+    public Image SpeakerIcon;
+    public TextMeshProUGUI SpeakerName;
+    public GameObject DialoguePanel;
     public GameObject OptionsPanel;
     public GameObject OptionButtonPrefab;
 
@@ -17,7 +20,7 @@ public class DialogueManager : Visceral_Script
     [SerializeField] private int _CurrentNodeIndex = 0;
     [SerializeField] private bool _IsTyping = false;
 
-    private List<GameObject> CurrentOptionsList = new List<GameObject>();
+    [SerializeField]private List<GameObject> CurrentOptionsList = new List<GameObject>();
 
     private Coroutine TypingCoroutine;
     private Coroutine AutoAdvanceTextCoroutine;
@@ -34,7 +37,7 @@ public class DialogueManager : Visceral_Script
     {
         CurrentDialogue = DialogeDT;
         _CurrentNodeIndex = 0;
-        OptionsPanel.SetActive(true);
+        DialoguePanel.SetActive(true);
         NextNode();
     }
 
@@ -53,7 +56,9 @@ public class DialogueManager : Visceral_Script
 
         StopAllCoroutines();
         ClearOptions();
-        StartCoroutine(TypeText(CurrentDialogue.DialogueNodes[_CurrentNodeIndex]));  
+        StartCoroutine(TypeText(CurrentDialogue.DialogueNodes[_CurrentNodeIndex]));
+        SpeakerName.text = CurrentDialogue.DialogueNodes[_CurrentNodeIndex].SpeakerName;
+        SpeakerIcon.sprite = CurrentDialogue.DialogueNodes[_CurrentNodeIndex].SpeakerSprite;
     }
 
     private IEnumerator TypeText(DialogueNode NodeDT)
@@ -95,13 +100,11 @@ public class DialogueManager : Visceral_Script
 
             Button Button = ButtonOBJ.GetComponent<Button>();
             int nextOption = Option.nextDialogueID;
-            Button.onClick.AddListener (() => SelectOption(nextOption));
-
             CurrentOptionsList.Add(ButtonOBJ);
         }
     }
 
-    private void SelectOption(int NextIntID)
+    public void SelectOption(int NextIntID)
     {
         _CurrentNodeIndex = NextIntID;
         OptionsPanel.SetActive(false);
@@ -123,13 +126,24 @@ public class DialogueManager : Visceral_Script
         yield return new WaitForSeconds(Duration);
 
         _CurrentNodeIndex = CurrentDialogue.DialogueNodes[_CurrentNodeIndex].NextDialogeOption;
+        NextNode();
     }
 
     private void EndDialoge()
     {
         DialogueText.text = "";
+        DialoguePanel.SetActive(false);
         OptionsPanel.SetActive(false);
         Debug.Log("FinishDialoge");
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            StartDialogue(CurrentDialogue);
+        }
     }
 
 }

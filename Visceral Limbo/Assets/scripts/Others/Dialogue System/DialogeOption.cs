@@ -6,8 +6,10 @@ using UnityEngine;
 /// <summary>
 /// Script usado para crear opciones de dialogo
 /// </summary>
-[System.Serializable]
-public class DialogeOption : MonoBehaviour
+
+
+[CreateAssetMenu(fileName = "Nueva respuesta de Dialogo", menuName = "Visceral_Limbo/Systems/DialogueSystem/DialogueOption")]
+public class DialogeOption : ScriptableObject
 {
     /// <summary>
     /// Respuesta del jugador

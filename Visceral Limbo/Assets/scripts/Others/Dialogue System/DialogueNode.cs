@@ -1,41 +1,38 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-/// <summary>
-/// Nodo de dialogo
-/// </summary>
-[System.Serializable]
-public class DialogueNode : MonoBehaviour
+[CreateAssetMenu(fileName = "Nuevo nodo de Dialogo", menuName = "Visceral_Limbo/Systems/DialogueSystem/DialogueNode")]
+public class DialogueNode :ScriptableObject
 {
     /// <summary>
     /// Data del dialogo
     /// </summary>
     [TextArea(10, 3)]
-    public string TextData;
+    [SerializeField] public string TextData;
     /// <summary>
     /// Nombre del personaje que habla
     /// </summary>
-    public string SpeakerName;
+    [SerializeField] public string SpeakerName;
     /// <summary>
     /// Sprite usado para representar al personaje
     /// </summary>
-    public Sprite SpeakerSprite;
+    [SerializeField] public Sprite SpeakerSprite;
     /// <summary>
     /// El ID del siguiente dialogo
     /// </summary>
     /// 
-    public int NextDialogeOption = -1; // dejar en  -1 si es el fin de dialogo
+    [SerializeField] public int NextDialogeOption = -1; // dejar en  -1 si es el fin de dialogo
 
-    public bool AutoAdvance;
-    public float TimeToAdvance;
-    public float TimeBetweenChars;
+    [SerializeField] public bool AutoAdvance;
+    [SerializeField] public float TimeToAdvance;
+    [SerializeField] public float TimeBetweenChars;
 
     /// <summary>
     /// Lista de opciones posibles, dejar nulo si lineal
     /// </summary>
-    public List<DialogeOption> Options= new List<DialogeOption>(); 
+    [SerializeField] public List<DialogeOption> Options= new List<DialogeOption>(); 
 
 
 }
