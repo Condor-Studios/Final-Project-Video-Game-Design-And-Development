@@ -62,7 +62,7 @@ MonoBehaviour:
   targetMat: {fileID: 2100000, guid: 7ec00d450f223574db8698c849a68a5d, type: 2}
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 0
 --- !u!135 &2008032789195934669
 SphereCollider:
   m_ObjectHideFlags: 0

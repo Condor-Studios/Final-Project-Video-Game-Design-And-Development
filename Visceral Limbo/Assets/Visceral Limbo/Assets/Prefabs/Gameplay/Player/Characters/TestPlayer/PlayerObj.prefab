@@ -323,6 +323,8 @@ GameObject:
   - component: {fileID: 1490595854630882232}
   - component: {fileID: 4522773646099621157}
   - component: {fileID: 8523669415137956118}
+  - component: {fileID: 2820450840657128847}
+  - component: {fileID: 9022807522723164424}
   m_Layer: 6
   m_Name: PlayerObj
   m_TagString: Untagged
@@ -364,7 +366,7 @@ MonoBehaviour:
   _DashTest: {fileID: 2414886674968126972}
   _MeleeAttack: {fileID: 0}
   _ChargedMeleeCombat: {fileID: 8523669415137956118}
-  _SkillManager: {fileID: 0}
+  _SkillManager: {fileID: 9022807522723164424}
   _PlayerContext: {fileID: 0}
 --- !u!114 &4522773646099621157
 MonoBehaviour:
@@ -410,10 +412,38 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e5f7f3e3b8156df429ec6b8debedc017, type: 2}
   _ChargeAmount: 0
   _MaximumCharge: 3
-  _MinimunToAttack: 1.5
+  _MinimunToAttack: 0
   _Anim: {fileID: 1511794090843519701}
   _Weapon: {fileID: 7491756333493640154}
   _ChargeSlider: {fileID: 0}
+--- !u!114 &2820450840657128847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4039303074304250013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3289ddf945ef324ea0b2b94eaabb29d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
+  PlayerGameObject: {fileID: 4039303074304250013}
+  PlayerTransform: {fileID: 1489878496788334027}
+--- !u!114 &9022807522723164424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4039303074304250013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2323685e5c16f2e4487559b09a831e58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Loadout: {fileID: 11400000, guid: 2ff53cc084cc4b84ca80d72f4c9114f6, type: 2}
 --- !u!1 &4050267560074687294
 GameObject:
   m_ObjectHideFlags: 0
