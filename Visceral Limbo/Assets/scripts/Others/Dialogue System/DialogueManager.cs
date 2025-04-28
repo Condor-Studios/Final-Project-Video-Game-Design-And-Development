@@ -13,6 +13,7 @@ public class DialogueManager : Visceral_Script
     public GameObject DialoguePanel;
     public GameObject OptionsPanel;
     public GameObject OptionButtonPrefab;
+    public GameObject HandMesh;
 
 
     [Header("Settings")]
@@ -38,6 +39,7 @@ public class DialogueManager : Visceral_Script
         CurrentDialogue = DialogeDT;
         _CurrentNodeIndex = 0;
         DialoguePanel.SetActive(true);
+        HandMesh.SetActive(true);
         NextNode();
     }
 
@@ -134,6 +136,7 @@ public class DialogueManager : Visceral_Script
         DialogueText.text = "";
         DialoguePanel.SetActive(false);
         OptionsPanel.SetActive(false);
+        HandMesh.SetActive(false);
         Debug.Log("FinishDialoge");
     }
 
