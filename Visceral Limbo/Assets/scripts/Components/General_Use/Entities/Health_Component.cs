@@ -26,6 +26,10 @@ public class Health_Component : Visceral_Component
             Vector3 FinalForce = Direction * knockback;
             _RB.AddForce(FinalForce, ForceMode.Impulse);
         }
+        if (CurrentHealth <= 0)
+        { 
+            this.gameObject.SetActive(false);
+        }
     }
 
 }
