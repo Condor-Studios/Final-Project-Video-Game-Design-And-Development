@@ -47,18 +47,23 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
             _mat.color = Color.white;
             StopAllCoroutines();
             speed = movementspeed;
+            _KKC.AttachedRigidbody.velocity = Vector3.Slerp(_KKC.AttachedRigidbodyVelocity,Vector3.zero,0.1f + Time.deltaTime);
+            if(_KKC.AttachedRigidbodyVelocity.sqrMagnitude <= 0.1f)
+            {
+                _KKC.AttachedRigidbody.velocity = Vector3.zero;
+            }
         }
     }
 
     IEnumerator dashwindup()
     {
-        SuccessfullAttack = true;
         _mat.color = Color.yellow;
         speed = attackingspeed;
-
-        yield return new WaitForSeconds(1.5f);
+        SuccessfullAttack = true;
+        yield return new WaitForSeconds(3f);
+        _mat.color = Color.red;
         Vector3 Dashattack = targetdirection.normalized * dashspeed;
-        RequestExtraVelocity(Dashattack);
+        RequestForceVelocity(Dashattack);
         SuccessfullAttack = false;
 
     }
@@ -66,12 +71,14 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
     private void RequestExtraVelocity(Vector3 ExtraVelocity)
     {
         _mat.color = Color.red;
+        _KKC.ForceUnground(0.1f);
         RequestedAdditiveVelocity += ExtraVelocity;
     }
 
     private void RequestForceVelocity(Vector3 ForceVelocity)
     {
         _mat.color = Color.red;
+        _KKC.ForceUnground(0.1f);
         RequestedForceVelocity = ForceVelocity;
     }
 
@@ -110,6 +117,12 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
             currentVelocity += RequestedAdditiveVelocity;
             RequestedAdditiveVelocity = Vector3.zero;
         }
+
+        if(RequestedForceVelocity.sqrMagnitude > 0)
+        {
+            _KKC.AttachedRigidbody.AddForce(RequestedForceVelocity, ForceMode.Impulse);
+            RequestedForceVelocity= Vector3.zero;
+        }
     }
 
 
@@ -129,10 +142,7 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
 
     public void AfterCharacterUpdate(float deltaTime)
     {
-       if(RequestedForceVelocity.sqrMagnitude > 0)
-       {
-            RequestedForceVelocity = Vector3.zero;
-       }
+
     }
 
     public void BeforeCharacterUpdate(float deltaTime)
