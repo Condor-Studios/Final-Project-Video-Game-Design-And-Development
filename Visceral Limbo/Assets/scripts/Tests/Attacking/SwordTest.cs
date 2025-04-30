@@ -24,7 +24,7 @@ public class SwordTest : Visceral_WeaponBase
         foreach (var Item in _WeaponColliders)
         {
             Item.Activate(false);
-            Item.UpdateValues(Damage, KnockBack);
+            Item.UpdateValues(Damage, KnockBack,true);
         }
     }
 
@@ -33,7 +33,7 @@ public class SwordTest : Visceral_WeaponBase
         foreach (var Item in _WeaponColliders)
         {
             Item.Activate(true);
-            Item.UpdateValues(Damage, KnockBack);
+            Item.UpdateValues(Damage, KnockBack,true);
         }
 
     }

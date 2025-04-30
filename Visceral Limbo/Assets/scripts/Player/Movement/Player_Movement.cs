@@ -144,6 +144,7 @@ public class Player_Movement : Visceral_Script, ICharacterController
     [Header("Stance Variables")]
     [SerializeField] private float _StandHeight = 1f;
     [SerializeField] private float _CrouchHeight = 0.5f;
+    
 
     [Range(-1f,2f)]
     [SerializeField] private float _CameraStandHeight = 0.9f;

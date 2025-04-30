@@ -101,8 +101,9 @@ public class DialogueManager : Visceral_Script
             ButtonText.text = Option.TextReply;
 
             Button Button = ButtonOBJ.GetComponent<Button>();
-            int nextOption = Option.nextDialogueID;
+            int nextOption = Option.nextDialogueID; // cache interno
             CurrentOptionsList.Add(ButtonOBJ);
+            Button.onClick.AddListener(() => SelectOption(nextOption));
         }
     }
 
