@@ -159,6 +159,7 @@ MonoBehaviour:
   CurrentHealth: 0
   MaxHealth: 100
   _RB: {fileID: 0}
+  DestroyOnDeath: 0
 --- !u!54 &26468421
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -661,6 +662,7 @@ MonoBehaviour:
   CurrentHealth: 0
   MaxHealth: 100
   _RB: {fileID: 0}
+  DestroyOnDeath: 0
 --- !u!1 &162157179
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,6 +812,7 @@ MonoBehaviour:
   CurrentHealth: 0
   MaxHealth: 100
   _RB: {fileID: 0}
+  DestroyOnDeath: 0
 --- !u!1 &199950265
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,6 +918,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &220336965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 220336966}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &220336966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220336965}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1378324456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &224948218
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,6 +1536,39 @@ MonoBehaviour:
   CurrentHealth: 0
   MaxHealth: 100
   _RB: {fileID: 0}
+  DestroyOnDeath: 0
+--- !u!1 &333385134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 333385135}
+  m_Layer: 0
+  m_Name: RangerDumbEnemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &333385135
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333385134}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 359.06, y: 53.396595, z: 260.77}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1378324456}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &425444620
 GameObject:
   m_ObjectHideFlags: 0
@@ -1540,6 +1607,7 @@ MonoBehaviour:
   CurrentHealth: 100
   MaxHealth: 100
   _RB: {fileID: 0}
+  DestroyOnDeath: 0
 --- !u!114 &425444623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3519,6 +3587,7 @@ MonoBehaviour:
   CurrentHealth: 100
   MaxHealth: 100
   _RB: {fileID: 0}
+  DestroyOnDeath: 0
 --- !u!114 &1287888136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3738,6 +3807,7 @@ MonoBehaviour:
   CurrentHealth: 100
   MaxHealth: 100
   _RB: {fileID: 0}
+  DestroyOnDeath: 0
 --- !u!114 &1316342254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3904,10 +3974,10 @@ GameObject:
   - component: {fileID: 1378324455}
   - component: {fileID: 1378324454}
   - component: {fileID: 1378324453}
-  - component: {fileID: 1378324452}
   - component: {fileID: 1378324451}
-  - component: {fileID: 1378324450}
   - component: {fileID: 1378324449}
+  - component: {fileID: 1378324457}
+  - component: {fileID: 1378324458}
   m_Layer: 0
   m_Name: Ranger
   m_TagString: Untagged
@@ -3942,21 +4012,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1378324450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1378324448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 472673f96eb08914996d06c926556dcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentHealth: 100
-  MaxHealth: 100
-  _RB: {fileID: 0}
 --- !u!114 &1378324451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3999,29 +4054,6 @@ MonoBehaviour:
   CheckMovementInitialOverlaps: 1
   KillVelocityWhenExceedMaxMovementIterations: 1
   KillRemainingMovementWhenExceedMaxMovementIterations: 1
---- !u!114 &1378324452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1378324448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d6d8a632cce9cc4d9d12ecfaed19d9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _KKC: {fileID: 1378324451}
-  _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  target: {fileID: 1665243321}
-  speed: 6
-  movementspeed: 8
-  attackingspeed: 6
-  dashspeed: 15
-  MovementAcceleration: 50
-  distanceToTarget: 0
-  rotationspeed: 30
-  SuccessfullAttack: 0
 --- !u!136 &1378324453
 CapsuleCollider:
   m_ObjectHideFlags: 8
@@ -4103,15 +4135,59 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1378324448}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 359.06, y: 53.396595, z: 260.77}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1627572829}
   - {fileID: 30961950}
-  m_Father: {fileID: 0}
+  - {fileID: 220336966}
+  m_Father: {fileID: 333385135}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1378324457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378324448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11a85825926800943af99f14ec8aa5c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _KKC: {fileID: 1378324451}
+  _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  target: {fileID: 1665243321}
+  SpawnPoint: {fileID: 220336966}
+  _BulletPrefab: {fileID: 7782316294196594982, guid: 75dee924c2695e345b2c7dfb08dbd13d,
+    type: 3}
+  speed: 6
+  movementspeed: 6
+  AttackSpeed: 3
+  MovementAcceleration: 50
+  distanceToTarget: 0
+  distanceToAttack: 15
+  SafeSpace: 5
+  rotationspeed: 50
+  SuccessfullAttack: 0
+--- !u!114 &1378324458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378324448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 472673f96eb08914996d06c926556dcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentHealth: 100
+  MaxHealth: 100
+  _RB: {fileID: 0}
+  DestroyOnDeath: 0
 --- !u!1 &1394702711 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5978672254614827306, guid: 025d07380d10b4a4291821bb4a2fac40,
@@ -4437,6 +4513,7 @@ MonoBehaviour:
   CurrentHealth: 100
   MaxHealth: 100
   _RB: {fileID: 0}
+  DestroyOnDeath: 0
 --- !u!114 &1625787947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4956,6 +5033,7 @@ MonoBehaviour:
   CurrentHealth: 0
   MaxHealth: 100
   _RB: {fileID: 0}
+  DestroyOnDeath: 0
 --- !u!1 &1812369490
 GameObject:
   m_ObjectHideFlags: 0
@@ -5956,5 +6034,5 @@ SceneRoots:
   - {fileID: 425444628}
   - {fileID: 1287888141}
   - {fileID: 1625787952}
-  - {fileID: 1378324456}
+  - {fileID: 333385135}
   - {fileID: 1316342259}
