@@ -19,7 +19,9 @@ namespace AI.Enemies.Chaser.States
         public void OnEnter()
         {
             timer = 0f;
-            agent.StopMoving();
+            agent.StopMovement();
+            agent.GetRandomTargetNode();
+            Debug.Log("I'm in Idle State");
         }
 
         public void OnUpdate()

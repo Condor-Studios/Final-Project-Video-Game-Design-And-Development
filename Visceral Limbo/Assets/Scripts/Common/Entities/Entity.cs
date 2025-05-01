@@ -1,3 +1,4 @@
+using System;
 using Interfaces;
 using UnityEngine;
 
@@ -5,9 +6,16 @@ namespace Common.Entities
 {
     public class Entity : MonoBehaviour, IDamageable
     {
+        [SerializeField]
         protected int health;
+        [SerializeField]
         protected int maxHealth;
-        protected bool isAlive;
+        protected bool isAlive = true;
+
+        private void Awake()
+        {
+            health = maxHealth;
+        }
 
         public int Health
         {
@@ -47,6 +55,7 @@ namespace Common.Entities
             if (health > 0)
             {
                 Health -= damage;
+                Debug.Log($"{gameObject.name} has taken {damage} damage.");
             }
         }
     }

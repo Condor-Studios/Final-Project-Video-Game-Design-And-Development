@@ -20,15 +20,8 @@ namespace AI.Enemies.Chaser
 
         private StateMachine stateMachine;
 
-        [Header("Chaser Settings")]
-        public float idleDuration = 5f;
-        public float roamRange = 5f;
-        public float visionRange = 2f;
-        public float visionAngle = 45f;
-        public float attackRange = 1.5f;
-        public float attackInterval = 3f;
-        public int attackDamage = 1;
         public LayerMask playerLayer;
+        public Material TargetMaterial;
 
         private Transform playerTarget;
         private Entity playerEntity;
@@ -36,21 +29,19 @@ namespace AI.Enemies.Chaser
         private float lostPlayerTimer = 0f;
         private float maxLostPlayerTime = 5f;
         
-        public NodeGrid Grid => grid;
         public Transform PlayerTarget => playerTarget;
         public Entity PlayerEntity => playerEntity;
 
         private void Start()
         {
             base.Awake();
-            Debug.Log(grid);
 
             var states = new Dictionary<Enum, IState>
             {
                 { StateType.Idle, new IdleState(this, idleDuration) },
                 { StateType.Roam, new RoamState(this, roamRange) },
-                { StateType.Chase, new ChaseState(this) },
-                { StateType.Attack, new AttackState(this, attackDamage, attackInterval) }
+                { StateType.Chase, new ChaseState(this, playerTarget) },
+                { StateType.Attack, new AttackState(this) }
             };
 
             stateMachine = new StateMachine(states, StateType.Idle);
@@ -58,7 +49,6 @@ namespace AI.Enemies.Chaser
 
         private void Update()
         {
-            base.Update(); // Sigue manejando movimiento y escucha de tecla Enter si quer�s mantenerlo
             stateMachine.Update();
             DetectPlayer();
         }
@@ -82,6 +72,21 @@ namespace AI.Enemies.Chaser
         {
             return lostPlayerTimer >= maxLostPlayerTime;
         }
+        
+        public bool CanSeePlayer()
+        {
+            Ray ray = new Ray(agent.transform.position + Vector3.up * 0.5f, agent.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, visionRange, playerLayer))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool HasReachedDestination(Vector3 destinationPosition)
+        {
+            return Vector3.Distance(transform.position, destinationPosition) <= 0.5f;
+        }
 
         private void DetectPlayer()
         {
@@ -95,8 +100,13 @@ namespace AI.Enemies.Chaser
                 if (angle <= visionAngle / 2f)
                 {
                     playerTarget = hit.transform;
-                    playerEntity = playerTarget.GetComponent<Entity>();
-                    ChangeState(StateType.Chase);
+                    playerEntity = playerTarget?.GetComponent<Entity>();
+                    Renderer renderer = playerTarget?.GetComponent<Renderer>();
+                    if (renderer)
+                    {
+                        renderer.material = TargetMaterial;
+                        ChangeState(StateType.Chase);
+                    }
                     return;
                 }
             }

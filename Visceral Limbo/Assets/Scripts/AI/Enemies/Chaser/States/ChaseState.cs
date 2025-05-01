@@ -8,29 +8,22 @@ namespace AI.Enemies.Chaser.States
     public class ChaseState : IState
     {
         private ChaserAgent agent;
+        private Transform target;
 
-        public ChaseState(ChaserAgent agent)
+        public ChaseState(ChaserAgent agent, Transform target)
         {
             this.agent = agent;
+            this.target = target;
         }
 
         public void OnEnter()
         {
-            UpdateTarget();
+            Debug.Log("I'm in Chase State");
         }
 
         public void OnUpdate()
         {
-            if (agent.PlayerTarget == null)
-            {
-                agent.IncreaseLostPlayerTimer();
-                if (agent.HasLostPlayerForTooLong())
-                {
-                    agent.ChangeState(ChaserAgent.StateType.Idle);
-                }
-                return;
-            }
-
+            
             float distanceToPlayer = Vector3.Distance(agent.transform.position, agent.PlayerTarget.position);
             if (distanceToPlayer <= agent.attackRange)
             {
@@ -38,22 +31,34 @@ namespace AI.Enemies.Chaser.States
             }
             else
             {
-                UpdateTarget();
+                MoveTowardsTargetWithVision(target);
             }
         }
 
         public void OnExit()
         {
-            agent.ResetLostPlayerTimer();
         }
 
-        private void UpdateTarget()
+        void MoveTowardsTargetWithVision(Transform target)
         {
-            Node nearestToPlayer = agent.Grid.GetNearestWalkableNode(agent.PlayerTarget.position);
-            if (nearestToPlayer != null)
+            Vector3 direction = target.position - agent.transform.position;
+            float distance = direction.magnitude;
+
+            Ray ray = new Ray(agent.transform.position + Vector3.up * 0.5f, direction.normalized);
+            if (Physics.Raycast(ray, out RaycastHit hit, distance, agent.playerLayer))
             {
-                agent.RequestPath(nearestToPlayer);
+                    // Lo ve directamente: moverse directo y mirar
+                    agent.LookAt(target.position);
+                    agent.MoveTowards(target.position);
+            }
+            else
+            {
+                // Está bloqueado: usar pathfinding
+                Node targetNode = agent.Grid.GetNearestWalkableNode(target.position);
+                agent.Pathfinding.FindPath(agent.transform.position, targetNode.transform.position);
             }
         }
+
+
     }
 }

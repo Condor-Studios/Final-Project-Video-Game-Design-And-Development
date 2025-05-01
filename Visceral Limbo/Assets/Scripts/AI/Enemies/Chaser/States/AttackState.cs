@@ -1,55 +1,53 @@
+// AttackState.cs
+
 using AI.FSM;
-using System.Diagnostics;
 using UnityEngine;
-using AI.Enemies.Chaser;
 
 namespace AI.Enemies.Chaser.States
 {
     public class AttackState : IState
     {
         private ChaserAgent agent;
-        private int damage;
-        private float attackInterval;
-        private float attackTimer;
+        private float attackCooldownTimer;
 
-        public AttackState(ChaserAgent agent, int damage, float attackInterval)
+        public AttackState(ChaserAgent agent)
         {
             this.agent = agent;
-            this.damage = damage;
-            this.attackInterval = attackInterval;
         }
 
         public void OnEnter()
         {
-            attackTimer = 0f;
-            agent.StopMoving();
+            agent.StopMovement();
+            attackCooldownTimer = 0f;
         }
 
         public void OnUpdate()
         {
-            if (agent.PlayerTarget == null || !agent.PlayerEntity.IsAlive)
+            if (!agent.CanSeePlayer())
             {
-                agent.ChangeState(ChaserAgent.StateType.Idle);
+                agent.ChangeState(ChaserAgent.StateType.Roam);
                 return;
             }
 
-            agent.transform.LookAt(agent.PlayerTarget);
-
-            attackTimer += Time.deltaTime;
-            if (attackTimer >= attackInterval)
-            {
-                attackTimer = 0f;
-                agent.PlayerEntity.TakeDamage(damage);
-                UnityEngine.Debug.Log($"{agent.name} golpeó a {agent.PlayerTarget.name} por {damage} de daño.");
-            }
-
-            float distanceToPlayer = Vector3.Distance(agent.transform.position, agent.PlayerTarget.position);
-            if (distanceToPlayer > agent.attackRange + 1f)
+            float distanceToPlayer = Vector3.Distance(agent.transform.position, agent.PlayerTarget.transform.position);
+            if (distanceToPlayer > agent.attackRange)
             {
                 agent.ChangeState(ChaserAgent.StateType.Chase);
+                return;
+            }
+
+            attackCooldownTimer -= Time.deltaTime;
+
+            if (attackCooldownTimer <= 0f)
+            {
+                agent.PlayerEntity.TakeDamage(agent.attackDamage);
+                attackCooldownTimer = agent.attackInterval;
             }
         }
 
-        public void OnExit() { }
+        public void OnExit()
+        {
+            // Se puede resetear lÃ³gica si fuera necesario
+        }
     }
 }

@@ -53,7 +53,8 @@ MonoBehaviour:
   index: 0
   gScore: 0
   hScore: 0
-  colliderRadius: 2
+  colliderRadius: 0.7
+  debug: 0
   isWalkable: 1
   isTargetNode: 0
   cameFromIndex: 0
@@ -62,7 +63,7 @@ MonoBehaviour:
   targetMat: {fileID: 2100000, guid: 7ec00d450f223574db8698c849a68a5d, type: 2}
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 192
 --- !u!135 &2008032789195934669
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -82,8 +83,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.4290527
+  m_Center: {x: 0, y: -0.07094729, z: 0}
 --- !u!1 &6402785998219476928
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,5 +188,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.21645242
+  m_Center: {x: 0.010366619, y: 0, z: 0}

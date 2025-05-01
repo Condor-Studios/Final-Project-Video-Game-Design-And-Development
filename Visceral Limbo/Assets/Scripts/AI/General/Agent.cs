@@ -1,90 +1,72 @@
-using System.Collections.Generic;
+// Agent.cs
+
+using AI.General;
 using Common.Entities;
 using UnityEngine;
 
-namespace AI.General
+public class Agent : Entity
 {
-    public class Agent : Entity
+    [Header("Movement Settings")]
+    public float moveSpeed = 3.5f;
+    public float rotationSpeed = 10f;
+    
+    [Header("Basic Sensor Settings")]
+    public float idleDuration = 5f;
+    public float roamRange = 5f;
+    public float visionRange = 2f;
+    public float visionAngle = 45f;
+    public float attackRange = 1.5f;
+    public float attackInterval = 3f;
+    public int attackDamage = 1;
+
+    protected Rigidbody rb;
+
+    [SerializeField]
+    protected NodeGrid grid;
+    [SerializeField]
+    protected Pathfinding pathfinding;
+    protected Node targetNode;
+
+    protected Agent agent;
+    
+    public NodeGrid Grid => grid;
+    public Pathfinding Pathfinding => pathfinding;
+    public Node TargetNode => targetNode;
+
+    protected virtual void Awake()
     {
-        [SerializeField]
-        protected Pathfinding pathfinding;
-        [SerializeField]
-        protected NodeGrid grid;
-        protected List<Node> path;
-        protected int currentPathIndex;
+        agent = this;
+        rb = GetComponent<Rigidbody>();
+    }
 
-        [SerializeField]
-        protected float moveSpeed = 5f;
+    public virtual void MoveTowards(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        rb.MovePosition(transform.position + direction * moveSpeed * Time.deltaTime);
+    }
 
-        protected void Awake()
+    public virtual void LookAt(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        direction.y = 0f;
+        if (direction.magnitude > 0.01f)
         {
-            pathfinding.Setup(grid);
-            Debug.Log(grid);
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         }
+    }
 
-        protected void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                Node targetNode = GetCurrentTargetNode();
-                if (targetNode)
-                {
-                    RequestPath(targetNode);
-                }
-            }
-
-            FollowPath();
-        }
-
-        public void RequestPath(Node targetNode)
-        {
-            Vector3 startWorldPos = transform.position;
-            Vector3 endWorldPos = targetNode.transform.position;
-            path = pathfinding.FindPath(startWorldPos, endWorldPos);
-
-            if (path != null && path.Count > 0)
-                currentPathIndex = 0;
-            else
-                UnityEngine.Debug.LogWarning("No se encontró un camino al destino.");
-        }
-
-        protected void FollowPath()
-        {
-            if (path == null || currentPathIndex >= path.Count) return;
-
-            Node targetNode = path[currentPathIndex];
-            Vector3 targetPosition = targetNode.transform.position;
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
-
-            transform.position += moveSpeed * moveDirection * Time.deltaTime;
-
-            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-            {
-                currentPathIndex++;
-            }
-        }
-
-        protected Node GetCurrentTargetNode()
-        {
-            Node[] allNodes = grid.GetAllNodes();
-            foreach (Node node in allNodes)
-            {
-                if (node.isTargetNode)
-                {
-                    return node;
-                }
-            }
-            return null;
-        }
-
-        public bool HasReachedDestination()
-        {
-            return path == null || currentPathIndex >= path.Count;
-        }
-
-        public void StopMoving()
-        {
-            path = null;
-        }
+    public virtual void StopMovement()
+    {
+        rb.velocity = Vector3.zero;
+    }
+    
+    public virtual void GetRandomTargetNode()
+    {
+        var randomX = Random.Range(-roamRange, roamRange);
+        var randomZ = Random.Range(-roamRange, roamRange);
+        var randomPosition = new Vector3(randomX, 0, randomZ);
+        targetNode = grid.GetNearestWalkableNode(randomPosition);
+        Debug.Log("target acquired: "+ targetNode.transform.position);
     }
 }

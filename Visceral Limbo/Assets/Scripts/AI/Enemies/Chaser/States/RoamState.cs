@@ -18,12 +18,13 @@ namespace AI.Enemies.Chaser.States
 
         public void OnEnter()
         {
+            Debug.Log("I'm in Roaming State");
             TryFindNewTarget();
         }
 
         public void OnUpdate()
         {
-            if (agent.HasReachedDestination())
+            if (agent.HasReachedDestination(agent.TargetNode.transform.position))
             {
                 agent.ChangeState(ChaserAgent.StateType.Idle);
             }
@@ -56,8 +57,8 @@ namespace AI.Enemies.Chaser.States
             {
                 Node selected = candidates[Random.Range(0, candidates.Count)];
                 if (selected.TrySetAsTarget())
-                {
-                    agent.RequestPath(selected);
+                { 
+                    agent.Pathfinding.FindPath(agent.transform.position, selected.transform.position);
                 }
                 else
                 {

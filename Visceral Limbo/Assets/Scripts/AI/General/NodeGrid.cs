@@ -12,11 +12,55 @@ namespace AI.General
         private float cellSize;
         private Node[,] gridArray;
 
+        [Tooltip("Si está en true, los nodos se muestran; si está en false, quedan ocultos.")]
+        public bool debug;
+        
+        // Para detectar cambios en 'debug' en tiempo de ejecución
+        private bool prevDebug;
+
         private void Start()
         {
             AutoDetectDimensions();
             GenerateGrid();
             ConnectNodeGrid();
+            ApplyNodeVisibility(debug);
+            prevDebug = debug;
+        }
+        
+        private void Update()
+        {
+            // Si cambió desde el inspector, actualizamos la visibilidad
+            if (debug != prevDebug)
+            {
+                ApplyNodeVisibility(debug);
+                prevDebug = debug;
+            }
+        }
+        
+        private void OnValidate()
+        {
+            if (gridArray != null)
+                ApplyNodeVisibility(debug);
+        }
+        
+        /// <summary>
+        /// Recorre todos los nodos y activa/desactiva su MeshRenderer
+        /// </summary>
+        private void ApplyNodeVisibility(bool visible)
+        {
+            if (gridArray == null) return;
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int z = 0; z < height; z++)
+                {
+                    Node current = gridArray[x, z];
+                    current.isTextVisible = visible;
+                    var mr = current.GetComponentInChildren<MeshRenderer>();
+                    if (mr != null) mr.enabled = visible;
+                    current.DisplayText(visible);
+                }
+            }
         }
 
         private void AutoDetectDimensions()
@@ -83,7 +127,6 @@ namespace AI.General
         {
             int x = Mathf.FloorToInt(worldPosition.x / cellSize);
             int z = Mathf.FloorToInt(worldPosition.z / cellSize);
-            Debug.Log($"width: {width} height: {height} x: {x} z: {z}");
             return GetNode(x, z);
         }
 
@@ -112,7 +155,6 @@ namespace AI.General
             }
             return null;
         }
-
 
         public Node[] GetAllNodes()
         {
@@ -160,6 +202,8 @@ namespace AI.General
             width = nodes.GetLength(0);
             height = nodes.GetLength(1);
         }
+        
+        
 
         public int Width => width;
         public int Height => height;

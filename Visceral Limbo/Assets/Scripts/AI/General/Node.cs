@@ -21,10 +21,12 @@ namespace AI.General
             get { return gScore + hScore; }
         }
 
+        public bool isTextVisible;
         public bool isWalkable;
         public bool isTargetNode;
         public int cameFromIndex;
         private static Node _currentTargetNode; // Nodo destino activo actual
+        private TextMesh text;
 
         public Material walkableMat;
         public Material notWalkableMat;
@@ -37,6 +39,7 @@ namespace AI.General
         {
             AutoDetermineWalkability(obstacleLayer);
             DisplayFCost();
+            DisplayText(isTextVisible);
         }
 
         private void SetIsWalkable(bool isWalkable)
@@ -79,7 +82,15 @@ namespace AI.General
 
         private void DisplayFCost()
         {
-            UtilsClass.CreateWorldText(gScore.ToString(), null, transform.position + Vector3.up * 2f, 20, Color.white, TextAnchor.MiddleCenter);
+           text = UtilsClass.CreateWorldText(gScore.ToString(), null, transform.position + Vector3.up * 2f, 20, Color.white, TextAnchor.MiddleCenter);
+        }
+
+        public void DisplayText(bool visible)
+        {
+            if (text)
+            {
+                text.gameObject.SetActive(visible);
+            }
         }
 
         private void OnMouseDown()
@@ -139,7 +150,6 @@ namespace AI.General
             }
             isWalkable = !isWalkable;
             SetIsWalkable(isWalkable);
-            Debug.Log($"Nodo {gameObject.name} ahora isWalkable: {isWalkable}");
         }
 
 
