@@ -23,8 +23,7 @@ public class SwordTest : Visceral_WeaponBase
 
         foreach (var Item in _WeaponColliders)
         {
-            Item.Activate(false);
-            Item.UpdateValues(Damage, KnockBack,true);
+            Item.DeactivateCollider();
         }
     }
 
@@ -32,9 +31,24 @@ public class SwordTest : Visceral_WeaponBase
     {
         foreach (var Item in _WeaponColliders)
         {
-            Item.Activate(true);
-            Item.UpdateValues(Damage, KnockBack,true);
+            Item.activateCollider();
         }
 
     }
+
+    public override void NotifyHit(Collider other)
+    {
+        var HPComp = other.GetComponent<Health_Component>();
+        DamageScore damageScore = new DamageScore()
+        {
+            DamageAmount = Damage,
+            Attacker = transform.root.gameObject,
+            ElementalDamage = ElementType.Physical,
+        };
+        Vector3 Dir = other.transform.position - this.transform.position;
+        Dir = Dir.normalized;
+
+        HPComp.TakeDamageWithKnockback(Dir, KnockBack, damageScore);
+    }
+
 }

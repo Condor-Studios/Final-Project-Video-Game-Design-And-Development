@@ -6,7 +6,7 @@ using System;
 public class Visceral_WeaponBase : Visceral_Script
 {
     public float Damage,KnockBack;
-    [SerializeField] protected DamageCollisionTrigger[] _WeaponColliders;
+    [SerializeField] protected List<HitBox> _WeaponColliders = new List<HitBox>();
 
     public Action StartAttack;
     public Action EndAttack;
@@ -17,5 +17,10 @@ public class Visceral_WeaponBase : Visceral_Script
 
     public virtual void Attacking() { }
     public virtual void StopAttacking() { }
+
+    public virtual void AddWeaponCollider(HitBox HTBox) { if (!_WeaponColliders.Contains(HTBox))
+                                                               _WeaponColliders.Add(HTBox); }
+
+    public virtual void NotifyHit(Collider other) { }
 
 }
