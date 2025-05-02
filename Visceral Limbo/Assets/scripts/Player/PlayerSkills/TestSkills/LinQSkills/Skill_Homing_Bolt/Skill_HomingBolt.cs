@@ -26,7 +26,7 @@ public class Skill_HomingBolt : Visceral_SkillLogic
         health_Components = components;
         foreach(Health_Component component in components)
         {
-            component.TakeDamage(Damage - ChainLightning);
+            component.SimpleDamage(Damage - ChainLightning);
             print("dealt damage to " + component.name + " equal to " + (Damage - ChainLightning));
         }
 
