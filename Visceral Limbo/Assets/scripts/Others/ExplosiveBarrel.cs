@@ -7,9 +7,9 @@ using Unity.Collections;
 
 public class ExplosiveBarrel : MonoBehaviour
 {
-    public float explosionRadius = 5f;
-    public float damage = 100f;
-    public float knockbackForce = 10f;
+    public float explosionRadius;
+    public float damage;
+    public float knockbackForce;
     public LayerMask targetLayer;
 
     private Health_Component healthComponent;
@@ -27,7 +27,7 @@ public class ExplosiveBarrel : MonoBehaviour
 
     private IEnumerator DelayedExplosion()
     {
-        yield return new WaitForSeconds(2f); //Time-slicing
+        yield return new WaitForSeconds(1f); //Time-slicing
         Kaboom();
     }
 
@@ -36,7 +36,14 @@ public class ExplosiveBarrel : MonoBehaviour
         GameObject selectedEffect = GenerateRandomEffect(); // Generator
         if (selectedEffect != null)
         {
-            Instantiate(selectedEffect, transform.position, Quaternion.identity);
+            GameObject effectInstance = Instantiate(selectedEffect, transform.position, Quaternion.identity);
+
+              var psInChildren = effectInstance.GetComponentInChildren<ParticleSystem>();
+              if (psInChildren != null)
+              {
+                 psInChildren.Play();
+              }
+                
         }
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, targetLayer); //para detectar enemigos en el radio de la explosion
