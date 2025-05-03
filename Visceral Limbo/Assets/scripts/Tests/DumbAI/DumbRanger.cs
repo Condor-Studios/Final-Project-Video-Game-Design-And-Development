@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using KinematicCharacterController;
 
-public class DumbChaserAI : MonoBehaviour, ICharacterController
+public class DumbRanger : MonoBehaviour, ICharacterController
 {
-    public PlayerContext context;
     [SerializeField] KinematicCharacterMotor _KKC;
+    public PlayerContext Context;
     [SerializeField] Material _mat;
-    [SerializeField] Transform target;
-    [SerializeField] float speed,movementspeed,attackingspeed,dashspeed,MovementAcceleration,distanceToTarget;
+    [SerializeField] Transform target,SpawnPoint;
+    [SerializeField] GameObject _BulletPrefab;
+    [SerializeField] float speed, movementspeed,AttackSpeed, MovementAcceleration, distanceToTarget;
+    [SerializeField] float distanceToAttack,SafeSpace;
     [SerializeField] float rotationspeed;
     [SerializeField] bool SuccessfullAttack;
 
@@ -21,74 +23,88 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
 
     private void Start()
     {
-        _KKC= GetComponent<KinematicCharacterMotor>();
+        _KKC = GetComponent<KinematicCharacterMotor>();
         _KKC.CharacterController = this;
         _KKC.AttachedRigidbodyOverride = GetComponent<Rigidbody>();
-
-        context= GetComponent<PlayerContext>();
-        if(context == null)
+        Context = GetComponent<PlayerContext>();
+        if(Context == null)
         {
-            context = this.gameObject.AddComponent<PlayerContext>();
+            Context = this.gameObject.AddComponent<PlayerContext>();
         }
     }
 
 
     private void Update()
     {
-        if(target != null)
+        if (target != null)
         {
             targetdirection = target.transform.position - _KKC.Capsule.transform.position;
             distanceToTarget = Vector3.Distance(_KKC.Capsule.transform.position, target.transform.position);
         }
 
-        if(distanceToTarget < 10)
+        SpawnPoint.transform.position = _KKC.Capsule.transform.position + _KKC.Capsule.transform.forward/2;
+
+        if (distanceToTarget < distanceToAttack && distanceToTarget > SafeSpace)
         {
-            if (!SuccessfullAttack)
+            if(SuccessfullAttack == false)
             {
-                StartCoroutine(dashwindup());
+                SuccessfullAttack = true;
+                StartCoroutine(FireSequence());
+            }
+            
+           if(_KKC.AttachedRigidbody.velocity.sqrMagnitude > 0) 
+            {
+                _KKC.AttachedRigidbody.velocity = Vector3.Slerp(_KKC.AttachedRigidbodyVelocity, Vector3.zero, 0.1f + Time.deltaTime);
             }
         }
         else
         {
-            SuccessfullAttack = false;
-            _mat.color = Color.white;
             StopAllCoroutines();
-            speed = movementspeed;
-            _KKC.AttachedRigidbody.velocity = Vector3.Slerp(_KKC.AttachedRigidbodyVelocity,Vector3.zero,0.1f + Time.deltaTime);
-            if(_KKC.AttachedRigidbodyVelocity.sqrMagnitude <= 0.1f)
-            {
-                _KKC.AttachedRigidbody.velocity = Vector3.zero;
-            }
+            SuccessfullAttack = false;
         }
     }
 
-
-    //time slicing?
-    IEnumerator dashwindup()
+    IEnumerator FireSequence()
     {
-        speed = attackingspeed;
-        SuccessfullAttack = true;
-        yield return new WaitForSeconds(3f);
-        Vector3 Dashattack = targetdirection.normalized * dashspeed;
-        RequestForceVelocity(Dashattack);
-        SuccessfullAttack = false;
+        while(SuccessfullAttack)
+        {
+            yield return new WaitForSeconds(AttackSpeed);
+
+            var bullet = Instantiate(_BulletPrefab);
+            bullet.GetComponent<BulletDumb>().SetOwner(this.gameObject);
+            bullet.transform.position = SpawnPoint.transform.position;
+            bullet.transform.forward = _KKC.CharacterForward;
+            yield return null;
+        }
+      
     }
 
+    
     private void RequestExtraVelocity(Vector3 ExtraVelocity)
     {
-        _KKC.ForceUnground(0.1f);
+        _mat.color = Color.red;
+        
         RequestedAdditiveVelocity += ExtraVelocity;
     }
 
     private void RequestForceVelocity(Vector3 ForceVelocity)
     {
-        _KKC.ForceUnground(0.1f);
+        _mat.color = Color.red;
+        
         RequestedForceVelocity = ForceVelocity;
     }
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
-        if (_KKC.GroundingStatus.IsStableOnGround)
+        if (SuccessfullAttack)
+        {
+            _KKC.AttachedRigidbody.velocity = Vector3.zero;
+            currentVelocity = Vector3.zero;
+            return;
+        }
+
+        //player muy lejos
+        if (_KKC.GroundingStatus.IsStableOnGround && distanceToTarget > distanceToAttack + (int)Random.Range(-2,2) && distanceToTarget > SafeSpace)
         {
 
 
@@ -109,23 +125,44 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
                 );
 
         }
+        //player to close to comfort
+        else if(_KKC.GroundingStatus.IsStableOnGround && distanceToTarget < SafeSpace)
+        {
+
+            var groundedMovement = _KKC.GetDirectionTangentToSurface(
+                direction: -targetdirection,
+                surfaceNormal: _KKC.GroundingStatus.GroundNormal
+
+                ) * 1.2f;
+
+
+            var TargetVelocity = speed * groundedMovement;
+            currentVelocity = Vector3.Slerp
+                (
+                    a: currentVelocity,
+                    b: TargetVelocity,
+                    t: 1f - Mathf.Exp(-MovementAcceleration * deltaTime)
+
+                );
+        }
+
         else
         {
             currentVelocity = new Vector3(0, -10, 0);
         }
 
 
-        if(RequestedAdditiveVelocity.sqrMagnitude > 0)
+        if (RequestedAdditiveVelocity.sqrMagnitude > 0)
         {
 
             currentVelocity += RequestedAdditiveVelocity;
             RequestedAdditiveVelocity = Vector3.zero;
         }
 
-        if(RequestedForceVelocity.sqrMagnitude > 0)
+        if (RequestedForceVelocity.sqrMagnitude > 0)
         {
             _KKC.AttachedRigidbody.AddForce(RequestedForceVelocity, ForceMode.Impulse);
-            RequestedForceVelocity= Vector3.zero;
+            RequestedForceVelocity = Vector3.zero;
         }
     }
 
@@ -143,19 +180,6 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
     }
 
 
-
-    public void AfterCharacterUpdate(float deltaTime)
-    {
-        context.KCCMotor = this._KKC;
-        context.PlayerGameObject = this.gameObject;
-        context.PlayerTransform = _KKC.Capsule.transform;
-    }
-
-    public void BeforeCharacterUpdate(float deltaTime)
-    {
-       
-    }
-
     public bool IsColliderValidForCollisions(Collider coll)
     {
         return true;
@@ -163,7 +187,7 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
 
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
-
+ 
     }
 
     public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
@@ -186,12 +210,14 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
 
     }
 
-    
-}
+    public void BeforeCharacterUpdate(float deltaTime)
+    {  
+    }
 
-//
-// Script creado por patricio malvasio 2/5/2025
-// este script es un prototipo de ia de enemigo.
-// idealmente será reemplazado por otro más adelante.
-//
-//
+    public void AfterCharacterUpdate(float deltaTime)
+    {
+        Context.KCCMotor = _KKC;
+        Context.PlayerGameObject = this.gameObject;
+        Context.PlayerTransform = _KKC.Capsule.transform;
+    }
+}

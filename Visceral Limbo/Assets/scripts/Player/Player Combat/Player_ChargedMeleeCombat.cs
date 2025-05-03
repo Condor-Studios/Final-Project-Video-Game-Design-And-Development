@@ -37,6 +37,7 @@ public class Player_ChargedMeleeCombat : Visceral_Script
             if(_ChargeAmount> _MaximumCharge)
             {
                 _ChargeAmount= _MaximumCharge;
+                //poner aca la animacion de carga.
             }
         }
         else

@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e77992761069ad245b22927cb5eac1ca, type: 3}
-  m_Name: Sword_Test_SO_1
+  m_Script: {fileID: 11500000, guid: 56b61bc5e9a499f4c860682164514b66, type: 3}
+  m_Name: AmbushFolly
   m_EditorClassIdentifier: 
-  _AnimatorOV: {fileID: 22100000, guid: a7d8dd3d17de8024387a05cd9096fb8c, type: 2}
-  Damage: 20
-  KnockBack: 30
-  HyperArmor: 0
-  AttackName: Attack_1
+  SkillName: 
+  SkillID: 
+  SkillDescription: 
+  SkillSprite: {fileID: 0}
+  Cooldown: 0
+  behaviorComponentPrefab: {fileID: 0}
+  UserContext: {fileID: 0}

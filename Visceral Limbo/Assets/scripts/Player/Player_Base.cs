@@ -19,7 +19,7 @@ public class Player_Base : Visceral_Script
     [SerializeField] private Player_MeleeAttack _MeleeAttack;
     [SerializeField] private Player_ChargedMeleeCombat _ChargedMeleeCombat;
     [SerializeField] private Visceral_SkillManager _SkillManager;
-    [SerializeField] private PlayerContext _PlayerContext;
+    public PlayerContext _PlayerContext;
     //PlayerInputActions es el mappeo de las acciones de Input del jugador
     //similar al Unreal con su Input Map
     private PlayerInputActions _Player_InputActions;
