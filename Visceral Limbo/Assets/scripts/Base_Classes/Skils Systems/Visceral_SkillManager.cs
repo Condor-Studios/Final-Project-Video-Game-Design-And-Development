@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 
 
@@ -22,6 +23,7 @@ public class Visceral_SkillManager : Visceral_Script
 
     [SerializeField] private VisceralSkillLoadout Loadout;
 
+    //Refact.
     public override void VS_Initialize()
     {
         UserContext = GetComponent<PlayerContext>();

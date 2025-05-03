@@ -8,17 +8,22 @@ public class Health_Component : Visceral_Component
     public float CurrentHealth, MaxHealth;
     public Rigidbody _RB;
     public bool DestroyOnDeath;
+    [SerializeField] PlayerContext _Context;
+
+    public event Action OnDeath, OnDamaged;
 
     private void Start()
     {
         CurrentHealth = MaxHealth;
         _RB= GetComponent<Rigidbody>();
+        _Context= GetComponentInParent<PlayerContext>();
 
     }
 
     public void TakeDamage(DamageScore DamageDT)
     {
         CurrentHealth -= DamageDT.DamageAmount;
+        OnDamaged?.Invoke();
         if(CurrentHealth <= 0)
         {
             Death(DamageDT);
@@ -28,7 +33,8 @@ public class Health_Component : Visceral_Component
     public void TakeDamageWithKnockback(Vector3 Direction,float knockback,DamageScore DamageDT)
     {
         CurrentHealth -= DamageDT.DamageAmount;
-        if(_RB != null)
+        OnDamaged?.Invoke();
+        if (_RB != null)
         {
             Vector3 FinalForce = Direction * knockback;
             _RB.AddForce(FinalForce, ForceMode.Impulse);
@@ -42,16 +48,33 @@ public class Health_Component : Visceral_Component
     public void SimpleDamage(float Damage)
     {
         CurrentHealth -= Damage;
-        if(CurrentHealth <= 0)
+        OnDamaged?.Invoke();
+        if (CurrentHealth <= 0)
         {
             Death();
         }
     }
 
+    //use of tuples - patricio malvasio
+    /// <summary>
+    /// vector3 : la direccion del ataque
+    /// float 1 : el daño del ataque
+    /// float 2 : el knockback del ataque
+    /// </summary>
+    /// <param name="MyTuple"></param>
+    public void SimpleDamage(Tuple<Vector3,float,float> MyTuple)
+    {
+        CurrentHealth -= MyTuple.Item2;
+        OnDamaged?.Invoke();
+        if (CurrentHealth <= 0)
+        {
+            Death();
+        }
+    }
 
     void Death(DamageScore DamageDT)
     {
-
+        OnDeath?.Invoke(); 
         var FinalScore = CreateFinalScore(DamageDT);
 
         ScoreManager.Instance.ProcessKill(FinalScore);
@@ -67,6 +90,7 @@ public class Health_Component : Visceral_Component
 
     void Death()
     {
+        OnDeath?.Invoke();
 
         if (DestroyOnDeath)
         {
@@ -82,17 +106,15 @@ public class Health_Component : Visceral_Component
     private DamageScore CreateFinalScore(DamageScore DamageDT)
     {
         DamageScore FinalScore = DamageDT;
-        if(this.TryGetComponent(out Rigidbody RB)) 
+        if(_Context.KCCMotor.GroundingStatus.IsStableOnGround && !DamageDT.IsAirBorneKill)
         {
-            if(RB.velocity.y > 1)
-            {
-                FinalScore.IsAirBorneKill = true;
-            }
-            else
-            {
-                FinalScore.IsAirBorneKill = false;
-            }
+            FinalScore.IsAirBorneKill = false;
         }
+        else
+        {
+            FinalScore.IsAirBorneKill = true;
+        }
+   
 
         if(CurrentHealth < -MaxHealth * 0.25)
         {
@@ -103,7 +125,8 @@ public class Health_Component : Visceral_Component
             FinalScore.Overkill = 0;
         }
 
-        FinalScore.IsFriendlyFire = false;
+        FinalScore.Victim = _Context;
+        FinalScore.EnemyScoreBase = _Context.EnemyValueScore;
 
         return FinalScore;
     }

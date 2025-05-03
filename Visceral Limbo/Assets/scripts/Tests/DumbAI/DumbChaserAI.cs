@@ -5,6 +5,7 @@ using KinematicCharacterController;
 
 public class DumbChaserAI : MonoBehaviour, ICharacterController
 {
+    public PlayerContext context;
     [SerializeField] KinematicCharacterMotor _KKC;
     [SerializeField] Material _mat;
     [SerializeField] Transform target;
@@ -23,6 +24,12 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
         _KKC= GetComponent<KinematicCharacterMotor>();
         _KKC.CharacterController = this;
         _KKC.AttachedRigidbodyOverride = GetComponent<Rigidbody>();
+
+        context= GetComponent<PlayerContext>();
+        if(context == null)
+        {
+            context = this.gameObject.AddComponent<PlayerContext>();
+        }
     }
 
 
@@ -55,29 +62,26 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
         }
     }
 
+
+    //time slicing?
     IEnumerator dashwindup()
     {
-        _mat.color = Color.yellow;
         speed = attackingspeed;
         SuccessfullAttack = true;
         yield return new WaitForSeconds(3f);
-        _mat.color = Color.red;
         Vector3 Dashattack = targetdirection.normalized * dashspeed;
         RequestForceVelocity(Dashattack);
         SuccessfullAttack = false;
-
     }
 
     private void RequestExtraVelocity(Vector3 ExtraVelocity)
     {
-        _mat.color = Color.red;
         _KKC.ForceUnground(0.1f);
         RequestedAdditiveVelocity += ExtraVelocity;
     }
 
     private void RequestForceVelocity(Vector3 ForceVelocity)
     {
-        _mat.color = Color.red;
         _KKC.ForceUnground(0.1f);
         RequestedForceVelocity = ForceVelocity;
     }
@@ -142,7 +146,9 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
 
     public void AfterCharacterUpdate(float deltaTime)
     {
-
+        context.KCCMotor = this._KKC;
+        context.PlayerGameObject = this.gameObject;
+        context.PlayerTransform = _KKC.Capsule.transform;
     }
 
     public void BeforeCharacterUpdate(float deltaTime)
@@ -182,3 +188,10 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
 
     
 }
+
+//
+// Script creado por patricio malvasio 2/5/2025
+// este script es un prototipo de ia de enemigo.
+// idealmente será reemplazado por otro más adelante.
+//
+//

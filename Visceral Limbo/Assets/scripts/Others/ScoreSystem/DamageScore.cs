@@ -7,14 +7,13 @@ public enum ElementType
     Physical,
     Fire,
     Magic,
-
 }
 
 
 public class DamageScore : MonoBehaviour
 {
-    public GameObject Attacker;
-    public GameObject Victim;
+    public PlayerContext Attacker;
+    public PlayerContext Victim;
     public float DamageAmount;
     public float EnemyScoreBase;
     public float Overkill;
@@ -22,5 +21,15 @@ public class DamageScore : MonoBehaviour
     public bool IsAirBorneKill;
 
     public ElementType ElementalDamage;
+    public FactionID FactionID;
 
 }
+
+
+///
+///  Script creado por Patricio Malvasio Maddalena 2/5/2025
+///  
+/// este script será usado para calcular el score de la kill del jugador
+/// y pasar info del ataque letal de un enemigo
+///
+///

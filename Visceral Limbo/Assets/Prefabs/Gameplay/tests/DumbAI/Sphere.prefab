@@ -122,8 +122,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletSpeed: 10
   damage: 10
-  health: {fileID: 8547821088316183915}
-  DamageTrigger: {fileID: 7416978669254963762}
+  Damage: 10
+  _Collider: {fileID: 5464579254939514475}
+  _Health: 10
+  _Owner: {fileID: 0}
 --- !u!114 &8547821088316183915
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using KinematicCharacterController;
 public class DumbRanger : MonoBehaviour, ICharacterController
 {
     [SerializeField] KinematicCharacterMotor _KKC;
+    public PlayerContext Context;
     [SerializeField] Material _mat;
     [SerializeField] Transform target,SpawnPoint;
     [SerializeField] GameObject _BulletPrefab;
@@ -25,6 +26,11 @@ public class DumbRanger : MonoBehaviour, ICharacterController
         _KKC = GetComponent<KinematicCharacterMotor>();
         _KKC.CharacterController = this;
         _KKC.AttachedRigidbodyOverride = GetComponent<Rigidbody>();
+        Context = GetComponent<PlayerContext>();
+        if(Context == null)
+        {
+            Context = this.gameObject.AddComponent<PlayerContext>();
+        }
     }
 
 
@@ -65,6 +71,7 @@ public class DumbRanger : MonoBehaviour, ICharacterController
             yield return new WaitForSeconds(AttackSpeed);
 
             var bullet = Instantiate(_BulletPrefab);
+            bullet.GetComponent<BulletDumb>().SetOwner(this.gameObject);
             bullet.transform.position = SpawnPoint.transform.position;
             bullet.transform.forward = _KKC.CharacterForward;
             yield return null;
@@ -76,14 +83,14 @@ public class DumbRanger : MonoBehaviour, ICharacterController
     private void RequestExtraVelocity(Vector3 ExtraVelocity)
     {
         _mat.color = Color.red;
-        _KKC.ForceUnground(0.1f);
+        
         RequestedAdditiveVelocity += ExtraVelocity;
     }
 
     private void RequestForceVelocity(Vector3 ForceVelocity)
     {
         _mat.color = Color.red;
-        _KKC.ForceUnground(0.1f);
+        
         RequestedForceVelocity = ForceVelocity;
     }
 
@@ -209,6 +216,8 @@ public class DumbRanger : MonoBehaviour, ICharacterController
 
     public void AfterCharacterUpdate(float deltaTime)
     {
-    
+        Context.KCCMotor = _KKC;
+        Context.PlayerGameObject = this.gameObject;
+        Context.PlayerTransform = _KKC.Capsule.transform;
     }
 }

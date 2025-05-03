@@ -39,14 +39,23 @@ public class SwordTest : Visceral_WeaponBase
     public override void NotifyHit(Collider other)
     {
         var HPComp = other.GetComponent<Health_Component>();
+        var Context = GetComponentInParent<PlayerContext>();
+
+
         DamageScore damageScore = new DamageScore()
         {
             DamageAmount = Damage,
-            Attacker = transform.root.gameObject,
+            Attacker = Context,
             ElementalDamage = ElementType.Physical,
+            IsAirBorneKill = !Context.KCCMotor.GroundingStatus.IsStableOnGround,
+            FactionID = Context.faction = FactionID.Player,
         };
+
+        print("SwordTest " + damageScore.IsAirBorneKill);
+
         Vector3 Dir = other.transform.position - this.transform.position;
         Dir = Dir.normalized;
+        Dir.y = 0;
 
         HPComp.TakeDamageWithKnockback(Dir, KnockBack, damageScore);
     }

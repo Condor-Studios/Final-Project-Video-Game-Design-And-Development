@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab31b60a4ac31764c87b6c4cae312578, type: 3}
-  m_Name: DialogueSystem
+  m_Script: {fileID: 11500000, guid: 56b61bc5e9a499f4c860682164514b66, type: 3}
+  m_Name: AmbushFolly
   m_EditorClassIdentifier: 
-  DialogueNodes:
-  - {fileID: 11400000, guid: 497e75bc89ac67a49bf4d0d0a0a147c9, type: 2}
-  - {fileID: 11400000, guid: 6b8b70244eb854644be6050d065894a3, type: 2}
+  SkillName: 
+  SkillID: 
+  SkillDescription: 
+  SkillSprite: {fileID: 0}
+  Cooldown: 0
+  behaviorComponentPrefab: {fileID: 0}
+  UserContext: {fileID: 0}

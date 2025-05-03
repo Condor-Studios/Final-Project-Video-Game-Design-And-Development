@@ -7,6 +7,7 @@ public class Visceral_WeaponBase : Visceral_Script
 {
     public float Damage,KnockBack;
     [SerializeField] protected List<HitBox> _WeaponColliders = new List<HitBox>();
+    public Player_Base PlayerData;
 
     public Action StartAttack;
     public Action EndAttack;
@@ -23,4 +24,14 @@ public class Visceral_WeaponBase : Visceral_Script
 
     public virtual void NotifyHit(Collider other) { }
 
+
 }
+
+
+///
+/// Script creado por Patricio Malvasio 02/05/2025
+/// 
+/// script usado para base del sistema de ataque del jugador
+/// heredado por cada arma. idealmente
+///
+///

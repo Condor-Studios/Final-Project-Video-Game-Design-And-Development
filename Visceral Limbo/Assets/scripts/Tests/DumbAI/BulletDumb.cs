@@ -45,18 +45,28 @@ public class BulletDumb : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        if (other.gameObject == _Owner.gameObject) return;
+
         if(other.TryGetComponent(out Health_Component HPComp))
         {
             Vector3 dir = other.gameObject.transform.position - this.transform.position;
 
             DamageScore DamageDT = new DamageScore();
-            DamageDT.Attacker = _Owner;
+            DamageDT.Attacker = _Owner.GetComponent<PlayerContext>();
             DamageDT.DamageAmount = damage;
-            DamageDT.Victim = other.gameObject;
+            DamageDT.Victim = other.GetComponent<PlayerContext>();
             DamageDT.ElementalDamage = ElementType.Physical;
-
+            DamageDT.FactionID = FactionID.LimboMonster1;
             
             HPComp.TakeDamageWithKnockback(dir.normalized,5,DamageDT);
         }
     }
 }
+
+//
+// este script fue creado por patricio malvasio 2/5/2025
+//
+// este script es un prototipo de bala, 
+// reemplazar mas adelante por un sistema mejor
+//
