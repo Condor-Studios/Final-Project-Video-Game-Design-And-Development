@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8152761619781456580}
   - component: {fileID: 6391686214790365868}
+  - component: {fileID: 1344622913210827}
   m_Layer: 0
   m_Name: RangerDumbEnemy
   m_TagString: Untagged
@@ -76,12 +77,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3289ddf945ef324ea0b2b94eaabb29d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 0
-  PlayerGameObject: {fileID: 0}
+  Health: 100
+  PlayerGameObject: {fileID: 1023834544081079624}
   PlayerTransform: {fileID: 0}
-  KCCMotor: {fileID: 0}
-  faction: 0
-  EnemyValueScore: 0
+  KCCMotor: {fileID: 3347747926041599560}
+  faction: 1
+  EnemyValueScore: 75
+--- !u!114 &1344622913210827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023834544081079624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11a85825926800943af99f14ec8aa5c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerContext: {fileID: 6391686214790365868}
+  _KKC: {fileID: 3347747926041599560}
+  _State:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    BaseVelocity: {x: 0, y: 0, z: 0}
+    MustUnground: 0
+    MustUngroundTime: 0
+    LastMovementIterationFoundAnyGround: 0
+    AttachedRigidbody: {fileID: 0}
+    AttachedRigidbodyVelocity: {x: 0, y: 0, z: 0}
+  _RB: {fileID: 5174454819481349312}
+  Context: {fileID: 6391686214790365868}
+  _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  target: {fileID: 0}
+  SpawnPoint: {fileID: 4746331507221525382}
+  _BulletPrefab: {fileID: 7782316294196594982, guid: 75dee924c2695e345b2c7dfb08dbd13d,
+    type: 3}
+  speed: 6
+  movementspeed: 6
+  AttackSpeed: 3
+  MovementAcceleration: 50
+  distanceToTarget: 0
+  distanceToAttack: 15
+  SafeSpace: 5
+  rotationspeed: 50
+  SuccessfullAttack: 0
 --- !u!1 &4524593482739394019
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,9 +136,7 @@ GameObject:
   - component: {fileID: 8699480264989801699}
   - component: {fileID: 3347747926041599560}
   - component: {fileID: 5174454819481349312}
-  - component: {fileID: 3436585132289185944}
-  - component: {fileID: 8023144330909816324}
-  - component: {fileID: 1664464056667439070}
+  - component: {fileID: 6183529036291631653}
   m_Layer: 0
   m_Name: Ranger
   m_TagString: Untagged
@@ -266,35 +304,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3436585132289185944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4524593482739394019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11a85825926800943af99f14ec8aa5c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _KKC: {fileID: 3347747926041599560}
-  Context: {fileID: 0}
-  _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  target: {fileID: 0}
-  SpawnPoint: {fileID: 4746331507221525382}
-  _BulletPrefab: {fileID: 7782316294196594982, guid: 75dee924c2695e345b2c7dfb08dbd13d,
-    type: 3}
-  speed: 6
-  movementspeed: 6
-  AttackSpeed: 3
-  MovementAcceleration: 50
-  distanceToTarget: 0
-  distanceToAttack: 15
-  SafeSpace: 5
-  rotationspeed: 50
-  SuccessfullAttack: 0
---- !u!114 &8023144330909816324
+--- !u!114 &6183529036291631653
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -306,29 +316,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472673f96eb08914996d06c926556dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentHealth: 100
-  MaxHealth: 100
-  _RB: {fileID: 0}
+  CurrentHealth: 20
+  MaxHealth: 20
+  _RB: {fileID: 5174454819481349312}
   DestroyOnDeath: 0
-  _Context: {fileID: 0}
---- !u!114 &1664464056667439070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4524593482739394019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3289ddf945ef324ea0b2b94eaabb29d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Health: 0
-  PlayerGameObject: {fileID: 0}
-  PlayerTransform: {fileID: 0}
-  KCCMotor: {fileID: 0}
-  faction: 0
-  EnemyValueScore: 75
+  _Context: {fileID: 6391686214790365868}
 --- !u!1 &7785808662394130545
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using KinematicCharacterController;
 
-public class DumbChaserAI : MonoBehaviour, ICharacterController
+public class DumbChaserAI : DumbEnemy, ICharacterController
 {
     public PlayerContext context;
     [SerializeField] KinematicCharacterMotor _KKC;
+    [SerializeField] Rigidbody _rb;
     [SerializeField] Material _mat;
     [SerializeField] Transform target;
     [SerializeField] float speed,movementspeed,attackingspeed,dashspeed,MovementAcceleration,distanceToTarget;
@@ -23,7 +24,11 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
     {
         _KKC= GetComponent<KinematicCharacterMotor>();
         _KKC.CharacterController = this;
-        _KKC.AttachedRigidbodyOverride = GetComponent<Rigidbody>();
+
+        if(_rb == null) _rb = GetComponent<Rigidbody>();
+
+        _KKC.AttachedRigidbodyOverride = _rb;
+        target = PlayerTransform();
 
         context= GetComponent<PlayerContext>();
         if(context == null)
@@ -35,13 +40,22 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
 
     private void Update()
     {
-        if(target != null)
+        if(target == null)
         {
-            targetdirection = target.transform.position - _KKC.Capsule.transform.position;
-            distanceToTarget = Vector3.Distance(_KKC.Capsule.transform.position, target.transform.position);
-        }
+            target = PlayerTransform();
+            if (target == null)
+            {
+                Debug.LogError("Player transform is null");
+                return;
+            }
 
-        if(distanceToTarget < 10)
+        }
+        if (_KKC.AttachedRigidbody == null) _KKC.AttachedRigidbodyOverride = _rb;
+
+        targetdirection = target.transform.position - _KKC.Capsule.transform.position;
+        distanceToTarget = Vector3.Distance(_KKC.Capsule.transform.position, target.transform.position);
+
+        if (distanceToTarget < 10)
         {
             if (!SuccessfullAttack)
             {
@@ -54,11 +68,7 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
             _mat.color = Color.white;
             StopAllCoroutines();
             speed = movementspeed;
-            _KKC.AttachedRigidbody.velocity = Vector3.Slerp(_KKC.AttachedRigidbodyVelocity,Vector3.zero,0.1f + Time.deltaTime);
-            if(_KKC.AttachedRigidbodyVelocity.sqrMagnitude <= 0.1f)
-            {
-                _KKC.AttachedRigidbody.velocity = Vector3.zero;
-            }
+
         }
     }
 
@@ -127,6 +137,13 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
             _KKC.AttachedRigidbody.AddForce(RequestedForceVelocity, ForceMode.Impulse);
             RequestedForceVelocity= Vector3.zero;
         }
+
+
+            _KKC.AttachedRigidbody.velocity = Vector3.Slerp(_KKC.AttachedRigidbodyVelocity, Vector3.zero, 0.1f + Time.deltaTime);
+            if (_KKC.AttachedRigidbodyVelocity.sqrMagnitude <= 0.1f)
+            {
+                _KKC.AttachedRigidbody.velocity = Vector3.zero;
+            }
     }
 
 
@@ -140,6 +157,11 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
             );
 
         currentRotation = Quaternion.LookRotation(forward, _KKC.CharacterUp);
+    }
+
+    private Transform PlayerTransform()
+    {
+        return playerContext.PlayerTransform;
     }
 
 
@@ -186,7 +208,10 @@ public class DumbChaserAI : MonoBehaviour, ICharacterController
 
     }
 
-    
+    public override void SetTransformAndRotation(Transform newtransform, Quaternion newrotation)
+    {
+        _KKC.SetPositionAndRotation(newtransform.position,newrotation);
+    }
 }
 
 //

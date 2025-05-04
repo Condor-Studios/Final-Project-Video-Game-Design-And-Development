@@ -109,6 +109,7 @@ public class Player_Movement : Visceral_Script, ICharacterController
     [SerializeField] private Transform _RootTransform; // el transform del padre maximo del jugador
     public KinematicCharacterMotor KKCMotor { get { return _KCCMotor; } }
     [Space]
+    [SerializeField] private Rigidbody _Rb;
 
     [Header("Ground Movement Variables")]
     [SerializeField] private float _WalkSpeed =15f;
@@ -185,6 +186,8 @@ public class Player_Movement : Visceral_Script, ICharacterController
         _CurrentState.CharStance = Stance.Standing;
         _LastState = _CurrentState;
         _UncrouchOverlapColliders= new Collider[8];
+        _Rb = GetComponent<Rigidbody>();
+        _KCCMotor.AttachedRigidbodyOverride= _Rb;
     }
 
     /// <summary>

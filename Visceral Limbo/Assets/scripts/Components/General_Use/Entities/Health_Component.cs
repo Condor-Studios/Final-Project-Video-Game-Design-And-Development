@@ -10,6 +10,7 @@ public class Health_Component : Visceral_Component
     public bool DestroyOnDeath;
     [SerializeField] PlayerContext _Context;
 
+
     public event Action OnDeath, OnDamaged;
 
     private void Start()
@@ -37,7 +38,8 @@ public class Health_Component : Visceral_Component
         if (_RB != null)
         {
             Vector3 FinalForce = Direction * knockback;
-            _RB.AddForce(FinalForce, ForceMode.Impulse);
+            //_RB.AddForce(FinalForce, ForceMode.Impulse);
+            _Context.KCCMotor.AttachedRigidbody.AddForce(FinalForce, ForceMode.Impulse);
         }
         if (CurrentHealth <= 0)
         {
@@ -81,10 +83,12 @@ public class Health_Component : Visceral_Component
         if (DestroyOnDeath)
         {
             Destroy(this.gameObject);
+            _Context.KCCMotor.CharacterController = null;
         }
         else
         {
             this.gameObject.SetActive(false);
+            _Context.PlayerGameObject.SetActive(false);
         }
     }
 
@@ -99,6 +103,7 @@ public class Health_Component : Visceral_Component
         else
         {
             this.gameObject.SetActive(false);
+            _Context.PlayerGameObject.SetActive(false);
         }
     }
 

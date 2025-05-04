@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using KinematicCharacterController;
 
-public class DumbRanger : MonoBehaviour, ICharacterController
+public class DumbRanger : DumbEnemy, ICharacterController
 {
     [SerializeField] KinematicCharacterMotor _KKC;
+    [SerializeField] KinematicCharacterMotorState _State;
+    [SerializeField] Rigidbody _RB;
     public PlayerContext Context;
     [SerializeField] Material _mat;
     [SerializeField] Transform target,SpawnPoint;
@@ -23,10 +25,14 @@ public class DumbRanger : MonoBehaviour, ICharacterController
 
     private void Start()
     {
-        _KKC = GetComponent<KinematicCharacterMotor>();
+        _KKC = GetComponentInChildren<KinematicCharacterMotor>();
         _KKC.CharacterController = this;
-        _KKC.AttachedRigidbodyOverride = GetComponent<Rigidbody>();
+
+        if (_RB == null) _RB.GetComponentInChildren<Rigidbody>();
+
+        _KKC.AttachedRigidbodyOverride = _RB;
         Context = GetComponent<PlayerContext>();
+        target = PlayerTransform();
         if(Context == null)
         {
             Context = this.gameObject.AddComponent<PlayerContext>();
@@ -36,11 +42,15 @@ public class DumbRanger : MonoBehaviour, ICharacterController
 
     private void Update()
     {
-        if (target != null)
+        if (target == null)
         {
-            targetdirection = target.transform.position - _KKC.Capsule.transform.position;
-            distanceToTarget = Vector3.Distance(_KKC.Capsule.transform.position, target.transform.position);
+            target = PlayerTransform();
+            if(target == null) { Debug.LogError("Player is null"); return; }
         }
+        if (_KKC.AttachedRigidbody == null) _KKC.AttachedRigidbodyOverride = _RB;
+
+        targetdirection = target.transform.position - _KKC.Capsule.transform.position;
+        distanceToTarget = Vector3.Distance(_KKC.Capsule.transform.position, target.transform.position);
 
         SpawnPoint.transform.position = _KKC.Capsule.transform.position + _KKC.Capsule.transform.forward/2;
 
@@ -50,12 +60,7 @@ public class DumbRanger : MonoBehaviour, ICharacterController
             {
                 SuccessfullAttack = true;
                 StartCoroutine(FireSequence());
-            }
-            
-           if(_KKC.AttachedRigidbody.velocity.sqrMagnitude > 0) 
-            {
-                _KKC.AttachedRigidbody.velocity = Vector3.Slerp(_KKC.AttachedRigidbodyVelocity, Vector3.zero, 0.1f + Time.deltaTime);
-            }
+            }   
         }
         else
         {
@@ -79,7 +84,6 @@ public class DumbRanger : MonoBehaviour, ICharacterController
       
     }
 
-    
     private void RequestExtraVelocity(Vector3 ExtraVelocity)
     {
         _mat.color = Color.red;
@@ -164,6 +168,11 @@ public class DumbRanger : MonoBehaviour, ICharacterController
             _KKC.AttachedRigidbody.AddForce(RequestedForceVelocity, ForceMode.Impulse);
             RequestedForceVelocity = Vector3.zero;
         }
+
+        if (_KKC.AttachedRigidbody.velocity.sqrMagnitude > 0)
+        {
+            _KKC.AttachedRigidbody.velocity = Vector3.Slerp(_KKC.AttachedRigidbodyVelocity, Vector3.zero, 0.1f + Time.deltaTime);
+        }
     }
 
 
@@ -177,6 +186,11 @@ public class DumbRanger : MonoBehaviour, ICharacterController
             );
 
         currentRotation = Quaternion.LookRotation(forward, _KKC.CharacterUp);
+    }
+
+    private Transform PlayerTransform()
+    {
+        return playerContext.PlayerTransform;
     }
 
 
@@ -212,6 +226,7 @@ public class DumbRanger : MonoBehaviour, ICharacterController
 
     public void BeforeCharacterUpdate(float deltaTime)
     {  
+        _State = _KKC.GetState();
     }
 
     public void AfterCharacterUpdate(float deltaTime)
@@ -219,5 +234,10 @@ public class DumbRanger : MonoBehaviour, ICharacterController
         Context.KCCMotor = _KKC;
         Context.PlayerGameObject = this.gameObject;
         Context.PlayerTransform = _KKC.Capsule.transform;
+    }
+
+    public override void SetTransformAndRotation(Transform newtransform, Quaternion newrotation)
+    {
+        _KKC.SetPositionAndRotation(newtransform.position, newrotation);
     }
 }

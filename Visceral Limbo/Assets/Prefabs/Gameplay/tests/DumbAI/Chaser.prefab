@@ -230,8 +230,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d6d8a632cce9cc4d9d12ecfaed19d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  context: {fileID: 0}
+  playerContext: {fileID: 0}
+  context: {fileID: 5264349107030598379}
   _KKC: {fileID: 8216457493952775844}
+  _rb: {fileID: 7992021049402438738}
   _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   target: {fileID: 0}
   speed: 6
@@ -296,8 +298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472673f96eb08914996d06c926556dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentHealth: 100
-  MaxHealth: 100
+  CurrentHealth: 20
+  MaxHealth: 20
   _RB: {fileID: 0}
   DestroyOnDeath: 0
   _Context: {fileID: 0}
@@ -340,9 +342,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3289ddf945ef324ea0b2b94eaabb29d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 0
-  PlayerGameObject: {fileID: 0}
+  Health: 100
+  PlayerGameObject: {fileID: 7929540413048053642}
   PlayerTransform: {fileID: 0}
   KCCMotor: {fileID: 0}
-  faction: 0
+  faction: 1
   EnemyValueScore: 50
