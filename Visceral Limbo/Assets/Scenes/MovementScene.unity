@@ -1223,7 +1223,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11a85825926800943af99f14ec8aa5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerContext: {fileID: 0}
   _KKC: {fileID: 282020967}
+  _State:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    BaseVelocity: {x: 0, y: 0, z: 0}
+    MustUnground: 0
+    MustUngroundTime: 0
+    LastMovementIterationFoundAnyGround: 0
+    AttachedRigidbody: {fileID: 0}
+    AttachedRigidbodyVelocity: {x: 0, y: 0, z: 0}
+  _RB: {fileID: 0}
   Context: {fileID: 0}
   _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   target: {fileID: 1665243321}
@@ -4800,8 +4811,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d6d8a632cce9cc4d9d12ecfaed19d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerContext: {fileID: 0}
   context: {fileID: 0}
   _KKC: {fileID: 1287888136}
+  _rb: {fileID: 0}
   _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   target: {fileID: 1665243321}
   speed: 6
@@ -5146,8 +5159,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d6d8a632cce9cc4d9d12ecfaed19d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerContext: {fileID: 0}
   context: {fileID: 0}
   _KKC: {fileID: 1316342254}
+  _rb: {fileID: 0}
   _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   target: {fileID: 1665243321}
   speed: 6
@@ -5336,7 +5351,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11a85825926800943af99f14ec8aa5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerContext: {fileID: 0}
   _KKC: {fileID: 1381973363}
+  _State:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    BaseVelocity: {x: 0, y: 0, z: 0}
+    MustUnground: 0
+    MustUngroundTime: 0
+    LastMovementIterationFoundAnyGround: 0
+    AttachedRigidbody: {fileID: 0}
+    AttachedRigidbodyVelocity: {x: 0, y: 0, z: 0}
+  _RB: {fileID: 0}
   Context: {fileID: 0}
   _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   target: {fileID: 1665243321}
@@ -6133,8 +6159,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d6d8a632cce9cc4d9d12ecfaed19d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerContext: {fileID: 0}
   context: {fileID: 0}
   _KKC: {fileID: 1625787947}
+  _rb: {fileID: 0}
   _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   target: {fileID: 1665243321}
   speed: 6
@@ -7318,9 +7346,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemySpawns:
-  - {fileID: 1023834544081079624, guid: d5d9dc210aa5de74bab1f5d0ca34adeb, type: 3}
   - {fileID: 7929540413048053642, guid: 0455b6b188e6fc547bf9ffc98b1f4940, type: 3}
   - {fileID: 1023834544081079624, guid: d5d9dc210aa5de74bab1f5d0ca34adeb, type: 3}
+  - {fileID: 7929540413048053642, guid: 0455b6b188e6fc547bf9ffc98b1f4940, type: 3}
   Index: 0
   IsSpent: 0
   HasMinion: 0
@@ -7372,9 +7400,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemySpawns:
-  - {fileID: 1023834544081079624, guid: d5d9dc210aa5de74bab1f5d0ca34adeb, type: 3}
   - {fileID: 7929540413048053642, guid: 0455b6b188e6fc547bf9ffc98b1f4940, type: 3}
   - {fileID: 1023834544081079624, guid: d5d9dc210aa5de74bab1f5d0ca34adeb, type: 3}
+  - {fileID: 7929540413048053642, guid: 0455b6b188e6fc547bf9ffc98b1f4940, type: 3}
   Index: 0
   IsSpent: 0
   HasMinion: 0
