@@ -6,12 +6,15 @@ EditorUserSettings:
   serializedVersion: 4
   m_ConfigSettings:
     RecentlyUsedSceneGuid-0:
+<<<<<<< HEAD
       value: 555402555205085f5b5a087042205b44444f1b2c7d2d73332c704463e4b6376c
       flags: 0
     RecentlyUsedSceneGuid-1:
       value: 5308005400075b095e085d2142705e4442161928782e7f642c7c4b62e7e6376a
       flags: 0
     RecentlyUsedSceneGuid-2:
+=======
+>>>>>>> origin/seba-dev
       value: 5b550d035005505e0b5f0f2047225e444f4e4a7d752e7068297a1c36b1b0626d
       flags: 0
     RecentlyUsedSceneGuid-3:
