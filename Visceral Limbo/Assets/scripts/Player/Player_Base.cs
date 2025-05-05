@@ -90,7 +90,7 @@ public class Player_Base : Visceral_Script
         };
         _Player_Movement.UpdateBodyPositions(Time.deltaTime);
         _Player_Movement.UpdateInput(movementInput);
-        //_DashTest.PerformDash(movementInput);
+        _DashTest.PerformDash(movementInput);
         _Player_CameraController.UpdatePosition(_Player_Movement.GetCameraTarget());
 
         //_MeleeAttack.RunData(movementInput);

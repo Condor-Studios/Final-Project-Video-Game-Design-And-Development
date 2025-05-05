@@ -27,13 +27,13 @@ public class ExplosiveBarrel : MonoBehaviour
 
     private IEnumerator DelayedExplosion()
     {
-        yield return new WaitForSeconds(1f); //Time-slicing
+        yield return new WaitForSeconds(1f); // Hecho por Lucas - Time-slicing
         Kaboom();
     }
 
     private void Kaboom()
     {
-        GameObject selectedEffect = GenerateRandomEffect(); // Generator
+        GameObject selectedEffect = GenerateRandomEffect(); // Hecho por Lucas - Generator
         if (selectedEffect != null)
         {
             GameObject effectInstance = Instantiate(selectedEffect, transform.position, Quaternion.identity);
@@ -43,7 +43,6 @@ public class ExplosiveBarrel : MonoBehaviour
               {
                  psInChildren.Play();
               }
-                
         }
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, targetLayer); //para detectar enemigos en el radio de la explosion
@@ -58,15 +57,15 @@ public class ExplosiveBarrel : MonoBehaviour
             }
         }
 
-        var orderedTargets = healthTargets //OrderBy y ToList
+        var orderedTargets = healthTargets //Hecho por Lucas - OrderBy y ToList
             .OrderBy(x => Vector3.Distance(transform.position, x.transform.position))
             .ToList();
 
-        var filteredTargets = orderedTargets //Where
+        var filteredTargets = orderedTargets //Hecho por Lucas - Where
             .Where(x => Vector3.Distance(transform.position, x.transform.position) < explosionRadius * 0.75f)
             .ToList();
 
-        foreach (var enemy in filteredTargets) //Tupla
+        foreach (var enemy in filteredTargets) //Hecho por Lucas - Tupla
         {
             Vector3 dir = (enemy.transform.position - transform.position).normalized;
             var damageTuple = new Tuple<Vector3, float, float>(dir, damage, knockbackForce);
@@ -84,7 +83,13 @@ public class ExplosiveBarrel : MonoBehaviour
         if (explosionParticles == null || explosionParticles.Length == 0)
             return null;
 
-        int index = UnityEngine.Random.Range(0, explosionParticles.Length);
-        return explosionParticles[index];
+        var index = new { Index = UnityEngine.Random.Range(0, explosionParticles.Length) }; //Hecho por Lucas - Tipo Anonimo
+        return explosionParticles[index.Index];
     }
 }
+
+
+//
+// Script hecho por Lucas Torres
+// se encarga de definir el funcionamiento del barril explosivo
+//

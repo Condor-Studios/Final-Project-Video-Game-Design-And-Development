@@ -110,4 +110,4 @@ public class Spawner : MonoBehaviour
 }
 
 //script hecho por patricio malvasio maddalena
-//uso de Lazy Generator
+//uso de Lazy Generator - 

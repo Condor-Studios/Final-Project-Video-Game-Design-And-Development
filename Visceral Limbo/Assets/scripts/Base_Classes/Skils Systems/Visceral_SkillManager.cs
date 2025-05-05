@@ -59,12 +59,11 @@ public class Visceral_SkillManager : Visceral_Script
     {
         var keys = new List<string>(CooldownDicc.Keys); 
 
-        foreach(var key in keys)
+        //hecho por patricio malvasio - uso Where / select / to list
+        //funcionamiento => donde el valor de kvp sea mayor que 0, seleccionamos su llave y la guardamos en una lista intermedia
+        foreach(var key in CooldownDicc.Where(KVP => KVP.Value > 0f).Select(KVP => KVP.Key).ToList())
         {
-            if (CooldownDicc[key] > 0f)
-            {
                 CooldownDicc[key] -= Time.deltaTime;
-            }
         }
     }
 

@@ -170,7 +170,7 @@ public class DumbChaserAI : DumbEnemy, ICharacterController
 
         if(_KKC.AttachedRigidbody.velocity.sqrMagnitude > 0 )
         {
-            float Dir = Vector3.Distance(target.transform.position, _KKC.Capsule.transform.position);
+            var Dir = Vector3.Distance(target.transform.position, _KKC.Capsule.transform.position);
 
             if(Dir > 10 )
             {
