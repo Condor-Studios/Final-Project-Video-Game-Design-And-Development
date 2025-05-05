@@ -21,11 +21,11 @@ public class DamageCollisionTrigger : MonoBehaviour
             var dir = (other.transform.position - this.transform.position).normalized;
             if (DealKnockback)
             {
-                HPComp.TakeDamageWithKnockback(Damage, dir, KnockBack);
+                HPComp.SimpleDamage(Damage);
             }
             else
             {
-                HPComp.TakeDamage(Damage);
+                HPComp.SimpleDamage(Damage);
             }
         }
     }

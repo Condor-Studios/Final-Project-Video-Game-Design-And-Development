@@ -31,4 +31,21 @@ public class PlayerContext : Visceral_Script
         //PlayerGameObject = gameObject;
         //PlayerTransform= GetComponent<Transform>();
     }
+
+    /// <summary>
+    /// La ID de la faccion que este personaje pertenece
+    /// </summary>
+    public FactionID faction;
+
+    public float EnemyValueScore;
+}
+
+public enum FactionID
+{
+    Player,
+    LimboMonster1,
+    LimboMonster2,
+    LimboEntity,
+    LimboTrap,
+
 }
