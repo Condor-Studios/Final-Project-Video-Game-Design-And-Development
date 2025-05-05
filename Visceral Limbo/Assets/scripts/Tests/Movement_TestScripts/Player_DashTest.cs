@@ -19,14 +19,21 @@ public class Player_DashTest : Visceral_Script
     {
         if(_Inputs.Ability_Support == true && _KCCMotorMovement.KKCMotor.GroundingStatus.IsStableOnGround)
         {
-            float MovementDirX = _Inputs.Movement.x;
-            float MovementDirY = _Inputs.Movement.y;
+            //anonymous type
+            var MovementDir = new { DirX = _Inputs.Movement.x,
+                 DirY = _Inputs.Movement.y };
             Transform UpDirector = _KCCMotorMovement.KKCMotor.Transform;
 
-            Vector3 DashMovement = new Vector3(_Inputs.Movement.x,0,_Inputs.Movement.y).normalized;
+            Vector3 DashMovement = new Vector3(MovementDir.DirX,0,MovementDir.DirY).normalized;
             Vector3 FinalDashMovement = Quaternion.Euler(0,UpDirector.eulerAngles.y,0) * DashMovement;
             FinalDashMovement *= _DashStrenght;
             _KCCMotorMovement.AddExternalVelocity(FinalDashMovement,true);
         }
     }
+
+
+    // 
+    // codigo hecho por patricio malvasio
+    //
+    // to do, transformarlo a un skill que use skill manager
 }

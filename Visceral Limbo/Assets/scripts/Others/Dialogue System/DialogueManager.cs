@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class DialogueManager : Visceral_Script
 {
@@ -94,7 +95,10 @@ public class DialogueManager : Visceral_Script
     {
         OptionsPanel.SetActive(true);
 
-        foreach(var Option in options)
+        //Hecho por Lucas - Where / To List
+        var validoptions = options.Where(o => !string.IsNullOrEmpty(o.TextReply)).ToList();
+
+        foreach(var Option in validoptions)
         {
             GameObject ButtonOBJ = Instantiate(OptionButtonPrefab, OptionsPanel.transform);
             TMP_Text ButtonText = ButtonOBJ.GetComponentInChildren<TMP_Text>();
@@ -151,6 +155,12 @@ public class DialogueManager : Visceral_Script
     }
 
 }
+
+//codigo hecho por patricio malvasio
+// manager de dialogo
+//
+// TO DO: 
+// pedir aiuda para solucionar el problema con los botones :(
 
 
 

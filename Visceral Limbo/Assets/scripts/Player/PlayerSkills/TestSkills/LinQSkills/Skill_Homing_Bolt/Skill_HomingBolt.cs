@@ -20,7 +20,6 @@ public class Skill_HomingBolt : Visceral_SkillLogic
         HTCollider = HitColliders;
 
         Health_Component[] components = HitColliders.Where(X => X.GetComponentInParent<Health_Component>()).Select(X => X.GetComponentInParent<Health_Component>()).ToArray();
-
         components.OrderBy(X => X.CurrentHealth);
         components.Take(ChainLightning); // este ataque realiza menos daño por cadena
         health_Components = components;
