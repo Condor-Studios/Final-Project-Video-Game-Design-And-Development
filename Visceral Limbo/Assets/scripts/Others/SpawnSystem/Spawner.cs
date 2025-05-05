@@ -63,6 +63,7 @@ public class Spawner : MonoBehaviour
 
         if(EnemyGenerator.MoveNext())
         {
+            Index++;
             var NextEnemy = EnemyGenerator.Current;
 
             var InstantiatedEnemy = Instantiate(NextEnemy);
@@ -80,6 +81,7 @@ public class Spawner : MonoBehaviour
         {
             IsSpent = true;
             _SpawnManager.NotifyMinionDeath();
+            print("isSpent");
         }
     }
 
@@ -94,8 +96,6 @@ public class Spawner : MonoBehaviour
             GameObject enemy = EnemySpawns[I];
             yield return enemy;
         }
-        Index++;
-       
     }
 
     private void MyMinionDied()

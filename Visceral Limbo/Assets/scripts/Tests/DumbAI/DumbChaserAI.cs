@@ -139,11 +139,7 @@ public class DumbChaserAI : DumbEnemy, ICharacterController
         }
 
 
-            _KKC.AttachedRigidbody.velocity = Vector3.Slerp(_KKC.AttachedRigidbodyVelocity, Vector3.zero, 0.1f + Time.deltaTime);
-            if (_KKC.AttachedRigidbodyVelocity.sqrMagnitude <= 0.1f)
-            {
-                _KKC.AttachedRigidbody.velocity = Vector3.zero;
-            }
+            
     }
 
 
@@ -171,6 +167,23 @@ public class DumbChaserAI : DumbEnemy, ICharacterController
         context.KCCMotor = this._KKC;
         context.PlayerGameObject = this.gameObject;
         context.PlayerTransform = _KKC.Capsule.transform;
+
+        if(_KKC.AttachedRigidbody.velocity.sqrMagnitude > 0 )
+        {
+            float Dir = Vector3.Distance(target.transform.position, _KKC.Capsule.transform.position);
+
+            if(Dir > 10 )
+            {
+                _KKC.AttachedRigidbody.velocity = Vector3.Slerp(_KKC.AttachedRigidbodyVelocity, Vector3.zero, 0.1f + Time.deltaTime);
+                if (_KKC.AttachedRigidbodyVelocity.sqrMagnitude <= 0.1f)
+                {
+                    _KKC.AttachedRigidbody.velocity = Vector3.zero;
+                }
+
+            }
+         
+        }
+    
     }
 
     public void BeforeCharacterUpdate(float deltaTime)

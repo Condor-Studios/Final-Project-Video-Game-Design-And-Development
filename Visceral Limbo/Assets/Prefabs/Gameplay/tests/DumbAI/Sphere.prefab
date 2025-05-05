@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 671673026632633539}
   - component: {fileID: 5464579254939514475}
   - component: {fileID: 2518075601435070626}
-  - component: {fileID: 8547821088316183915}
   - component: {fileID: 7416978669254963762}
   m_Layer: 0
   m_Name: Sphere
@@ -125,23 +124,8 @@ MonoBehaviour:
   Damage: 10
   _Collider: {fileID: 5464579254939514475}
   _Health: 10
-  _Owner: {fileID: 0}
---- !u!114 &8547821088316183915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7782316294196594982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 472673f96eb08914996d06c926556dcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentHealth: 0
-  MaxHealth: 10
-  _RB: {fileID: 0}
-  DestroyOnDeath: 1
+  _OwnerGameObject: {fileID: 0}
+  _OwnerContext: {fileID: 0}
 --- !u!114 &7416978669254963762
 MonoBehaviour:
   m_ObjectHideFlags: 0

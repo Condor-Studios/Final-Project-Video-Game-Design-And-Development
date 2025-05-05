@@ -9,6 +9,8 @@ public class RoomSpawnerManager : MonoBehaviour
     [SerializeField] private Spawner[] Spawners;
     [SerializeField] private List<RoomEnterTrigger> roomTriggers;
 
+    [SerializeField] bool MinionsAlive, SpawnersSpent;
+
     private void Start()
     {
         if(Spawners.Length <= 0)
@@ -30,8 +32,8 @@ public class RoomSpawnerManager : MonoBehaviour
 
     public void NotifyMinionDeath()
     {
-        var MinionsAlive = Spawners.Any(x => x.HasMinion);
-        var SpawnersSpent = Spawners.All(x => x.IsSpent);
+        MinionsAlive = Spawners.Any(x => x.HasMinion);
+        SpawnersSpent = Spawners.All(x => x.IsSpent);
         if(!MinionsAlive && !SpawnersSpent)
         {
             foreach(var Item in Spawners)
@@ -44,8 +46,10 @@ public class RoomSpawnerManager : MonoBehaviour
                 item.SetSolidState(true);
             }
         }
-        else if(!MinionsAlive && SpawnersSpent)
+
+        if(!MinionsAlive && SpawnersSpent)
         {
+            print("Finishing combat");
             foreach (var item in roomTriggers)
             {
                 item.SetSolidState(false);

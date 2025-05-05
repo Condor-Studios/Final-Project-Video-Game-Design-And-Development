@@ -76,7 +76,7 @@ public class DumbRanger : DumbEnemy, ICharacterController
             yield return new WaitForSeconds(AttackSpeed);
 
             var bullet = Instantiate(_BulletPrefab);
-            bullet.GetComponent<BulletDumb>().SetOwner(this.gameObject);
+            bullet.GetComponent<BulletDumb>().SetOwner(Context.PlayerGameObject,Context);
             bullet.transform.position = SpawnPoint.transform.position;
             bullet.transform.forward = _KKC.CharacterForward;
             yield return null;

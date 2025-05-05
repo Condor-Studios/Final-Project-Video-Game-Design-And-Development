@@ -9,7 +9,8 @@ public class BulletDumb : MonoBehaviour
     [SerializeField] Collider _Collider;
     [SerializeField] private float _Health;
 
-    [SerializeField] private GameObject _Owner;
+    [SerializeField] private GameObject _OwnerGameObject;
+    [SerializeField] private PlayerContext _OwnerContext;
 
 
     private void Start()
@@ -17,6 +18,7 @@ public class BulletDumb : MonoBehaviour
         _Collider = GetComponent<Collider>();
         _Collider.enabled = false;
         StartCoroutine(startDamage());
+        Physics.IgnoreCollision(this._Collider,_OwnerContext.PlayerTransform.root.GetComponentInChildren<Collider>());
     }
 
     IEnumerator startDamage()
@@ -37,23 +39,25 @@ public class BulletDumb : MonoBehaviour
         }
 
     }
-    public void SetOwner(GameObject Owner)
+    public void SetOwner(GameObject Owner,PlayerContext Context)
     {
-        _Owner = Owner;
+        _OwnerGameObject = Owner;
+        _OwnerContext = Context;
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if (other.gameObject == _Owner.gameObject) return;
+        if (other.name == _OwnerGameObject.name) return;
+        if (other.gameObject == _OwnerGameObject) return;
+        if (other.GetComponent<PlayerContext>() == _OwnerContext) return;
 
         if(other.TryGetComponent(out Health_Component HPComp))
         {
             Vector3 dir = other.gameObject.transform.position - this.transform.position;
 
             DamageScore DamageDT = new DamageScore();
-            DamageDT.Attacker = _Owner.GetComponent<PlayerContext>();
+            DamageDT.Attacker = _OwnerContext;
             DamageDT.DamageAmount = damage;
             DamageDT.Victim = other.GetComponent<PlayerContext>();
             DamageDT.ElementalDamage = ElementType.Physical;

@@ -2271,6 +2271,8 @@ MonoBehaviour:
   - {fileID: 829380645}
   roomTriggers:
   - {fileID: 104896531}
+  MinionsAlive: 0
+  SpawnersSpent: 0
 --- !u!4 &601183472
 Transform:
   m_ObjectHideFlags: 0
@@ -2716,6 +2718,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Barril
+      objectReference: {fileID: 0}
+    - target: {fileID: 6415037378930908518, guid: 507628e2ef3abbb4d8f277fe932eb0e1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3423,6 +3430,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Barril (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6415037378930908518, guid: 507628e2ef3abbb4d8f277fe932eb0e1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4340,6 +4352,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Barril (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6415037378930908518, guid: 507628e2ef3abbb4d8f277fe932eb0e1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
