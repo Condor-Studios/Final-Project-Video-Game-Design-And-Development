@@ -2,26 +2,68 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
 using Newtonsoft.Json;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 namespace AI.Utilities
 {
      public class ChatGptForUnity : MonoBehaviour
         {
+            public enum MaxTokensOptions
+            {
+                Max128 = 128,
+                Max256 = 256,
+                Max512 = 512,
+                Max1024 = 1024,
+                Max2048 = 2048
+            }
+
+            [Header("Debug Settings")]
+            [SerializeField] private bool debug = true;
+
             [FormerlySerializedAs("APIKey")]
             [Header("Configuration")]
             [SerializeField] private string apiKey;
-            [SerializeField] private int selectedModelIndex = 0;
-            [SerializeField] private string model = ChatGptModels.Models[0];
+            [HideInInspector]
+            public int selectedModelIndex = 19;
+            [HideInInspector]
+            public string model = ChatGptModels.Models[0];
+            
+            [Header("Context Settings")]
+            [SerializeField]
+            public bool useContext = true;
+            [SerializeField] public GameObject contextTarget;
+            [SerializeField] public bool includeDependencies = true;
+            [TextArea(5, 20)]
+            [SerializeField, HideInInspector]
+            private string generatedContextPreview = "";
+            public bool showContextPreview = false;
+            
+            [Header("Token Settings")]
+            [SerializeField] private MaxTokensOptions maxTokens = MaxTokensOptions.Max512;
+            [SerializeField] private float estimatedPromptCost = 0f;
+            private float tokenPricePerThousand;
+
+            private Dictionary<int, float> modelTokenPrices;
+
+            private const int AverageCharsPerToken = 4; // OpenAI standard estimation
+            
             [TextArea(3, 10)]
-            [SerializeField] private string prompt;
+            [SerializeField] public string prompt;
 
             [Header("Response")]
             [TextArea(3, 40)]
             [SerializeField] private string response;
+            
+            
+            
+            public string ResponseContent => response;
 
             private const string ChatGpturl = "https://api.openai.com/v1/chat/completions";
             [FormerlySerializedAs("_scriptsFolder")] [SerializeField] private string scriptsFolder = "Assets/Scripts/AI";
@@ -30,9 +72,39 @@ namespace AI.Utilities
             private RequestWrapper _request;
             private ResponseWrapper _responseBody;
 
+            private void Awake()
+            {
+                InitializeModelTokenPrices();
+                if (modelTokenPrices != null && modelTokenPrices.ContainsKey(selectedModelIndex))
+                {
+                    tokenPricePerThousand = modelTokenPrices[selectedModelIndex];
+                }
+                else
+                {
+                    tokenPricePerThousand = 0.0015f; // default fallback
+                }
+            }
+
+            public string GeneratedContextPreview => generatedContextPreview;
+            public bool UseContext => useContext;
+
+            public void GenerateContextManually()
+            {
+                GenerateProjectContext();
+            }
+
             public void SendRequest()
             {
                 response = "Loading...";
+#if UNITY_EDITOR
+                EditorUtility.DisplayProgressBar("ChatGPT Request", "Sending request...", 0f);
+#endif
+                var finalPrompt = prompt;
+                if (useContext)
+                {
+                    string contextSummary = GenerateProjectContext();
+                    finalPrompt = $"{contextSummary}\n\nThen, considering the above context, answer the following prompt:\n\n{prompt}";
+                }
 
                 _request = new RequestWrapper
                 {
@@ -42,11 +114,10 @@ namespace AI.Utilities
                         new Message
                         {
                             role = "user",
-                            content = prompt
-                            // name, tool_call_id, function_call intentionally left null
+                            content = finalPrompt
                         }
                     },
-                    max_tokens = 2048,
+                    max_tokens = (int)maxTokens, 
                     temperature = 0.7f,
                     stream = false
                 };
@@ -55,52 +126,102 @@ namespace AI.Utilities
             }
 
             private IEnumerator SendRequestCoroutine()
+{
+    var json = BuildJsonRequest(_request);
+    if (debug)
+    {
+        Debug.Log($"[ChatGPT Request JSON]:\n{json}");
+    }
+    var rawData = Encoding.UTF8.GetBytes(json);
+
+    int retryCount = 0;
+    int maxRetries = 5;
+
+    while (retryCount <= maxRetries)
+    {
+        using var apiRequest = new UnityWebRequest(ChatGpturl, "POST")
+        {
+            uploadHandler = new UploadHandlerRaw(rawData),
+            downloadHandler = new DownloadHandlerBuffer()
+        };
+        apiRequest.SetRequestHeader("Content-Type", "application/json");
+        apiRequest.SetRequestHeader("Authorization", "Bearer " + apiKey);
+        apiRequest.SetRequestHeader("OpenAI-Organization", "org-XlU6AT7uxAJZFI3u6fOGl90w");
+        apiRequest.SetRequestHeader("OpenAI-Project", "proj_93dtjeCyqpuWeegBTF36k3Pj");
+
+        if (debug)
+        {
+            Debug.Log($"[ChatGPT Attempt]: Sending request (attempt {retryCount + 1})...");
+        }
+        var requestOperation = apiRequest.SendWebRequest();
+
+        bool userCancelled = false;
+
+        while (!requestOperation.isDone)
+        {
+#if UNITY_EDITOR
+            bool cancelPressed = EditorUtility.DisplayCancelableProgressBar(
+                "ChatGPT Request",
+                $"Sending request... Attempt {retryCount + 1}",
+                0.1f + 0.15f * retryCount
+            );
+            if (cancelPressed)
             {
-                var json = BuildJsonRequest(_request);
-                var rawData = Encoding.UTF8.GetBytes(json);
-
-                using var apiRequest = new UnityWebRequest(ChatGpturl, "POST")
-                {
-                    uploadHandler = new UploadHandlerRaw(rawData),
-                    downloadHandler = new DownloadHandlerBuffer()
-                };
-                apiRequest.SetRequestHeader("Content-Type", "application/json");
-                apiRequest.SetRequestHeader("Authorization", "Bearer " + apiKey);
-                apiRequest.SetRequestHeader("OpenAI-Organization", "org-XlU6AT7uxAJZFI3u6fOGl90w");
-                apiRequest.SetRequestHeader("OpenAI-Project", "proj_93dtjeCyqpuWeegBTF36k3Pj");
-        
-                Debug.Log("Request URL: " + ChatGpturl);
-                Debug.Log("Request Body: " + json);
-
-                int retryCount = 0;
-                int maxRetries = 5;
-
-                while (true)
-                {
-                    yield return apiRequest.SendWebRequest();
-
-                    if (apiRequest.result == UnityWebRequest.Result.Success)
-                    {
-                        var jsonResponse = apiRequest.downloadHandler.text;
-                        _responseBody = JsonConvert.DeserializeObject<ResponseWrapper>(jsonResponse);
-                        response = _responseBody.choices[0].message.content;
-                        yield break;
-                    }
-                    else if ((int)apiRequest.responseCode == 429 && retryCount < maxRetries)
-                    {
-                        int waitTime = (int)Mathf.Pow(2, retryCount);
-                        Debug.LogWarning($"Rate limited. Retrying in {waitTime} seconds...");
-                        response = $"Rate limited. Retrying in {waitTime} seconds...";
-                        yield return new WaitForSeconds(waitTime);
-                        retryCount++;
-                    }
-                    else
-                    {
-                        response = $"Error: {apiRequest.responseCode} - {apiRequest.error}";
-                        yield break;
-                    }
-                }
+                userCancelled = true;
+                break;
             }
+#endif
+            yield return null; // <- Clave: chequeamos cada frame
+        }
+
+#if UNITY_EDITOR
+        EditorUtility.ClearProgressBar();
+#endif
+
+        if (userCancelled)
+        {
+            if (debug)
+            {
+                Debug.LogWarning("[ChatGPT]: Request cancelled by user.");
+            }
+            Debug.LogWarning("Request cancelled by user.");
+            response = "Request cancelled by user.";
+            yield break;
+        }
+
+        if (apiRequest.result == UnityWebRequest.Result.Success)
+        {
+            var jsonResponse = apiRequest.downloadHandler.text;
+            if (debug)
+            {
+                Debug.Log($"[ChatGPT Response JSON]:\n{jsonResponse}");
+            }
+            _responseBody = JsonConvert.DeserializeObject<ResponseWrapper>(jsonResponse);
+            response = _responseBody.choices[0].message.content;
+            yield break;
+        }
+        else if ((int)apiRequest.responseCode == 429)
+        {
+            int waitTime = (int)Mathf.Pow(2, retryCount);
+            Debug.LogWarning($"Rate limited. Retrying in {waitTime} seconds...");
+            response = $"Rate limited. Retrying in {waitTime} seconds...";
+            yield return new WaitForSeconds(waitTime);
+            retryCount++;
+        }
+        else
+        {
+            if (debug)
+            {
+                Debug.LogError($"[ChatGPT Error]: Status {apiRequest.responseCode} - {apiRequest.error}");
+            }
+            response = $"Error: {apiRequest.responseCode} - {apiRequest.error}";
+            yield break;
+        }
+    }
+
+    Debug.LogError("Max retries reached. Request failed.");
+}
+            
     
             private string BuildJsonRequest(RequestWrapper request)
             {
@@ -109,6 +230,113 @@ namespace AI.Utilities
                     NullValueHandling = NullValueHandling.Ignore
                 });
             }
+            
+            private string GenerateProjectContext()
+            {
+#if UNITY_EDITOR
+                StringBuilder contextBuilder = new StringBuilder();
+                contextBuilder.AppendLine("Project Context Overview:");
+                contextBuilder.AppendLine();
+                var processedTypes = new HashSet<Type>();
+
+                if (contextTarget != null)
+                {
+                    ProcessGameObject(contextTarget, contextBuilder, processedTypes);
+                }
+                else
+                {
+                    string[] scriptGuids = UnityEditor.AssetDatabase.FindAssets("t:Script");
+                    foreach (string guid in scriptGuids)
+                    {
+                        string path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+                        MonoScript monoScript = UnityEditor.AssetDatabase.LoadAssetAtPath<MonoScript>(path);
+                        if (monoScript != null)
+                        {
+                            var scriptClass = monoScript.GetClass();
+                            if (scriptClass != null && !processedTypes.Contains(scriptClass))
+                            {
+                                AppendClassInfo(scriptClass, contextBuilder);
+                                processedTypes.Add(scriptClass);
+                            }
+                        }
+                        // Limitar tamaño dinámicamente para no pasarnos
+                        if ((EstimateTokens(contextBuilder.ToString()) + EstimateTokens(prompt)) > (int)maxTokens)
+                            break;
+                    }
+                }
+                generatedContextPreview = contextBuilder.ToString();
+                return generatedContextPreview;
+#else
+                return string.Empty;
+#endif
+            }
+
+#if UNITY_EDITOR
+            private void ProcessGameObject(GameObject obj, StringBuilder contextBuilder, HashSet<Type> processedTypes)
+            {
+                if (obj == null) return;
+                var monoBehaviours = obj.GetComponents<MonoBehaviour>();
+                foreach (var comp in monoBehaviours)
+                {
+                    if (comp == null) continue;
+                    var type = comp.GetType();
+                    if (!processedTypes.Contains(type))
+                    {
+                        AppendClassInfo(type, contextBuilder);
+                        processedTypes.Add(type);
+                        if (includeDependencies)
+                        {
+                            ProcessDependencies(type, contextBuilder, processedTypes);
+                        }
+                    }
+                    // Limitar tamaño dinámicamente para no pasarnos
+                    if ((EstimateTokens(contextBuilder.ToString()) + EstimateTokens(prompt)) > (int)maxTokens)
+                        return;
+                }
+            }
+
+            private void AppendClassInfo(Type type, StringBuilder contextBuilder)
+            {
+                if (type == null) return;
+                contextBuilder.AppendLine($"- Class: {type.Name}");
+                var methods = type.GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly);
+                foreach (var method in methods)
+                {
+                    if (!method.IsSpecialName)
+                    {
+                        contextBuilder.AppendLine($"    - Method: {method.Name}({string.Join(", ", method.GetParameters().Select(p => p.ParameterType.Name + " " + p.Name))})");
+                    }
+                }
+                var properties = type.GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly);
+                foreach (var prop in properties)
+                {
+                    contextBuilder.AppendLine($"    - Property: {prop.PropertyType.Name} {prop.Name}");
+                }
+                contextBuilder.AppendLine();
+            }
+
+            private void ProcessDependencies(Type type, StringBuilder contextBuilder, HashSet<Type> processedTypes)
+            {
+                if (type == null) return;
+                var fields = type.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+                foreach (var field in fields)
+                {
+                    // Only consider fields that are MonoBehaviour and are public or have [SerializeField]
+                    bool isSerializable = field.IsPublic || Attribute.IsDefined(field, typeof(SerializeField));
+                    if (!isSerializable) continue;
+                    if (!typeof(MonoBehaviour).IsAssignableFrom(field.FieldType)) continue;
+                    var depType = field.FieldType;
+                    if (processedTypes.Contains(depType)) continue;
+                    AppendClassInfo(depType, contextBuilder);
+                    processedTypes.Add(depType);
+                    // Recursive dependency search
+                    ProcessDependencies(depType, contextBuilder, processedTypes);
+                    // Limitar tamaño dinámicamente para no pasarnos
+                    if ((EstimateTokens(contextBuilder.ToString()) + EstimateTokens(prompt)) > (int)maxTokens)
+                        return;
+                }
+            }
+#endif
 
             public void Clear()
             {
@@ -141,13 +369,70 @@ namespace AI.Utilities
 
                 return result.Substring(indexClass + 6, indexEnd - (indexClass + 6)).Trim();
             }
+            
+            private int EstimateTokens(string text)
+            {
+                if (string.IsNullOrEmpty(text))
+                    return 0;
 
+                return Mathf.CeilToInt((float)text.Length / AverageCharsPerToken);
+            }
+            
+            public void UpdateEstimatedCost()
+            {
+                int promptTokens = EstimateTokens(prompt);
+
+                int contextTokens = 0;
+                if (useContext)
+                {
+                    if (string.IsNullOrEmpty(generatedContextPreview))
+                        GenerateProjectContext();
+
+                    contextTokens = EstimateTokens(generatedContextPreview);
+                }
+
+                int totalTokens = promptTokens + contextTokens;
+
+                if (modelTokenPrices != null && modelTokenPrices.ContainsKey(selectedModelIndex))
+                {
+                    tokenPricePerThousand = modelTokenPrices[selectedModelIndex];
+                }
+                else
+                {
+                    tokenPricePerThousand = 0.0015f; // fallback default
+                }
+
+                estimatedPromptCost = (totalTokens / 1000f) * tokenPricePerThousand;
+            }
+            
             private void OnValidate()
             {
                 if (selectedModelIndex >= 0 && selectedModelIndex < ChatGptModels.Models.Length)
                 {
                     model = ChatGptModels.Models[selectedModelIndex];
                 }
+
+                if (modelTokenPrices != null && modelTokenPrices.ContainsKey(selectedModelIndex))
+                {
+                    tokenPricePerThousand = modelTokenPrices[selectedModelIndex];
+                }
+                else
+                {
+                    tokenPricePerThousand = 0.0015f;
+                }
+            }
+
+            private void InitializeModelTokenPrices()
+            {
+                modelTokenPrices = new Dictionary<int, float>
+                {
+                    // Example mappings, adjust as needed for actual model costs
+                    { 0, 0.002f },   // Model index 0
+                    { 1, 0.003f },   // Model index 1
+                    { 2, 0.0015f },  // Model index 2
+                    { 19, 0.0015f }, // Default GPT-3.5 turbo at index 19
+                    // Add other model indices and their costs here
+                };
             }
 
             [Serializable]

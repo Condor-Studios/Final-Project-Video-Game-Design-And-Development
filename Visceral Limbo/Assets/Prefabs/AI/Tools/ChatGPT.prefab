@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2126553221052249255
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1907683526884400671}
+  - component: {fileID: 8542981689806863343}
+  m_Layer: 0
+  m_Name: ChatGPT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1907683526884400671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126553221052249255}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8542981689806863343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126553221052249255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e154b5e1e5f46a68cc19d1a0242fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  apiKey: 
+  selectedModelIndex: 19
+  model: gpt-3.5-turbo
+  useContext: 0
+  contextTarget: {fileID: 0}
+  includeDependencies: 1
+  generatedContextPreview: "Project Context Overview:\n\n- Class: Assets\n\n- Class:
+    CMDebug\n\n- Class: CameraFollow\n    - Method: Setup(Func`1 GetCameraFollowPositionFunc,
+    Func`1 GetCameraZoomFunc, Boolean teleportToFollowPosition, Boolean instantZoom)\n   
+    - Method: SetCameraFollowPosition(Vector3 cameraFollowPosition)\n    - Method:
+    SetGetCameraFollowPositionFunc(Func`1 GetCameraFollowPositionFunc)\n    - Method:
+    SetCameraZoom(Single cameraZoom)\n    - Method: SetGetCameraZoomFunc(Func`1 GetCameraZoomFunc)\n\n-
+    Class: CameraFollowSetup\n\n- Class: ComponentActions\n\n- Class: PositionRendererSorter\n   
+    - Method: SetOffset(Int32 offset)\n\n- Class: Button_Sprite\n    - Method: SetHoverBehaviourChangeColor(Color
+    colorOver, Color colorOut)\n    - Method: Manual_OnMouseExit()\n\n- Class: Button_UI\n   
+    - Method: OnPointerEnter(PointerEventData eventData)\n    - Method: OnPointerExit(PointerEventData
+    eventData)\n    - Method: OnPointerClick(PointerEventData eventData)\n    - Method:
+    Manual_OnPointerExit()\n    - Method: IsMouseOver()\n    - Method: OnPointerDown(PointerEventData
+    eventData)\n    - Method: OnPointerUp(PointerEventData eventData)\n    - Method:
+    SetHoverBehaviourType(HoverBehaviour hoverBehaviourType)\n    - Method: RefreshHoverBehaviourType()\n   
+    - Method: InterceptActionClick(Func`1 testPassthroughFunc)\n    - Method: InterceptAction(String
+    fieldName, Func`1 testPassthroughFunc)\n    - Method: InterceptAction(FieldInfo
+    fieldInfo, Func`1 testPassthroughFunc)\n\n"
+  showContextPreview: 1
+  maxTokens: 256
+  estimatedPromptCost: 0
+  prompt: 
+  response: 
+  scriptsFolder: Assets/Scripts/AI

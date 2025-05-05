@@ -680,56 +680,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 432191947}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &479240704
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 479240706}
-  - component: {fileID: 479240707}
-  m_Layer: 0
-  m_Name: ChatGPT
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &479240706
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479240704}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &479240707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479240704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15e154b5e1e5f46a68cc19d1a0242fc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  apiKey: 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
-  selectedModelIndex: 36
-  model: gpt-4o
-  prompt: Escribe un breve resumen del lore de la saga de Metal Gear Solid
-  response: Rate limited. Retrying in 1 seconds...
-  scriptsFolder: Assets/Scripts/AI
 --- !u!1 &544965234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,6 +1683,131 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2058953284}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &2697933688291262185
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1907683526884400671, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907683526884400671, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907683526884400671, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907683526884400671, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907683526884400671, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907683526884400671, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907683526884400671, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907683526884400671, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907683526884400671, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907683526884400671, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126553221052249255, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: m_Name
+      value: ChatGPT
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: model
+      value: gpt-4o
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: apiKey
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: prompt
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: maxTokens
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: useContext
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: contextTarget
+      value: 
+      objectReference: {fileID: 8534510905530631328}
+    - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: selectedModelIndex
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: estimatedPromptCost
+      value: 0.0003795
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: generatedContextPreview
+      value: "Project Context Overview:\n\n- Class: ChaserAgent\n    - Method: ChangeState(StateType
+        newState)\n    - Method: IncreaseLostPlayerTimer()\n    - Method: ResetLostPlayerTimer()\n   
+        - Method: HasLostPlayerForTooLong()\n\n- Class: Entity\n    - Method: TakeDamage(Int32
+        damage)\n    - Property: Int32 Health\n    - Property: Int32 MaxHealth\n   
+        - Property: Boolean IsAlive\n\n- Class: NodeGrid\n    - Method: GetNode(Int32
+        x, Int32 z)\n    - Method: GetNodeFromWorldPosition(Vector3 worldPosition)\n   
+        - Method: GetNearestWalkableNode(Vector3 worldPosition)\n    - Method: GetAllNodes()\n   
+        - Method: GetNeighbours(Node node)\n    - Method: GetXZ(Vector3 worldPosition,
+        Int32& x, Int32& z)\n    - Method: Setup(Node[,] nodes)\n    - Property:
+        Int32 Width\n    - Property: Int32 Height\n\n- Class: Node\n    - Method:
+        DisplayText(Boolean visible)\n    - Method: TrySetAsTarget()\n    - Property:
+        Single FScore\n\n- Class: Pathfinding\n    - Method: Setup(NodeGrid nodeGrid)\n   
+        - Method: FindPath(Vector3 startWorldPos, Vector3 endWorldPos)\n\n"
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 475e0b84f547345cbaf752a5fc78bdab, type: 3}
 --- !u!1001 &4833036709419686571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1879,6 +1954,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31ab4d204474d4dbab6660bf9b1daff7, type: 3}
+--- !u!1 &8534510905530631328 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 801075558882087643, guid: 31ab4d204474d4dbab6660bf9b1daff7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8534510905530631327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1891,4 +1972,4 @@ SceneRoots:
   - {fileID: 123737852}
   - {fileID: 818139701}
   - {fileID: 1957331988}
-  - {fileID: 479240706}
+  - {fileID: 2697933688291262185}
