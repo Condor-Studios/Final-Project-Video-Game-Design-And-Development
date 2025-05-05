@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Visceral_Component : Visceral_Script
+namespace Visceral_Limbo.scripts.Base_Classes
 {
+    public class Visceral_Component : Visceral_Script
+    {
    
+    }
 }

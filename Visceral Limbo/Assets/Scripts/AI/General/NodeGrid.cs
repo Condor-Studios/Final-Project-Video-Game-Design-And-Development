@@ -6,17 +6,19 @@ namespace AI.General
     public class NodeGrid : MonoBehaviour
     {
         public Node nodePrefab;
-        private int width;
-        private int height;
+        private int _width;
+        private int _height;
         [SerializeField]
         private float cellSize;
-        private Node[,] gridArray;
+        private Node[,] _gridArray;
 
         [Tooltip("Si está en true, los nodos se muestran; si está en false, quedan ocultos.")]
         public bool debug;
+
+        public bool generated;
         
         // Para detectar cambios en 'debug' en tiempo de ejecución
-        private bool prevDebug;
+        private bool _prevDebug;
 
         private void Start()
         {
@@ -24,22 +26,22 @@ namespace AI.General
             GenerateGrid();
             ConnectNodeGrid();
             ApplyNodeVisibility(debug);
-            prevDebug = debug;
+            _prevDebug = debug;
         }
         
         private void Update()
         {
             // Si cambió desde el inspector, actualizamos la visibilidad
-            if (debug != prevDebug)
+            if (debug != _prevDebug)
             {
                 ApplyNodeVisibility(debug);
-                prevDebug = debug;
+                _prevDebug = debug;
             }
         }
         
         private void OnValidate()
         {
-            if (gridArray != null)
+            if (_gridArray != null)
                 ApplyNodeVisibility(debug);
         }
         
@@ -48,16 +50,16 @@ namespace AI.General
         /// </summary>
         private void ApplyNodeVisibility(bool visible)
         {
-            if (gridArray == null) return;
+            if (_gridArray == null) return;
 
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < _width; x++)
             {
-                for (int z = 0; z < height; z++)
+                for (int z = 0; z < _height; z++)
                 {
-                    Node current = gridArray[x, z];
+                    Node current = _gridArray[x, z];
                     current.isTextVisible = visible;
                     var mr = current.GetComponentInChildren<MeshRenderer>();
-                    if (mr != null) mr.enabled = visible;
+                    if (mr) mr.enabled = visible;
                     current.DisplayText(visible);
                 }
             }
@@ -66,11 +68,13 @@ namespace AI.General
         private void AutoDetectDimensions()
         {
             MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-            if (meshRenderer != null)
+            if (meshRenderer)
             {
                 var size = meshRenderer.bounds.size;
-                width = Mathf.RoundToInt(size.x / cellSize);
-                height = Mathf.RoundToInt(size.z / cellSize);
+                _width = Mathf.RoundToInt(size.x / cellSize);
+                _height = Mathf.RoundToInt(size.z / cellSize);
+                
+                Debug.Log("Grid size: " + _width + "x" + _height);
             }
             else
             {
@@ -82,19 +86,20 @@ namespace AI.General
         {
             var offsetVector = new Vector3(-46f, 0f, -46f); // Ajusta si cambias el origen
 
-            gridArray = new Node[width, height];
+            _gridArray = new Node[_width, _height];
 
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < _width; x++)
             {
-                for (int z = 0; z < height; z++)
+                for (int z = 0; z < _height; z++)
                 {
                     Node spawnedNode = Instantiate(nodePrefab, GetWorldPosition(x, z) + offsetVector, Quaternion.identity, transform);
                     spawnedNode.x = x;
                     spawnedNode.z = z;
-                    spawnedNode.index = x + z * width;
-                    gridArray[x, z] = spawnedNode;
+                    spawnedNode.index = x + z * _width;
+                    _gridArray[x, z] = spawnedNode;
                 }
             }
+            generated = true;
         }
 
         private Vector3 GetWorldPosition(int x, int z)
@@ -104,11 +109,11 @@ namespace AI.General
 
         private void ConnectNodeGrid()
         {
-            for (int x = 0; x < gridArray.GetLength(0); x++)
+            for (int x = 0; x < _gridArray.GetLength(0); x++)
             {
-                for (int z = 0; z < gridArray.GetLength(1); z++)
+                for (int z = 0; z < _gridArray.GetLength(1); z++)
                 {
-                    Node currentNode = gridArray[x, z];
+                    Node currentNode = _gridArray[x, z];
                     currentNode.nodes = GetNeighbours(currentNode);
                 }
             }
@@ -116,9 +121,11 @@ namespace AI.General
 
         public Node GetNode(int x, int z)
         {
-            if (!(Mathf.Abs(x) > width) && !(Mathf.Abs(z) > height))
+            Debug.Log("width: " + _width + "height: " + _height);
+            if (!(Mathf.Abs(x) > _width) && !(Mathf.Abs(z) > _height))
             {
-                return gridArray[Mathf.Abs(x), Mathf.Abs(z)];
+                Debug.Log("position is within node grid bounds:");
+                return _gridArray[Mathf.Abs(x), Mathf.Abs(z)];
             }
             return null;
         }
@@ -127,6 +134,7 @@ namespace AI.General
         {
             int x = Mathf.FloorToInt(worldPosition.x / cellSize);
             int z = Mathf.FloorToInt(worldPosition.z / cellSize);
+            Debug.Log("x: "+ x + "z: "+ z);
             return GetNode(x, z);
         }
 
@@ -138,7 +146,7 @@ namespace AI.General
             if (centerNode.isWalkable) return centerNode;
 
             int searchRadius = 1;
-            while (searchRadius < Mathf.Max(width, height))
+            while (searchRadius < Mathf.Max(_width, _height))
             {
                 for (int x = -searchRadius; x <= searchRadius; x++)
                 {
@@ -159,11 +167,11 @@ namespace AI.General
         public Node[] GetAllNodes()
         {
             List<Node> nodeList = new List<Node>();
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < _width; x++)
             {
-                for (int z = 0; z < height; z++)
+                for (int z = 0; z < _height; z++)
                 {
-                    nodeList.Add(gridArray[x, z]);
+                    nodeList.Add(_gridArray[x, z]);
                 }
             }
             return nodeList.ToArray();
@@ -176,16 +184,16 @@ namespace AI.General
             int x = node.x;
             int z = node.z;
 
-            if (x - 1 >= 0) neighbours.Add(gridArray[x - 1, z]);
-            if (x + 1 < width) neighbours.Add(gridArray[x + 1, z]);
-            if (z - 1 >= 0) neighbours.Add(gridArray[x, z - 1]);
-            if (z + 1 < height) neighbours.Add(gridArray[x, z + 1]);
+            if (x - 1 >= 0) neighbours.Add(_gridArray[x - 1, z]);
+            if (x + 1 < _width) neighbours.Add(_gridArray[x + 1, z]);
+            if (z - 1 >= 0) neighbours.Add(_gridArray[x, z - 1]);
+            if (z + 1 < _height) neighbours.Add(_gridArray[x, z + 1]);
 
             // Diagonales opcionales
-            if (x - 1 >= 0 && z - 1 >= 0) neighbours.Add(gridArray[x - 1, z - 1]);
-            if (x - 1 >= 0 && z + 1 < height) neighbours.Add(gridArray[x - 1, z + 1]);
-            if (x + 1 < width && z - 1 >= 0) neighbours.Add(gridArray[x + 1, z - 1]);
-            if (x + 1 < width && z + 1 < height) neighbours.Add(gridArray[x + 1, z + 1]);
+            if (x - 1 >= 0 && z - 1 >= 0) neighbours.Add(_gridArray[x - 1, z - 1]);
+            if (x - 1 >= 0 && z + 1 < _height) neighbours.Add(_gridArray[x - 1, z + 1]);
+            if (x + 1 < _width && z - 1 >= 0) neighbours.Add(_gridArray[x + 1, z - 1]);
+            if (x + 1 < _width && z + 1 < _height) neighbours.Add(_gridArray[x + 1, z + 1]);
 
             return neighbours;
         }
@@ -198,14 +206,14 @@ namespace AI.General
 
         public void Setup(Node[,] nodes)
         {
-            gridArray = nodes;
-            width = nodes.GetLength(0);
-            height = nodes.GetLength(1);
+            _gridArray = nodes;
+            _width = nodes.GetLength(0);
+            _height = nodes.GetLength(1);
         }
         
         
 
-        public int Width => width;
-        public int Height => height;
+        public int Width => _width;
+        public int Height => _height;
     }
 }

@@ -1,19 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Visceral_Limbo.Assets.ScriptableObjects.Abilities.Player_Abilities.Basic;
+using Visceral_Limbo.scripts.Base_Classes.Skils_Systems;
 
-public class TestSkill_PewPew : Visceral_SkillLogic
+namespace Visceral_Limbo.scripts.Player.PlayerSkills.TestSkills
 {
-    [SerializeField] float Damage;
-    public override void ActivateSkill()
+    public class TestSkill_PewPew : Visceral_SkillLogic
     {
-        print("Pew Pewd for " + Damage);
+        [SerializeField] float Damage;
+        public override void ActivateSkill()
+        {
+            print("Pew Pewd for " + Damage);
+        }
+
+        public override void Initialize(Visceral_AbilitySO data, Visceral_SkillManager Skmanager, PlayerContext UserContext = null)
+        {
+            base.Initialize(data, Skmanager, UserContext);
+        }
+
+
     }
-
-    public override void Initialize(Visceral_AbilitySO data, Visceral_SkillManager Skmanager, PlayerContext UserContext = null)
-    {
-        base.Initialize(data, Skmanager, UserContext);
-    }
-
-
 }

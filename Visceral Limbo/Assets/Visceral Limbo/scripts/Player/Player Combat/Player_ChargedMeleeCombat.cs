@@ -1,98 +1,102 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Visceral_Limbo.Assets.ScriptableObjects.Player.CombatData.AttackSO.SwordTestSO;
+using Visceral_Limbo.scripts.Base_Classes;
+using Visceral_Limbo.scripts.Player.Movement;
 
-public class Player_ChargedMeleeCombat : Visceral_Script
+namespace Visceral_Limbo.scripts.Player.Player_Combat
 {
-    public SwordTestSO[] SwordAttacks;
-    [SerializeField] float _ChargeAmount,_MaximumCharge,_MinimunToAttack;
-    int _ComboCounter;
-
-    [SerializeField] Animator _Anim;
-    [SerializeField] Visceral_WeaponBase _Weapon;
-    [SerializeField] Slider _ChargeSlider;
-
-    InputMovement PlayerInputs;
-
-    public override void VS_Initialize()
+    public class Player_ChargedMeleeCombat : Visceral_Script
     {
-        _Weapon.EndAttack += FinishAttack;
-    }
+        public SwordTestSO[] SwordAttacks;
+        [SerializeField] float _ChargeAmount,_MaximumCharge,_MinimunToAttack;
+        int _ComboCounter;
 
-    public override void VS_Runlogic(params object[] a)
-    {
-        if (a == null || a.Length == 0)
+        [SerializeField] Animator _Anim;
+        [SerializeField] Visceral_WeaponBase _Weapon;
+        [SerializeField] Slider _ChargeSlider;
+
+        InputMovement PlayerInputs;
+
+        public override void VS_Initialize()
         {
-            Debug.LogError("PlayerChargeAttackScript recieving null parameters");
-            return;
+            _Weapon.EndAttack += FinishAttack;
         }
-        PlayerInputs = (InputMovement)a[0];
 
-        CancelInvoke(nameof(FinishAttack));
-
-        if (PlayerInputs.SustainedLeftMouseClick && !_Anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        public override void VS_Runlogic(params object[] a)
         {
-            _ChargeAmount += Time.deltaTime; 
-            if(_ChargeAmount> _MaximumCharge)
+            if (a == null || a.Length == 0)
             {
-                _ChargeAmount= _MaximumCharge;
+                Debug.LogError("PlayerChargeAttackScript recieving null parameters");
+                return;
+            }
+            PlayerInputs = (InputMovement)a[0];
+
+            CancelInvoke(nameof(FinishAttack));
+
+            if (PlayerInputs.SustainedLeftMouseClick && !_Anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+            {
+                _ChargeAmount += Time.deltaTime; 
+                if(_ChargeAmount> _MaximumCharge)
+                {
+                    _ChargeAmount= _MaximumCharge;
+                }
+            }
+            else
+            {
+                _ChargeAmount -= Time.deltaTime;
+                if(_ChargeAmount <= 0) _ChargeAmount = 0;
+            }
+
+            if(_ChargeAmount > _MinimunToAttack && PlayerInputs.ReleasedLeftMouseClick)
+            {
+                Attack();
+                _ChargeAmount = 0;
+            }
+
+            Invoke(nameof(FinishAttack), 0);
+
+            UpdateUI();
+        }
+
+        private void Attack()
+        {
+
+            _Anim.runtimeAnimatorController = SwordAttacks[_ComboCounter]._AnimatorOV;
+            _Anim.Play("Attack", 0, 0);
+            _Weapon.Damage = SwordAttacks[_ComboCounter].Damage;
+            _Weapon.KnockBack = SwordAttacks[_ComboCounter].KnockBack;
+            _Weapon.Attacking();
+            _ComboCounter++;
+            if (_ComboCounter + 1 > SwordAttacks.Length)
+            {
+                _ComboCounter = 0;
+            }
+
+        }
+
+        public void FinishAttack()
+        {
+            if(_Anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && _Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f)
+            {
+                _Weapon.StopAttacking();
+                _Anim.SetTrigger("AttackTrigger");
+                Debug.Log("finishing attack");
             }
         }
-        else
+
+        private void UpdateUI()
         {
-            _ChargeAmount -= Time.deltaTime;
-            if(_ChargeAmount <= 0) _ChargeAmount = 0;
-        }
-
-        if(_ChargeAmount > _MinimunToAttack && PlayerInputs.ReleasedLeftMouseClick)
-        {
-            Attack();
-            _ChargeAmount = 0;
-        }
-
-        Invoke(nameof(FinishAttack), 0);
-
-        UpdateUI();
-    }
-
-    private void Attack()
-    {
-
-        _Anim.runtimeAnimatorController = SwordAttacks[_ComboCounter]._AnimatorOV;
-        _Anim.Play("Attack", 0, 0);
-        _Weapon.Damage = SwordAttacks[_ComboCounter].Damage;
-        _Weapon.KnockBack = SwordAttacks[_ComboCounter].KnockBack;
-        _Weapon.Attacking();
-        _ComboCounter++;
-        if (_ComboCounter + 1 > SwordAttacks.Length)
-        {
-            _ComboCounter = 0;
+            if(_ChargeAmount <= 0)
+            {
+                _ChargeSlider.gameObject.SetActive(false);
+            }
+            else
+            {
+                _ChargeSlider.value = _ChargeAmount / _MaximumCharge;
+                _ChargeSlider.gameObject.SetActive(true);
+            }
         }
 
     }
-
-    public void FinishAttack()
-    {
-        if(_Anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && _Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f)
-        {
-            _Weapon.StopAttacking();
-            _Anim.SetTrigger("AttackTrigger");
-            Debug.Log("finishing attack");
-        }
-    }
-
-    private void UpdateUI()
-    {
-        if(_ChargeAmount <= 0)
-        {
-            _ChargeSlider.gameObject.SetActive(false);
-        }
-        else
-        {
-            _ChargeSlider.value = _ChargeAmount / _MaximumCharge;
-            _ChargeSlider.gameObject.SetActive(true);
-        }
-    }
-
 }

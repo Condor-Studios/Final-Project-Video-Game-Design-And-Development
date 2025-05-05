@@ -1,72 +1,76 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Visceral_Limbo.Assets.ScriptableObjects.Player.CombatData.AttackSO.SwordTestSO;
+using Visceral_Limbo.scripts.Base_Classes;
+using Visceral_Limbo.scripts.Player.Movement;
 
-public class Player_MeleeAttack : Visceral_Script
+namespace Visceral_Limbo.scripts.Player.Player_Combat
 {
-    public SwordTestSO[] SwordCombo;
-    [SerializeField]float _LastClickedTime;
-    [SerializeField] float _LastComboEnd;
-    [SerializeField] int _ComboCounter;
-    [SerializeField] float _TimeBetweenCombos,_TimebetweenAttacks;
-
-    [SerializeField]Animator _Anim;
-    [SerializeField] Visceral_WeaponBase _Weapon;
-
-
-    public override void VS_Initialize()
+    public class Player_MeleeAttack : Visceral_Script
     {
-        _Anim ??= GetComponent<Animator>();
-    }
+        public SwordTestSO[] SwordCombo;
+        [SerializeField]float _LastClickedTime;
+        [SerializeField] float _LastComboEnd;
+        [SerializeField] int _ComboCounter;
+        [SerializeField] float _TimeBetweenCombos,_TimebetweenAttacks;
 
-    public void RunData(InputMovement PlayerInputs)
-    {
-        if (PlayerInputs.LeftMouseClick)
+        [SerializeField]Animator _Anim;
+        [SerializeField] Visceral_WeaponBase _Weapon;
+
+
+        public override void VS_Initialize()
         {
-            Attack();
+            _Anim ??= GetComponent<Animator>();
         }
-    }
 
-    private void Attack()
-    {
-        CancelInvoke(nameof(EndCombo));
-        if (Time.time - _LastComboEnd > _TimeBetweenCombos && _ComboCounter <= SwordCombo.Length)
+        public void RunData(InputMovement PlayerInputs)
         {
+            if (PlayerInputs.LeftMouseClick)
+            {
+                Attack();
+            }
+        }
 
-            if(Time.time - _LastClickedTime >= _TimebetweenAttacks)
+        private void Attack()
+        {
+            CancelInvoke(nameof(EndCombo));
+            if (Time.time - _LastComboEnd > _TimeBetweenCombos && _ComboCounter <= SwordCombo.Length)
             {
 
-                _Anim.runtimeAnimatorController = SwordCombo[_ComboCounter]._AnimatorOV;
-                _Anim.Play("Attack", 0, 0);
-                _Weapon.Damage = SwordCombo[_ComboCounter].Damage;
-                _Weapon.KnockBack = SwordCombo[_ComboCounter].KnockBack;
-                _ComboCounter++;
-                _LastClickedTime = Time.time;
-
-                if(_ComboCounter + 1 > SwordCombo.Length)
+                if(Time.time - _LastClickedTime >= _TimebetweenAttacks)
                 {
-                    _ComboCounter = 0;
+
+                    _Anim.runtimeAnimatorController = SwordCombo[_ComboCounter]._AnimatorOV;
+                    _Anim.Play("Attack", 0, 0);
+                    _Weapon.Damage = SwordCombo[_ComboCounter].Damage;
+                    _Weapon.KnockBack = SwordCombo[_ComboCounter].KnockBack;
+                    _ComboCounter++;
+                    _LastClickedTime = Time.time;
+
+                    if(_ComboCounter + 1 > SwordCombo.Length)
+                    {
+                        _ComboCounter = 0;
+                    }
+
+                    Debug.Log("Attacking!");
                 }
 
-                Debug.Log("Attacking!");
             }
-
         }
-    }
 
-    private void ExitAttack()
-    {
-        if(_Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _Anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        private void ExitAttack()
         {
-            Invoke(nameof(EndCombo), 1);
+            if(_Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _Anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+            {
+                Invoke(nameof(EndCombo), 1);
+            }
         }
-    }
 
-    private void EndCombo()
-    {
-        _ComboCounter = 0;
-        _LastComboEnd = Time.time;
-        Debug.Log("EndingCombo");
-    }
+        private void EndCombo()
+        {
+            _ComboCounter = 0;
+            _LastComboEnd = Time.time;
+            Debug.Log("EndingCombo");
+        }
 
+    }
 }

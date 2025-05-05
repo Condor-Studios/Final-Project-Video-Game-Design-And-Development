@@ -1,36 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+namespace ScriptsS
 {
-    public static GameManager Instance;
+    public class GameManager : MonoBehaviour
+    {
+        public static GameManager Instance;
 
-    private void Awake()
-    {
-        if (Instance == null)
+        private void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
         }
-        else
-            Destroy(gameObject);
-    }
-    public void PlayGame()
-    {
-        SceneManager.LoadScene("SampleScene");
-    }
-    public void Options(GameObject option)
-    {
-        option.SetActive(true);
-    }
-    public void BackMainMenu(GameObject option)
-    {
-        option.SetActive(false);
-    }
-    public void QuitGame()
-    {
-        Application.Quit();
+        public void PlayGame()
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
+        public void Options(GameObject option)
+        {
+            option.SetActive(true);
+        }
+        public void BackMainMenu(GameObject option)
+        {
+            option.SetActive(false);
+        }
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
     }
 }

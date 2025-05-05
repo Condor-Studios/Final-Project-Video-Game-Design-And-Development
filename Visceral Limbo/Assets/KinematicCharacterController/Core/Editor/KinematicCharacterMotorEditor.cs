@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor;
 
-namespace KinematicCharacterController
+namespace KinematicCharacterController.Core.Editor
 {
     [CustomEditor(typeof(KinematicCharacterMotor))]
-    public class KinematicCharacterMotorEditor : Editor
+    public class KinematicCharacterMotorEditor : UnityEditor.Editor
     {
         protected virtual void OnSceneGUI()
         {            

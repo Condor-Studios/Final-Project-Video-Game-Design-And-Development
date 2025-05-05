@@ -5,23 +5,23 @@ namespace AI.General
 {
     public class Pathfinding : MonoBehaviour
     {
-        private NodeGrid nodeGrid;
+        private NodeGrid _nodeGrid;
 
         private const int MOVE_STRAIGHT_COST = 10;
         private const int MOVE_DIAGONAL_COST = 14;
 
         public void Setup(NodeGrid nodeGrid)
         {
-            this.nodeGrid = nodeGrid;
+            this._nodeGrid = nodeGrid;
         }
 
         public List<Node> FindPath(Vector3 startWorldPos, Vector3 endWorldPos)
         {
-            nodeGrid.GetXZ(startWorldPos, out int startX, out int startZ);
-            nodeGrid.GetXZ(endWorldPos, out int endX, out int endZ);
+            _nodeGrid.GetXZ(startWorldPos, out int startX, out int startZ);
+            _nodeGrid.GetXZ(endWorldPos, out int endX, out int endZ);
 
-            Node startNode = nodeGrid.GetNode(startX, startZ);
-            Node endNode = nodeGrid.GetNode(endX, endZ);
+            Node startNode = _nodeGrid.GetNode(startX, startZ);
+            Node endNode = _nodeGrid.GetNode(endX, endZ);
 
             if (!startNode || !endNode || !startNode.isWalkable || !endNode.isWalkable)
             {
@@ -31,7 +31,7 @@ namespace AI.General
             List<Node> openList = new List<Node> { startNode };
             HashSet<Node> closedList = new HashSet<Node>();
 
-            foreach (Node node in nodeGrid.GetAllNodes())
+            foreach (Node node in _nodeGrid.GetAllNodes())
             {
                 node.gScore = float.MaxValue;
                 node.hScore = 0;
@@ -52,7 +52,7 @@ namespace AI.General
                 openList.Remove(currentNode);
                 closedList.Add(currentNode);
 
-                foreach (Node neighbour in nodeGrid.GetNeighbours(currentNode))
+                foreach (Node neighbour in _nodeGrid.GetNeighbours(currentNode))
                 {
                     if (!neighbour.isWalkable || closedList.Contains(neighbour)) continue;
 
@@ -82,9 +82,9 @@ namespace AI.General
 
             while (currentNode.cameFromIndex != -1)
             {
-                int x = currentNode.cameFromIndex % nodeGrid.Width;
-                int z = currentNode.cameFromIndex / nodeGrid.Width;
-                currentNode = nodeGrid.GetNode(x, z);
+                int x = currentNode.cameFromIndex % _nodeGrid.Width;
+                int z = currentNode.cameFromIndex / _nodeGrid.Width;
+                currentNode = _nodeGrid.GetNode(x, z);
                 path.Add(currentNode);
             }
 

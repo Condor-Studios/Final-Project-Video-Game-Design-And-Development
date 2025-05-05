@@ -1,10 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Visceral_Limbo.Assets.ScriptableObjects.Abilities.Player_Abilities.Basic;
 
-
-[CreateAssetMenu(menuName = "Visceral_Limbo/Combat Data/SkillLoadout/SkillLoadoutSO")]
-public class VisceralSkillLoadout : ScriptableObject
+namespace Visceral_Limbo.Assets.ScriptableObjects.Abilities.Player_Abilities.Skill_Loadouts
 {
-    public List<Visceral_AbilitySO> Skill_Loadout = new();
+    [CreateAssetMenu(menuName = "Visceral_Limbo/Combat Data/SkillLoadout/SkillLoadoutSO")]
+    public class VisceralSkillLoadout : ScriptableObject
+    {
+        public List<Visceral_AbilitySO> Skill_Loadout = new();
+    }
 }

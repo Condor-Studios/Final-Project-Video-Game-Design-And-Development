@@ -26,8 +26,17 @@ namespace AI.Enemies.Chaser.States
 
         public void OnUpdate()
         {
+            if (!agent.TargetNode && agent.Grid.generated)
+            {
+                agent.GetRandomTargetNode();
+            }
+            agent.DetectPlayer();
             timer += Time.deltaTime;
-            if (timer >= idleDuration)
+            if (agent.PlayerTarget)
+            {
+                agent.ChangeState(ChaserAgent.StateType.Chase);
+            }
+            if (timer >= idleDuration && agent.TargetNode)
             {
                 agent.ChangeState(ChaserAgent.StateType.Roam);
             }

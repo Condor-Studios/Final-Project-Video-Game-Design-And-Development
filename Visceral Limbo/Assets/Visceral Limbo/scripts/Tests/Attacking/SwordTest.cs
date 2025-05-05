@@ -1,40 +1,39 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
+using Visceral_Limbo.scripts.Base_Classes;
 
-public class SwordTest : Visceral_WeaponBase
+namespace Visceral_Limbo.scripts.Tests.Attacking
 {
-    public override void Attacking()
+    public class SwordTest : Visceral_WeaponBase
     {
-        EnableWeaponCollision();
-        StartAttack?.Invoke();
-    }
-
-    public override void StopAttacking()
-    {
-        DisableWeaponCollision();
-        EndAttack?.Invoke();
-    }
-
-    protected override void DisableWeaponCollision()
-    {
-
-        foreach (var Item in _WeaponColliders)
+        public override void Attacking()
         {
-            Item.Activate(false);
-            Item.UpdateValues(Damage, KnockBack);
-        }
-    }
-
-    protected override void EnableWeaponCollision()
-    {
-        foreach (var Item in _WeaponColliders)
-        {
-            Item.Activate(true);
-            Item.UpdateValues(Damage, KnockBack);
+            EnableWeaponCollision();
+            StartAttack?.Invoke();
         }
 
+        public override void StopAttacking()
+        {
+            DisableWeaponCollision();
+            EndAttack?.Invoke();
+        }
+
+        protected override void DisableWeaponCollision()
+        {
+
+            foreach (var Item in _WeaponColliders)
+            {
+                Item.Activate(false);
+                Item.UpdateValues(Damage, KnockBack);
+            }
+        }
+
+        protected override void EnableWeaponCollision()
+        {
+            foreach (var Item in _WeaponColliders)
+            {
+                Item.Activate(true);
+                Item.UpdateValues(Damage, KnockBack);
+            }
+
+        }
     }
 }

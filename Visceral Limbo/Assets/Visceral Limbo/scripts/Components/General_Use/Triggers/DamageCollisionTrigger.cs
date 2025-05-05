@@ -1,36 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Visceral_Limbo.scripts.Components.General_Use.Entities;
 
-public class DamageCollisionTrigger : MonoBehaviour
+namespace Visceral_Limbo.scripts.Components.General_Use.Triggers
 {
-    [SerializeField]Collider _Collider;
-    float Damage, KnockBack;
-    bool CanDealDamage;
+    public class DamageCollisionTrigger : MonoBehaviour
+    {
+        [SerializeField]Collider _Collider;
+        float Damage, KnockBack;
+        bool CanDealDamage;
 
-    private void Start()
-    {
-        _Collider= GetComponent<Collider>();
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("trigger!!");
-        if (other.TryGetComponent(out Health_Component HPComp) && CanDealDamage)
+        private void Start()
         {
-            var dir = (other.transform.position - this.transform.position).normalized;
-            HPComp.TakeDamageWithKnockback(Damage, dir, KnockBack);
+            _Collider= GetComponent<Collider>();
         }
-    }
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("trigger!!");
+            if (other.TryGetComponent(out Health_Component HPComp) && CanDealDamage)
+            {
+                var dir = (other.transform.position - this.transform.position).normalized;
+                HPComp.TakeDamageWithKnockback(Damage, dir, KnockBack);
+            }
+        }
 
-    public void UpdateValues(float NDamage,float NKnockBack)
-    {
-        Damage = NDamage;
-        KnockBack = NKnockBack;
-    }
+        public void UpdateValues(float NDamage,float NKnockBack)
+        {
+            Damage = NDamage;
+            KnockBack = NKnockBack;
+        }
 
-    public void Activate(bool NewValue)
-    {
-        CanDealDamage = NewValue;
-        _Collider.enabled = true;
+        public void Activate(bool NewValue)
+        {
+            CanDealDamage = NewValue;
+            _Collider.enabled = true;
+        }
     }
 }

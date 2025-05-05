@@ -7,41 +7,41 @@ namespace AI.Enemies.Chaser.States
 {
     public class AttackState : IState
     {
-        private ChaserAgent agent;
-        private float attackCooldownTimer;
+        private readonly ChaserAgent _agent;
+        private float _attackCooldownTimer;
 
         public AttackState(ChaserAgent agent)
         {
-            this.agent = agent;
+            this._agent = agent;
         }
 
         public void OnEnter()
         {
-            agent.StopMovement();
-            attackCooldownTimer = 0f;
+            _agent.StopMovement();
+            _attackCooldownTimer = 0f;
         }
 
         public void OnUpdate()
         {
-            if (!agent.CanSeePlayer())
+            if (!_agent.CanSeePlayer())
             {
-                agent.ChangeState(ChaserAgent.StateType.Roam);
+                _agent.ChangeState(ChaserAgent.StateType.Roam);
                 return;
             }
 
-            float distanceToPlayer = Vector3.Distance(agent.transform.position, agent.PlayerTarget.transform.position);
-            if (distanceToPlayer > agent.attackRange)
+            float distanceToPlayer = Vector3.Distance(_agent.transform.position, _agent.PlayerTarget.transform.position);
+            if (distanceToPlayer > _agent.attackRange)
             {
-                agent.ChangeState(ChaserAgent.StateType.Chase);
+                _agent.ChangeState(ChaserAgent.StateType.Chase);
                 return;
             }
 
-            attackCooldownTimer -= Time.deltaTime;
+            _attackCooldownTimer -= Time.deltaTime;
 
-            if (attackCooldownTimer <= 0f)
+            if (_attackCooldownTimer <= 0f)
             {
-                agent.PlayerEntity.TakeDamage(agent.attackDamage);
-                attackCooldownTimer = agent.attackInterval;
+                _agent.PlayerEntity.TakeDamage(_agent.attackDamage);
+                _attackCooldownTimer = _agent.attackInterval;
             }
         }
 

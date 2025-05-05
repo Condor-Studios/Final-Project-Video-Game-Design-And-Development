@@ -8,12 +8,10 @@ namespace AI.Enemies.Chaser.States
     public class ChaseState : IState
     {
         private ChaserAgent agent;
-        private Transform target;
 
-        public ChaseState(ChaserAgent agent, Transform target)
+        public ChaseState(ChaserAgent agent)
         {
             this.agent = agent;
-            this.target = target;
         }
 
         public void OnEnter()
@@ -31,7 +29,7 @@ namespace AI.Enemies.Chaser.States
             }
             else
             {
-                MoveTowardsTargetWithVision(target);
+                MoveTowardsTargetWithVision(agent.PlayerTarget.transform);
             }
         }
 

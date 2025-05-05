@@ -48,6 +48,7 @@ namespace Common.Entities
                 isAlive = false;
                 // Handle death logic here (e.g., play animation, remove from game, etc.)
                 Debug.Log($"{gameObject.name} has died.");
+                Destroy(this.gameObject);
         }
 
         public void TakeDamage(int damage)
