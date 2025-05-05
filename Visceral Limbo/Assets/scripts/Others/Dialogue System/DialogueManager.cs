@@ -95,10 +95,9 @@ public class DialogueManager : Visceral_Script
     {
         OptionsPanel.SetActive(true);
 
-        //Hecho por Lucas - Where / To List
-        var validoptions = options.Where(o => !string.IsNullOrEmpty(o.TextReply)).ToList();
+        var validoptions = options.Where(o => !string.IsNullOrEmpty(o.TextReply)).ToList(); //Hecho por Lucas - Where y ToList
 
-        foreach(var Option in validoptions)
+        foreach (var Option in validoptions)
         {
             GameObject ButtonOBJ = Instantiate(OptionButtonPrefab, OptionsPanel.transform);
             TMP_Text ButtonText = ButtonOBJ.GetComponentInChildren<TMP_Text>();
