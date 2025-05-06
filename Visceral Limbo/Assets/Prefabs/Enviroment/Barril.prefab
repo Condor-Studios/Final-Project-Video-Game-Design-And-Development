@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.0002, y: 0.0006, z: 0}
-  m_LocalScale: {x: 3.0442603, y: 3.0442603, z: 3.0442603}
+  m_LocalScale: {x: 0.1515252, y: 0.1515252, z: 0.1515252}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5930425071783364572}
@@ -4917,7 +4917,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.0002, y: 0.0006, z: 0}
-  m_LocalScale: {x: 3.0442603, y: 3.0442603, z: 3.0442603}
+  m_LocalScale: {x: 0.2192811, y: 0.2192811, z: 0.2192811}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5930425071783364572}
@@ -9806,7 +9806,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.0002, y: 0.0006, z: 0}
-  m_LocalScale: {x: 3.0442603, y: 3.0442603, z: 3.0442603}
+  m_LocalScale: {x: 0.10690454, y: 0.10690454, z: 0.10690454}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5930425071783364572}
@@ -14678,17 +14678,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 41eee88bc85cdb34c8eb5828c6c133b1,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 63.542706
+      value: 109.9185
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 41eee88bc85cdb34c8eb5828c6c133b1,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 63.542706
+      value: 109.9185
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 41eee88bc85cdb34c8eb5828c6c133b1,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 63.542706
+      value: 109.9185
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 41eee88bc85cdb34c8eb5828c6c133b1,
         type: 3}
@@ -14807,9 +14807,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87132bd03b441540ad1fc729ee3f049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionRadius: 100
+  explosionRadius: 10
   damage: 100
-  knockbackForce: 100
+  knockbackForce: 10
   targetLayer:
     serializedVersion: 2
     m_Bits: 65
@@ -14833,6 +14833,8 @@ MonoBehaviour:
   MaxHealth: 1
   _RB: {fileID: 3568182296298995347}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 0}
 --- !u!54 &3568182296298995347
 Rigidbody:
