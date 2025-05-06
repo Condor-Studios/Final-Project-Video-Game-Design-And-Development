@@ -6,13 +6,13 @@ public class RoomEnterTrigger : MonoBehaviour
 {
 
     [SerializeField]GameObject SolidCollider;
-    RoomSpawnerManager roomSpawnerManager;
+    [SerializeField]RoomSpawnerManager roomSpawnerManager;
     [SerializeField] bool IsSolid;
 
 
     void Start()
     {
-        roomSpawnerManager= GetComponentInParent<RoomSpawnerManager>();
+        roomSpawnerManager= transform.root.GetComponentInChildren<RoomSpawnerManager>();
         SolidCollider.SetActive(false);
 
     }
@@ -21,7 +21,7 @@ public class RoomEnterTrigger : MonoBehaviour
     {
         var Contex = other.GetComponentInParent<PlayerContext>();
 
-        if (Contex.faction == FactionID.Player)
+        if (Contex.faction == FactionID.Player && roomSpawnerManager != null)
         {
                 roomSpawnerManager.AssignPlayerContext(Contex);
                 roomSpawnerManager.NotifyMinionDeath();

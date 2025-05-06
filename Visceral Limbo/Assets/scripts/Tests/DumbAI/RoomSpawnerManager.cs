@@ -43,7 +43,8 @@ public class RoomSpawnerManager : MonoBehaviour
             }
             foreach(var item in roomTriggers)
             {
-                item.SetSolidState(true);
+                if (item == null) continue;
+                item?.SetSolidState(true);
             }
         }
 
