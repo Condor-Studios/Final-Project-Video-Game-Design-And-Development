@@ -53,7 +53,7 @@ namespace AI.General
             _rb = GetComponent<Rigidbody>();
         }
 
-        protected void Start()
+        protected override void Start()
         {
             pathfinding.Setup(grid);
         }

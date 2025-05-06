@@ -26,7 +26,7 @@ namespace Common.Entities.Entities
             }
         }
         
-        private void Start()
+        protected virtual void Start()
         {
             _activeBuffs.Start();
         }
@@ -96,7 +96,6 @@ namespace Common.Entities.Entities
                 Health += amount;
                 Debug.Log($"{gameObject.name} has been healed by {amount} hp.");
                 // Handle healing logic here (e.g., play animation, etc.)
-                return;
             }
         }
         

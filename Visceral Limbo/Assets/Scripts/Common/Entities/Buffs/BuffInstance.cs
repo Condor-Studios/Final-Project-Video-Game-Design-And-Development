@@ -18,35 +18,47 @@ namespace Common.Entities.Buffs
             this.Buff = buff;
             this.entity = entity;
             this.timeRemaining = buff.duration;
+
+            Start();
         }
 
         public void Awake()
         {
+            // No removal should happen here. Just validation if needed.
             if (!Buff.isStackable && entity.CheckIfBuffActive(this))
             {
-                Buff.Remove(entity);
-                Debug.Log($"[BuffInstance] Buff '{Buff.buffName}' has already been applied on Entity and is not stackable. '{entity.gameObject.name}'. Removing buff.");
+                Debug.Log($"[BuffInstance] Warning: Buff '{Buff.buffName}' is already active on '{entity.gameObject.name}' and is not stackable.");
             }
         }
 
         public void Start()
         {
-            //Here we check if the buff is already applied, if so, we don't apply it again.
-            //Also, if the buff is delta, then the effects of the buff will be applied on each tick, else it will be applied once.
             if (applied) return;
+
             applied = true;
-            if (Buff.isDelta) return;
-            Buff.Apply(entity);
-            tickInterval = Mathf.Infinity;
-            Debug.Log($"[BuffInstance] Started Buff '{Buff.buffName}' on Entity '{entity.gameObject.name}'.");
+
+            if (Buff.isDelta)
+            {
+                tickInterval = 1f;
+                tickTimer = 0f; // Reset ticking
+                Debug.Log($"[BuffInstance] Started TICKING Buff '{Buff.buffName}' on Entity '{entity.gameObject.name}'.");
+            }
+            else
+            {
+                Buff.Apply(entity);
+                tickInterval = Mathf.Infinity; // No further ticks needed
+                Debug.Log($"[BuffInstance] Started INSTANT Buff '{Buff.buffName}' on Entity '{entity.gameObject.name}', applied immediately.");
+            }
         }
 
         public void Update(float deltaTime)
         {
+            if (Buff == null || entity == null) return;
+
             timeRemaining -= deltaTime;
             tickTimer += deltaTime;
 
-            if (tickTimer >= tickInterval && !IsExpired())
+            if (Buff.isDelta && tickTimer >= tickInterval && !IsExpired())
             {
                 tickTimer = 0f;
                 Debug.Log($"[BuffInstance] Ticking Buff '{Buff.buffName}' on Entity '{entity.gameObject.name}'. Time remaining: {timeRemaining:F2}s");

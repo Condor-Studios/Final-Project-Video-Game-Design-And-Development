@@ -12,6 +12,27 @@ namespace Common
 
         public void Enqueue(BuffInstance item)
         {
+            if (item == null || item.Buff == null)
+                return;
+
+            if (_heap.Count >= 20)
+            {
+                Debug.LogWarning($"[PriorityQueue] Cannot add '{item.Buff.buffName}'. Maximum number of buffs (20) reached.");
+                return;
+            }
+
+            if (!item.Buff.isStackable)
+            {
+                foreach (var existing in _heap)
+                {
+                    if (existing.Buff == item.Buff)
+                    {
+                        Debug.Log($"[PriorityQueue] Buff '{item.Buff.buffName}' already active and is not stackable. Skipping enqueue.");
+                        return; // Prevent adding if a non-stackable buff is already present
+                    }
+                }
+            }
+
             _heap.Add(item);
             HeapifyUp(_heap.Count - 1);
         }
@@ -60,9 +81,11 @@ namespace Common
             Debug.Log($"[PriorityQueue] Updating {_heap.Count} buffs.");
             for (var i = _heap.Count - 1; i >= 0; i--)
             {
+                Debug.Log($"[PriorityQueue] Updating BuffInstance {i}: {_heap[i].Buff.buffName}");
                 _heap[i].Update(deltaTime);
                 if (_heap[i].IsExpired())
                 {
+                    Debug.Log($"[PriorityQueue] BuffInstance {i} ({_heap[i].Buff.buffName}) expired. Removing.");
                     RemoveAt(i);
                 }
             }

@@ -21,15 +21,32 @@ namespace Common.Entities.Buffs
 
         public void Apply(Entity entity)
         {
-            if (isDebuff)
+            if (isDelta)
             {
-                entity.TakeDamage(Mathf.Abs(healthModifier));
-                Debug.Log($"[Buff] Applied DEBUFF '{buffName}' to '{entity.gameObject.name}', dealing {Mathf.Abs(healthModifier)} damage.");
+                if (isDebuff)
+                {
+                    entity.TakeDamage(Mathf.Abs(healthModifier));
+                    Debug.Log($"[Buff] Applied TICKING DEBUFF '{buffName}' to '{entity.gameObject.name}', dealing {Mathf.Abs(healthModifier)} damage.");
+                }
+                else
+                {
+                    entity.Heal(healthModifier);
+                    Debug.Log($"[Buff] Applied TICKING BUFF '{buffName}' to '{entity.gameObject.name}', healing {healthModifier} health.");
+                }
             }
             else
             {
-                entity.Heal(healthModifier);
-                Debug.Log($"[Buff] Applied BUFF '{buffName}' to '{entity.gameObject.name}', healing {healthModifier} health.");
+                // For non-delta buffs, only apply effects immediately, expected once.
+                if (isDebuff)
+                {
+                    entity.TakeDamage(Mathf.Abs(healthModifier));
+                    Debug.Log($"[Buff] Applied INSTANT DEBUFF '{buffName}' to '{entity.gameObject.name}', dealing {Mathf.Abs(healthModifier)} damage.");
+                }
+                else
+                {
+                    entity.Heal(healthModifier);
+                    Debug.Log($"[Buff] Applied INSTANT BUFF '{buffName}' to '{entity.gameObject.name}', healing {healthModifier} health.");
+                }
             }
         }
 
