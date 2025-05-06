@@ -4,7 +4,6 @@ using UnityEngine;
 using AI.FSM;
 using AI.Enemies.Chaser.States;
 using AI.General;
-using Common.Entities;
 
 namespace AI.Enemies.Chaser
 {
@@ -28,6 +27,7 @@ namespace AI.Enemies.Chaser
         private void Start()
         {
             base.Awake();
+            base.Start();
 
             var states = new Dictionary<Enum, IState>
             {
@@ -48,21 +48,6 @@ namespace AI.Enemies.Chaser
         public void ChangeState(StateType newState)
         {
             stateMachine.ChangeState(newState);
-        }
-
-        public void IncreaseLostPlayerTimer()
-        {
-            lostPlayerTimer += Time.deltaTime;
-        }
-
-        public void ResetLostPlayerTimer()
-        {
-            lostPlayerTimer = 0f;
-        }
-
-        public bool HasLostPlayerForTooLong()
-        {
-            return lostPlayerTimer >= maxLostPlayerTime;
         }
     }
 }

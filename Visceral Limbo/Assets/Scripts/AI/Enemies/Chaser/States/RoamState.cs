@@ -37,7 +37,7 @@ namespace AI.Enemies.Chaser.States
         private void MoveTowardsTarget()
         {
             agent.LookAt(agent.TargetNode.transform.position);;
-            agent.MoveTowards(agent.TargetNode.transform.position);
+            agent.MoveTowards(agent.TargetNode);
         }
 
         public void OnExit()

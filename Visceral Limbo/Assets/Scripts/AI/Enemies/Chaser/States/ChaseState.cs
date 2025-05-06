@@ -45,9 +45,10 @@ namespace AI.Enemies.Chaser.States
             Ray ray = new Ray(agent.transform.position + Vector3.up * 0.5f, direction.normalized);
             if (Physics.Raycast(ray, out RaycastHit hit, distance, agent.playerLayer))
             {
+                    Node playerNode = agent.Grid.GetNearestWalkableNode(hit.point);
                     // Lo ve directamente: moverse directo y mirar
                     agent.LookAt(target.position);
-                    agent.MoveTowards(target.position);
+                    agent.MoveTowards(playerNode);
             }
             else
             {

@@ -1,7 +1,11 @@
 // Agent.cs
 
+using System;
+using System.Collections.Generic;
 using Common.Entities;
+using Common.Entities.Entities;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace AI.General
 {
@@ -31,6 +35,10 @@ namespace AI.General
         [SerializeField] protected Pathfinding pathfinding;
         protected Node targetNode;
         protected Agent agent;
+        public Transform target;
+        public LayerMask obstacleLayer;
+        private List<Node> path;
+        private int targetIndex;
 
         public NodeGrid Grid => grid;
         public Pathfinding Pathfinding => pathfinding;
@@ -38,16 +46,107 @@ namespace AI.General
         public Transform PlayerTarget => playerTarget;
         public Entity PlayerEntity => playerEntity;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             agent = this;
             _rb = GetComponent<Rigidbody>();
         }
 
-        public virtual void MoveTowards(Vector3 targetPosition)
+        protected void Start()
         {
-            var direction = (targetPosition - transform.position).normalized;
+            pathfinding.Setup(grid);
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            TestMovement();
+
+            if (path != null && path.Count > 0)
+            {
+                MoveAlongPath();
+            }
+        }
+        
+        
+        protected virtual void TestMovement()
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                targetNode = grid.GetCurrentSelectedNode();
+                if (targetNode != null)
+                {
+                    MoveTowards(targetNode);
+                    Debug.Log("Has line of Sight: " + HasLineOfSight(targetNode));
+                }
+            }
+        }
+        
+
+        public virtual void MoveTowards(Node targetNode)
+        {
+            if (targetNode == null) return;
+
+            if (HasLineOfSight(targetNode))
+            {
+                MoveDirect(targetNode.transform.position);
+            }
+            else
+            {
+                RequestPath(targetNode);
+            }
+        }
+
+        protected virtual void MoveDirect(Vector3 targetPosition)
+        {
+            Vector3 direction = (targetPosition - transform.position).normalized;
             _rb.MovePosition(transform.position + direction * (moveSpeed * Time.deltaTime));
+            LookAt(targetPosition);
+        }
+
+        protected virtual void RequestPath(Node targetNode)
+        {
+            if (pathfinding == null || targetNode == null) return;
+            path = pathfinding.FindPath(transform.position, targetNode.transform.position);
+            targetIndex = 0;
+        }
+
+        protected virtual void MoveAlongPath()
+        {
+            if (path == null || targetIndex >= path.Count) return;
+
+            Vector3 currentWaypoint = path[targetIndex].transform.position;
+            if (HasReachedDestination(currentWaypoint))
+            {
+                targetIndex++;
+            }
+
+            if (targetIndex < path.Count)
+            {
+                Vector3 direction = (currentWaypoint - transform.position).normalized;
+                _rb.MovePosition(transform.position + direction * (moveSpeed * Time.deltaTime));
+                LookAt(currentWaypoint);
+            }
+        }
+
+        protected virtual bool HasLineOfSight(Node targetNode)
+        {
+            if (!targetNode) return false;
+
+            Vector3 direction = (targetNode.transform.position - transform.position).normalized;
+            float distance = Vector3.Distance(transform.position, targetNode.transform.position);
+
+            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, distance, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide))
+            {
+                // Si el hit NO es el targetNode, es porque hay algo bloqueando
+                if (hit.collider != null && hit.collider.transform != targetNode.transform)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public virtual void LookAt(Vector3 targetPosition)
@@ -83,8 +182,15 @@ namespace AI.General
 
             if (targetNode && targetNode.isWalkable)
             {
-                targetNode.TrySetAsTarget();
-                Debug.Log("Target acquired: " + targetNode.transform.position);
+                if (targetNode.TrySetAsTarget())
+                {
+                    Debug.Log("Target acquired: " + targetNode.transform.position);
+                }
+                else
+                {
+                 GetRandomTargetNode();   
+                }
+                
             }
             else
             {

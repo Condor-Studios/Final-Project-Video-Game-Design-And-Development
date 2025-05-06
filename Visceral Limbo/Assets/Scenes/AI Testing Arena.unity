@@ -423,6 +423,7 @@ MonoBehaviour:
   nodePrefab: {fileID: 723153810570488076, guid: d0cb7427e6f3e0940996072109cdb05e,
     type: 3}
   cellSize: 2.35
+  currentSelectedNode: {fileID: 0}
   debug: 1
   generated: 0
 --- !u!1001 &244483587
@@ -437,21 +438,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Centre Cube
       objectReference: {fileID: 0}
-    - target: {fileID: 1365698620575316, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4261933636434198, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 4261933636434198, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4261933636434198, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 8
+      value: 14.1
       objectReference: {fileID: 0}
     - target: {fileID: 4261933636434198, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -459,7 +448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4261933636434198, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.51
+      value: 2.74
       objectReference: {fileID: 0}
     - target: {fileID: 4261933636434198, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -526,7 +515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4261933636434198, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 8
+      value: 14.1
       objectReference: {fileID: 0}
     - target: {fileID: 4261933636434198, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
       propertyPath: m_LocalScale.z
@@ -538,7 +527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4261933636434198, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.6
+      value: 2.7
       objectReference: {fileID: 0}
     - target: {fileID: 4261933636434198, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -572,6 +561,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 65314468679415850, guid: 20b83b6c7039f5d47beac9ffafe09d6e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -601,7 +595,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1365698620575316, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1365698620575316, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
       propertyPath: m_TagString
@@ -664,8 +658,7 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 49ffb54d374d84172b3be048526389da, type: 2}
-    m_RemovedComponents:
-    - {fileID: 65221493401946458, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1074,12 +1067,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459619017}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d4a540fe24c04e4d9c45294e97c7619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 5
   maxHealth: 10
 --- !u!1 &1493633495
 GameObject:
@@ -1486,17 +1479,17 @@ PrefabInstance:
     - target: {fileID: 1489878496788334027, guid: c9b37eb471cfbfe4b8e7d2c83992eee4,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1489878496788334027, guid: c9b37eb471cfbfe4b8e7d2c83992eee4,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1489878496788334027, guid: c9b37eb471cfbfe4b8e7d2c83992eee4,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1489878496788334027, guid: c9b37eb471cfbfe4b8e7d2c83992eee4,
         type: 3}
@@ -1759,12 +1752,22 @@ PrefabInstance:
     - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
         type: 3}
       propertyPath: prompt
+      value: "modifica el script de Agent para modificar la funci\xF3n MoveTowards
+        que use el pathfinding para encontrar un camino y seguirlo cuando el nodo
+        targetNode no sea directamente visible por el agente, trazando un rayo entre
+        el nodo y el agente que no golpee ning\xFAn obst\xE1culo ni al player, chequeando
+        por las layers correspondientes usando LayerMask. Si no hay obst\xE1culos
+        que se mueva normalmente."
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
+        type: 3}
+      propertyPath: response
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
         type: 3}
       propertyPath: maxTokens
-      value: 256
+      value: 2048
       objectReference: {fileID: 0}
     - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
         type: 3}
@@ -1784,18 +1787,17 @@ PrefabInstance:
     - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
         type: 3}
       propertyPath: estimatedPromptCost
-      value: 0.0003795
+      value: 0.000483
       objectReference: {fileID: 0}
     - target: {fileID: 8542981689806863343, guid: 475e0b84f547345cbaf752a5fc78bdab,
         type: 3}
       propertyPath: generatedContextPreview
       value: "Project Context Overview:\n\n- Class: ChaserAgent\n    - Method: ChangeState(StateType
-        newState)\n    - Method: IncreaseLostPlayerTimer()\n    - Method: ResetLostPlayerTimer()\n   
-        - Method: HasLostPlayerForTooLong()\n\n- Class: Entity\n    - Method: TakeDamage(Int32
-        damage)\n    - Property: Int32 Health\n    - Property: Int32 MaxHealth\n   
-        - Property: Boolean IsAlive\n\n- Class: NodeGrid\n    - Method: GetNode(Int32
-        x, Int32 z)\n    - Method: GetNodeFromWorldPosition(Vector3 worldPosition)\n   
-        - Method: GetNearestWalkableNode(Vector3 worldPosition)\n    - Method: GetAllNodes()\n   
+        newState)\n\n- Class: Entity\n    - Method: TakeDamage(Int32 damage)\n   
+        - Property: Int32 Health\n    - Property: Int32 MaxHealth\n    - Property:
+        Boolean IsAlive\n\n- Class: NodeGrid\n    - Method: GetNode(Int32 x, Int32
+        z)\n    - Method: GetNodeFromWorldPosition(Vector3 worldPosition)\n    -
+        Method: GetNearestWalkableNode(Vector3 worldPosition)\n    - Method: GetAllNodes()\n   
         - Method: GetNeighbours(Node node)\n    - Method: GetXZ(Vector3 worldPosition,
         Int32& x, Int32& z)\n    - Method: Setup(Node[,] nodes)\n    - Property:
         Int32 Width\n    - Property: Int32 Height\n\n- Class: Node\n    - Method:
@@ -1946,13 +1948,31 @@ PrefabInstance:
       objectReference: {fileID: 234762372}
     - target: {fileID: 4848188171090466572, guid: 31ab4d204474d4dbab6660bf9b1daff7,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848188171090466572, guid: 31ab4d204474d4dbab6660bf9b1daff7,
+        type: 3}
       propertyPath: pathfinding
       value: 
       objectReference: {fileID: 1167883299}
+    - target: {fileID: 4848188171090466572, guid: 31ab4d204474d4dbab6660bf9b1daff7,
+        type: 3}
+      propertyPath: obstacleLayer.m_Bits
+      value: 192
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 801075558882087643, guid: 31ab4d204474d4dbab6660bf9b1daff7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8534510905530631332}
+    - targetCorrespondingSourceObject: {fileID: 801075558882087643, guid: 31ab4d204474d4dbab6660bf9b1daff7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8534510905530631333}
   m_SourcePrefab: {fileID: 100100000, guid: 31ab4d204474d4dbab6660bf9b1daff7, type: 3}
 --- !u!1 &8534510905530631328 stripped
 GameObject:
@@ -1960,6 +1980,63 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8534510905530631327}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &8534510905530631330 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 3575122927621839838, guid: 31ab4d204474d4dbab6660bf9b1daff7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8534510905530631327}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8534510905530631332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8534510905530631328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb2af602ce33460281747de4f4621c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  maxHealth: 10
+  moveSpeed: 15
+  rotationSpeed: 2.5
+  idleDuration: 3
+  roamRange: 25
+  visionRange: 20
+  visionAngle: 60
+  attackRange: 10
+  attackInterval: 3
+  attackDamage: 1
+  _rb: {fileID: 8534510905530631330}
+  playerTarget: {fileID: 0}
+  playerEntity: {fileID: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  TargetMaterial: {fileID: 2100000, guid: 7ec00d450f223574db8698c849a68a5d, type: 2}
+  grid: {fileID: 234762372}
+  pathfinding: {fileID: 1167883299}
+  target: {fileID: 0}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 192
+--- !u!114 &8534510905530631333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8534510905530631328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d11d0a77059f4f3fbc75a2a67a44bf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeBuffs:
+  - {fileID: 11400000, guid: 0e027900d3bb24bac89f208f0c367671, type: 2}
+  _entity: {fileID: 8534510905530631332}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

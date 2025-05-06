@@ -11,6 +11,7 @@ namespace AI.General
         [SerializeField]
         private float cellSize;
         private Node[,] _gridArray;
+        public Node currentSelectedNode;
 
         [Tooltip("Si está en true, los nodos se muestran; si está en false, quedan ocultos.")]
         public bool debug;
@@ -84,7 +85,7 @@ namespace AI.General
 
         private void GenerateGrid()
         {
-            var offsetVector = new Vector3(-46f, 0f, -46f); // Ajusta si cambias el origen
+            var offsetVector = new Vector3(-46f, 1f, -46f); // Ajusta si cambias el origen
 
             _gridArray = new Node[_width, _height];
 
@@ -117,6 +118,19 @@ namespace AI.General
                     currentNode.nodes = GetNeighbours(currentNode);
                 }
             }
+        }
+        
+        public Node GetCurrentSelectedNode()
+        {
+            foreach (var node in _gridArray)
+            {
+               if (node.isTargetNode)
+               {
+                   return node;
+               }
+            }
+            Debug.Log("No hay nodo seleccionado");
+            return null;
         }
 
         public Node GetNode(int x, int z)

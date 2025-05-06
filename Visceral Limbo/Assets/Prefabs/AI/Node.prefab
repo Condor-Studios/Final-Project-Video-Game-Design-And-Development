@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 4863576961314683114}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7474117797273627963}
@@ -53,8 +53,8 @@ MonoBehaviour:
   index: 0
   gScore: 0
   hScore: 0
-  colliderRadius: 0.7
-  debug: 0
+  colliderRadius: 0.3
+  isTextVisible: 0
   isWalkable: 1
   isTargetNode: 0
   cameFromIndex: 0
@@ -186,7 +186,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.21645242
   m_Center: {x: 0.010366619, y: 0, z: 0}

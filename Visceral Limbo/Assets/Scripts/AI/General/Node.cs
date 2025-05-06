@@ -41,6 +41,13 @@ namespace AI.General
             DisplayFCost();
             DisplayText(isTextVisible);
         }
+        
+        private void Update()
+        {
+            AutoDetermineWalkability(obstacleLayer);
+        }
+        
+        
 
         private void SetIsWalkable(bool isWalkable)
         {
