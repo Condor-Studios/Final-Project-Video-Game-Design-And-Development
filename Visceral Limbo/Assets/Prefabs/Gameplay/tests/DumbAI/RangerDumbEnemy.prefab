@@ -320,6 +320,7 @@ MonoBehaviour:
   MaxHealth: 20
   _RB: {fileID: 5174454819481349312}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 1
   _Context: {fileID: 6391686214790365868}
 --- !u!1 &7785808662394130545
 GameObject:

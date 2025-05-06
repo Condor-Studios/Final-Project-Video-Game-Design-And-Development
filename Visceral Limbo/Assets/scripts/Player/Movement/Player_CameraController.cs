@@ -30,9 +30,9 @@ public class Player_CameraController : Visceral_Script
         transform.position = _CameraAnchor.position;
         transform.eulerAngles = _EulerAngles = _CameraAnchor.eulerAngles; //doble set
 
-        _Base = GetComponentInParent<Player_Base>();
-        var _health = _Base.GetComponentInChildren<Health_Component>();
-        _health.OnDeath += DetachParent;
+        //_Base = GetComponentInParent<Player_Base>();
+        //var _health = _Base.GetComponentInChildren<Health_Component>();
+        //_health.OnDeath += DetachParent;
 
     }
     /// <summary>

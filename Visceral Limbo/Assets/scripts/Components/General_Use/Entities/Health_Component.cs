@@ -7,7 +7,7 @@ public class Health_Component : Visceral_Component
 {
     public float CurrentHealth, MaxHealth;
     public Rigidbody _RB;
-    public bool DestroyOnDeath;
+    public bool DestroyOnDeath,DesactivateOnDeath,Died;
     [SerializeField] PlayerContext _Context;
 
 
@@ -25,7 +25,7 @@ public class Health_Component : Visceral_Component
     {
         CurrentHealth -= DamageDT.DamageAmount;
         OnDamaged?.Invoke();
-        if(CurrentHealth <= 0)
+        if(CurrentHealth <= 0 && !Died)
         {
             Death(DamageDT);
         }
@@ -41,7 +41,7 @@ public class Health_Component : Visceral_Component
             //_RB.AddForce(FinalForce, ForceMode.Impulse);
             _Context.KCCMotor.AttachedRigidbody.AddForce(FinalForce, ForceMode.Impulse);
         }
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 && !Died )
         {
             Death(DamageDT);
         }
@@ -51,7 +51,7 @@ public class Health_Component : Visceral_Component
     {
         CurrentHealth -= Damage;
         OnDamaged?.Invoke();
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 && !Died)
         {
             Death();
         }
@@ -68,7 +68,7 @@ public class Health_Component : Visceral_Component
     {
         CurrentHealth -= MyTuple.Item2;
         OnDamaged?.Invoke();
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 && !Died)
         {
             Death();
         }
@@ -79,37 +79,41 @@ public class Health_Component : Visceral_Component
         OnDeath?.Invoke(); 
         var FinalScore = CreateFinalScore(DamageDT);
 
+        Died = true;
         ScoreManager.Instance.ProcessKill(FinalScore);
         if (DestroyOnDeath)
         {
             Destroy(this.gameObject);
             _Context.KCCMotor.CharacterController = null;
         }
-        else
+        else if(DesactivateOnDeath)
         {
             this.gameObject.SetActive(false);
             _Context.PlayerGameObject.SetActive(false);
         }
+
     }
 
     void Death()
     {
         OnDeath?.Invoke();
-
+        Died = true;
         if (DestroyOnDeath)
         {
             Destroy(this.gameObject);
         }
-        else
+        else if(DesactivateOnDeath)
         {
             this.gameObject.SetActive(false);
             _Context.PlayerGameObject.SetActive(false);
         }
+    
     }
 
 
     private DamageScore CreateFinalScore(DamageScore DamageDT)
     {
+        Died = true;
         DamageScore FinalScore = DamageDT;
         if(_Context.KCCMotor.GroundingStatus.IsStableOnGround && !DamageDT.IsAirBorneKill)
         {
