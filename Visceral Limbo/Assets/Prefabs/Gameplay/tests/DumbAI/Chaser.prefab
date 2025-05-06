@@ -302,6 +302,7 @@ MonoBehaviour:
   MaxHealth: 20
   _RB: {fileID: 0}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 1
   _Context: {fileID: 0}
 --- !u!54 &7992021049402438738
 Rigidbody:

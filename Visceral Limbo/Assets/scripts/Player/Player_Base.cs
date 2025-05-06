@@ -19,7 +19,9 @@ public class Player_Base : Visceral_Script
     [SerializeField] private Player_MeleeAttack _MeleeAttack;
     [SerializeField] private Player_ChargedMeleeCombat _ChargedMeleeCombat;
     [SerializeField] private Visceral_SkillManager _SkillManager;
+    [SerializeField] private bool IsAlive = true;
     public PlayerContext _PlayerContext;
+    public Health_Component _PlayerHealth { get; private set; }
     //PlayerInputActions es el mappeo de las acciones de Input del jugador
     //similar al Unreal con su Input Map
     private PlayerInputActions _Player_InputActions;
@@ -36,6 +38,9 @@ public class Player_Base : Visceral_Script
         _SkillManager = GetComponent<Visceral_SkillManager>();
         _MeleeAttack.VS_Initialize();
         _SkillManager.VS_Initialize();
+        IsAlive = true;
+        _PlayerHealth = GetComponentInChildren<Health_Component>();
+        _PlayerHealth.OnDeath += DeathEventFlag;
 
         //creo e inicio Inputs
         _Player_InputActions = new PlayerInputActions();
@@ -46,6 +51,9 @@ public class Player_Base : Visceral_Script
 
     private void Update()
     {
+        if (!IsAlive) return;
+
+
         //inputs del jugador
         var Input = _Player_InputActions.Gameplay;
 
@@ -96,6 +104,7 @@ public class Player_Base : Visceral_Script
         //_MeleeAttack.RunData(movementInput);
         _ChargedMeleeCombat.VS_Runlogic(movementInput);
         ActivateSkills(movementInput);
+
     }
 
 
@@ -123,4 +132,11 @@ public class Player_Base : Visceral_Script
     {
         _Player_InputActions?.Dispose(); // me deshago de inputs porque si no siguen de fondo
     }
+    private void DeathEventFlag()
+    {
+        IsAlive = false;
+        _PlayerHealth.OnDeath -= DeathEventFlag; 
+    }
+
+
 }
