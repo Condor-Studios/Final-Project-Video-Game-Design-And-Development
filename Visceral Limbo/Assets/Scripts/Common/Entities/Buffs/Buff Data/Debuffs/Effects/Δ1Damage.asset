@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 631199866edb34480945e6f67176f90d, type: 3}
-  m_Name: Heal
+  m_Script: {fileID: 11500000, guid: e44b823dc800840048937dc43c7d98e8, type: 3}
+  m_Name: "\u03941Damage"
   m_EditorClassIdentifier: 
-  buffName: Heal
-  duration: 1
-  isDebuff: 0
-  isStackable: 1
-  isDelta: 0
-  healthModifier: 3
-  speedModifier: 0
-  damageModifier: 0
+  effectName: Light Damage Over Time
+  isDelta: 1
+  isDebuff: 1
+  value: 1

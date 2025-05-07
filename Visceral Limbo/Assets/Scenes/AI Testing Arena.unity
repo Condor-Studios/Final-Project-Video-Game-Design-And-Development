@@ -808,6 +808,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatUI
       objectReference: {fileID: 0}
+    - target: {fileID: 1439801141207754827, guid: 9552edf161aae4a6b9ce19fd2dee45a2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2872346310634991379, guid: 9552edf161aae4a6b9ce19fd2dee45a2,
         type: 3}
       propertyPath: m_Pivot.x
@@ -911,12 +916,12 @@ PrefabInstance:
     - target: {fileID: 5703507483788330668, guid: 9552edf161aae4a6b9ce19fd2dee45a2,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5703507483788330668, guid: 9552edf161aae4a6b9ce19fd2dee45a2,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1078,6 +1083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 10
+  debugPriorityQueue: 0
 --- !u!114 &1459619026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1091,7 +1097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeBuffs:
-  - {fileID: 11400000, guid: a4184c949517f43528bd85e4e424ac12, type: 2}
+  - {fileID: 11400000, guid: 0e027900d3bb24bac89f208f0c367671, type: 2}
   _entity: {fileID: 1459619022}
 --- !u!1 &1493633495
 GameObject:
@@ -1487,6 +1493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 10
+  debugPriorityQueue: 0
 --- !u!1001 &1957331988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2024,6 +2031,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 10
+  debugPriorityQueue: 0
   moveSpeed: 15
   rotationSpeed: 2.5
   idleDuration: 3

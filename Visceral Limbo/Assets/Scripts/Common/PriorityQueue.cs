@@ -76,9 +76,9 @@ namespace Common
             }
         }
 
-        public void Update(float deltaTime)
+        public void Update(float deltaTime, bool debug = false)
         {
-            Debug.Log($"[PriorityQueue] Updating {_heap.Count} buffs.");
+            if(debug)Debug.Log($"[PriorityQueue] Updating {_heap.Count} buffs.");
             for (var i = _heap.Count - 1; i >= 0; i--)
             {
                 Debug.Log($"[PriorityQueue] Updating BuffInstance {i}: {_heap[i].Buff.buffName}");
@@ -134,5 +134,22 @@ namespace Common
             _heap.RemoveAt(_heap.Count - 1);
             HeapifyDown(index);
         }
+
+        public void RemoveBuff(Buff buff)
+        {
+            for (var i = 0; i < _heap.Count; i++)
+            {
+                if (_heap[i].Buff == buff)
+                {
+                    RemoveAt(i);
+                    return;
+                }
+            }
+        }
+        public List<BuffInstance> GetAllBuffs()
+        {
+            return new List<BuffInstance>(_heap);
+        }
+        
     }
 }

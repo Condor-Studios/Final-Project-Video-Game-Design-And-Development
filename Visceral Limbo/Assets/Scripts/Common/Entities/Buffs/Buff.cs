@@ -11,47 +11,31 @@ namespace Common.Entities.Buffs
     {
         public string buffName;
         public float duration;
-        public bool isDebuff;
         public bool isStackable;
-        public bool isDelta;
 
-        public int healthModifier;
-        public float speedModifier;
-        public int damageModifier;
+        [Header("Effects to Apply")]
+        public BuffEffect[] effects;
 
         public void Apply(Entity entity)
         {
-            if (isDelta)
+            foreach (var effect in effects)
             {
-                if (isDebuff)
+                if (effect)
                 {
-                    entity.TakeDamage(Mathf.Abs(healthModifier));
-                    Debug.Log($"[Buff] Applied TICKING DEBUFF '{buffName}' to '{entity.gameObject.name}', dealing {Mathf.Abs(healthModifier)} damage.");
-                }
-                else
-                {
-                    entity.Heal(healthModifier);
-                    Debug.Log($"[Buff] Applied TICKING BUFF '{buffName}' to '{entity.gameObject.name}', healing {healthModifier} health.");
-                }
-            }
-            else
-            {
-                // For non-delta buffs, only apply effects immediately, expected once.
-                if (isDebuff)
-                {
-                    entity.TakeDamage(Mathf.Abs(healthModifier));
-                    Debug.Log($"[Buff] Applied INSTANT DEBUFF '{buffName}' to '{entity.gameObject.name}', dealing {Mathf.Abs(healthModifier)} damage.");
-                }
-                else
-                {
-                    entity.Heal(healthModifier);
-                    Debug.Log($"[Buff] Applied INSTANT BUFF '{buffName}' to '{entity.gameObject.name}', healing {healthModifier} health.");
+                    effect.Apply(entity, effect.isDelta, effect.isDebuff);
                 }
             }
         }
 
         public void Remove(Entity entity)
         {
+            foreach (var effect in effects)
+            {
+                if (effect)
+                {
+                    effect.Remove(entity);
+                }
+            }
             Debug.Log($"[Buff] Buff '{buffName}' expired and was removed from '{entity.gameObject.name}'.");
         }
     }

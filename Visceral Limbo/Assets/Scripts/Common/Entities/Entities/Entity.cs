@@ -13,6 +13,7 @@ namespace Common.Entities.Entities
         protected int maxHealth;
         protected bool isAlive = true;
         private PriorityQueue _activeBuffs;
+        public bool debugPriorityQueue = false;
 
         protected virtual void Awake()
         {
@@ -33,7 +34,7 @@ namespace Common.Entities.Entities
 
         protected virtual void Update()
         {
-            _activeBuffs.Update(Time.deltaTime);
+            _activeBuffs.Update(Time.deltaTime,debugPriorityQueue);
         }
 
         public bool CheckIfBuffActive(BuffInstance buff)
@@ -117,7 +118,46 @@ namespace Common.Entities.Entities
             _activeBuffs.Enqueue(buffInstance);
             Debug.Log($"[Entity] {gameObject.name} received BuffInstance: {buffInstance.Buff.buffName}");
         }
+        
+        protected virtual void OnEnable()
+        {
+            if (BuffManager.Instance != null)
+            {
+                BuffManager.Instance.RegisterEntity(this);
+            }
+        }
 
+        protected virtual void OnDisable()
+        {
+            if (BuffManager.Instance != null)
+            {
+                BuffManager.Instance.UnregisterEntity(this);
+            }
+        }
+        public void RemoveBuff(Buff buff)
+        {
+            if (_activeBuffs == null)
+            {
+                Debug.LogError($"[Entity] ERROR: Tried to remove Buff '{buff.buffName}' but _activeBuffs is NULL!");
+                return;
+            }
+            
+            _activeBuffs.RemoveBuff(buff);
+            Debug.Log($"[Entity] {gameObject.name} removed buff: {buff.buffName}");
+        }
+
+        public System.Collections.Generic.List<BuffInstance> GetActiveBuffs()
+        {
+            if (_activeBuffs == null)
+            {
+                Debug.LogWarning($"[Entity] {gameObject.name} has no active buffs.");
+                return new System.Collections.Generic.List<BuffInstance>();
+            }
+
+            return _activeBuffs.GetAllBuffs();
+        }
         
     }
 }
+        
+       

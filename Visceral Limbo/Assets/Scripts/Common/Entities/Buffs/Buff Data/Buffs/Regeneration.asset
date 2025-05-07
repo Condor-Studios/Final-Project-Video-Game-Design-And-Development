@@ -16,7 +16,6 @@ MonoBehaviour:
   duration: 3
   isDebuff: 0
   isStackable: 0
-  isDelta: 1
-  healthModifier: 1
-  speedModifier: 0
-  damageModifier: 0
+  isDelta: 0
+  effects:
+  - {fileID: 11400000, guid: 3e35cc4435fe043aa8ad1e8d90f96852, type: 2}
