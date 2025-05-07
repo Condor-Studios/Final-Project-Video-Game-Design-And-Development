@@ -1,19 +1,42 @@
 using System;
 using Common.Entities.Buffs;
+using Common.Entities.Gameplay;
 using Interfaces;
 using UnityEngine;
 
 namespace Common.Entities.Entities
 {
+
+    public enum ClassType
+    {
+        Warrior,
+        Mage,
+        Rogue,
+        Priest,
+        Shaman,
+        Druid,
+        Hunter,
+        Paladin,
+        Warlock,
+    }
+    
+    [RequireComponent(typeof(Passives.PassiveEffectHandler))]
     public class Entity : MonoBehaviour, IDamageable, IHealed
     {
         [SerializeField]
-        protected int health;
+        protected int maxHealth = 100;
         [SerializeField]
-        protected int maxHealth;
+        protected int health;
         protected bool isAlive = true;
         private PriorityQueue _activeBuffs;
         public bool debugPriorityQueue = false;
+        [SerializeField]
+        protected int strength = 1;
+        [SerializeField]
+        protected ClassType classType;
+        [SerializeField]
+        protected int _moveSpeedMultiplier = 1;
+        
 
         protected virtual void Awake()
         {
@@ -68,8 +91,27 @@ namespace Common.Entities.Entities
 
         public bool IsAlive
         {
-            get { return isAlive; }
-            set { isAlive = value; }
+            get => isAlive;
+            set => isAlive = value;
+        }
+        
+        public int Strength
+        {
+            get => strength;
+            set => strength = value;
+        }
+
+        public int MoveSpeedMultiplier
+        {
+            get => _moveSpeedMultiplier;
+            set => _moveSpeedMultiplier = value <= 0 ? 1 : value;
+        }
+        
+        public ClassType ClassType => classType;
+
+        public BuffInstance PeekNextBuff()
+        {
+            return _activeBuffs.Peek();
         }
         
         protected void Die()
@@ -96,7 +138,16 @@ namespace Common.Entities.Entities
             {
                 Health += amount;
                 Debug.Log($"{gameObject.name} has been healed by {amount} hp.");
-                // Handle healing logic here (e.g., play animation, etc.)
+
+                var handler = GetComponent<Passives.PassiveEffectHandler>();
+                if (handler)
+                {
+                    handler.HandleGameplayEvent(new GameplayEvent
+                    {
+                        eventType = GameplayEventType.Healed,
+                        value = amount
+                    });
+                }
             }
         }
         
@@ -121,7 +172,7 @@ namespace Common.Entities.Entities
         
         protected virtual void OnEnable()
         {
-            if (BuffManager.Instance != null)
+            if (BuffManager.Instance)
             {
                 BuffManager.Instance.RegisterEntity(this);
             }

@@ -665,11 +665,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1365698620575316, guid: 20b83b6c7039f5d47beac9ffafe09d6e,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1459619022}
+      addedObject: {fileID: 1459619026}
     - targetCorrespondingSourceObject: {fileID: 1365698620575316, guid: 20b83b6c7039f5d47beac9ffafe09d6e,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1459619026}
+      addedObject: {fileID: 1459619028}
+    - targetCorrespondingSourceObject: {fileID: 1365698620575316, guid: 20b83b6c7039f5d47beac9ffafe09d6e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1459619027}
   m_SourcePrefab: {fileID: 100100000, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
 --- !u!4 &432191948 stripped
 Transform:
@@ -1069,21 +1073,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 432191947}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1459619022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1459619017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d4a540fe24c04e4d9c45294e97c7619, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  maxHealth: 10
-  debugPriorityQueue: 0
 --- !u!114 &1459619026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,7 +1087,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeBuffs:
   - {fileID: 11400000, guid: 0e027900d3bb24bac89f208f0c367671, type: 2}
-  _entity: {fileID: 1459619022}
+  _entity: {fileID: 1459619027}
+--- !u!114 &1459619027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459619017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d4a540fe24c04e4d9c45294e97c7619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  health: 0
+  debugPriorityQueue: 0
+  strength: 1
+  classType: 0
+  _moveSpeedMultiplier: 10
+--- !u!114 &1459619028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459619017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd798feafef7a46fb9c630522e579044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activePassives:
+  - {fileID: 11400000, guid: 0aa055acae9aa44d4922ed66c77a6e7e, type: 2}
+  heavySlowBuff: {fileID: 11400000, guid: 551b4b4a1649b48bba718e5008d97470, type: 2}
 --- !u!1 &1493633495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1466,6 +1488,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1837700093}
+    - targetCorrespondingSourceObject: {fileID: 1365698620575316, guid: 20b83b6c7039f5d47beac9ffafe09d6e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1837700097}
   m_SourcePrefab: {fileID: 100100000, guid: 20b83b6c7039f5d47beac9ffafe09d6e, type: 3}
 --- !u!4 &1837700091 stripped
 Transform:
@@ -1491,9 +1517,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d4a540fe24c04e4d9c45294e97c7619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
   maxHealth: 10
+  health: 0
   debugPriorityQueue: 0
+  strength: 1
+  classType: 0
+  _moveSpeedMultiplier: 1
+--- !u!114 &1837700097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837700092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd798feafef7a46fb9c630522e579044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activePassives: []
+  heavySlowBuff: {fileID: 0}
 --- !u!1001 &1957331988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2029,9 +2072,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb2af602ce33460281747de4f4621c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
   maxHealth: 10
+  health: 0
   debugPriorityQueue: 0
+  strength: 1
+  classType: 0
+  _moveSpeedMultiplier: 1
   moveSpeed: 15
   rotationSpeed: 2.5
   idleDuration: 3

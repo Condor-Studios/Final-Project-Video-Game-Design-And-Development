@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e44b823dc800840048937dc43c7d98e8, type: 3}
-  m_Name: "\u03941Damage"
+  m_Script: {fileID: 11500000, guid: 426750e8f79af482d88f589dfc6e4828, type: 3}
+  m_Name: Speed Penalty
   m_EditorClassIdentifier: 
-  effectName: Light Damage Over Time
-  isDelta: 1
+  effectName: Immediate Speed Penalty
+  isDelta: 0
   isDebuff: 1
-  triggerEvent: 1
+  triggerEvent: 4
   value: 1

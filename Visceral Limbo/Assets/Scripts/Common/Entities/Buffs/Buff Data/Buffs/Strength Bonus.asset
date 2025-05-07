@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e44b823dc800840048937dc43c7d98e8, type: 3}
-  m_Name: "\u03941Damage"
+  m_Script: {fileID: 11500000, guid: 631199866edb34480945e6f67176f90d, type: 3}
+  m_Name: Strength Bonus
   m_EditorClassIdentifier: 
-  effectName: Light Damage Over Time
-  isDelta: 1
-  isDebuff: 1
-  triggerEvent: 1
-  value: 1
+  buffName: Strength Bonus
+  duration: 5
+  isStackable: 0
+  effects:
+  - {fileID: 11400000, guid: 77a22636d709d48f9a01955f9c303422, type: 2}

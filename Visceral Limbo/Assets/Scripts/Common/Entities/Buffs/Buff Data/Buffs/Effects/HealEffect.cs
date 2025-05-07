@@ -10,29 +10,13 @@ namespace Common.Entities.Buffs.Buff_Data.Buffs.Effects
         {
             if (isDebuff)
             {
-                if (isDelta)
-                {
                     entity.TakeDamage(Mathf.Abs(value));
-                    Debug.Log($"[HealEffect] Ticking DEBUFF: Dealt {Mathf.Abs(value)} damage over time to {entity.gameObject.name}");
-                }
-                else
-                {
-                    entity.TakeDamage(Mathf.Abs(value));
-                    Debug.Log($"[HealEffect] Instant DEBUFF: Dealt {Mathf.Abs(value)} damage to {entity.gameObject.name}");
-                }
+                    Debug.Log($"[HealEffect] DEBUFF: Dealt {Mathf.Abs(value)} damage to {entity.gameObject.name}");
             }
             else
             {
-                if (isDelta)
-                {
                     entity.Heal(value);
-                    Debug.Log($"[HealEffect] Ticking BUFF: Healed {value} health over time on {entity.gameObject.name}");
-                }
-                else
-                {
-                    entity.Heal(value);
-                    Debug.Log($"[HealEffect] Instant BUFF: Instantly healed {value} health on {entity.gameObject.name}");
-                }
+                    Debug.Log($"[HealEffect] BUFF: Healed {value} health points on {entity.gameObject.name}");
             }
         }
 

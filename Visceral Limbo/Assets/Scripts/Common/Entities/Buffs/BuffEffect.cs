@@ -1,4 +1,5 @@
 using Common.Entities.Entities;
+using Common.Entities.Gameplay;
 using Interfaces;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Common.Entities.Buffs
         public string effectName = "Unnamed Effect";
         public bool isDelta;    // If true, ticks every second. If false, only applies once.
         public bool isDebuff;   // If true, it's a debuff. If false, it's a buff.
+        public GameplayEventType triggerEvent;
 
         [Header("Effect Values")]
         public int value;       // Generic value for the effect (e.g., heal amount, damage amount, etc.)
@@ -20,6 +22,7 @@ namespace Common.Entities.Buffs
         public void Apply(Entity entity)
         {
             _buffEffectImplementation.Apply(entity);
+            GameplayEventManager.TriggerEvent(entity, triggerEvent, value);
         }
 
         public abstract void Remove(Entity entity);

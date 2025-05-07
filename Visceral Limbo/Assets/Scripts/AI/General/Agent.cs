@@ -51,6 +51,7 @@ namespace AI.General
             base.Awake();
             agent = this;
             _rb = GetComponent<Rigidbody>();
+            
         }
 
         protected override void Start()
@@ -62,6 +63,7 @@ namespace AI.General
         {
             base.Update();
             TestMovement();
+            UpdateMoveSpeed();
 
             if (path != null && path.Count > 0)
             {
@@ -81,6 +83,11 @@ namespace AI.General
                     Debug.Log("Has line of Sight: " + HasLineOfSight(targetNode));
                 }
             }
+        }
+
+        protected virtual void UpdateMoveSpeed()
+        {
+            moveSpeed *= base.MoveSpeedMultiplier;
         }
         
 
