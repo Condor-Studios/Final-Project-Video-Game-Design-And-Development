@@ -26,6 +26,12 @@ public class ScoreManager : MonoBehaviour
 
     public void ProcessKill(DamageScore DamageData)
     {
+        print("DamageData Recieved:Regular data " + DamageData.EnemyScoreBase +
+            DamageData.ElementalDamage + DamageData.FactionID +" Victim data: " + 
+            DamageData.Victim.PlayerGameObject + DamageData.Victim.faction+ " Attacked data: "+
+            DamageData.Attacker.faction + DamageData.Attacker.PlayerGameObject);
+
+
         float Score = DamageData.EnemyScoreBase;
         if (DamageData.IsAirBorneKill) Score += AirKillExtra;
         if (DamageData.Overkill > 0) Score += DamageData.Overkill;
@@ -40,9 +46,11 @@ public class ScoreManager : MonoBehaviour
 
     private bool VerifyFriendlyFire(DamageScore DamageData) 
     {
+        if (DamageData.Attacker == null) Debug.LogError("attacker data is null");
+        if (DamageData.Victim == null) Debug.LogError("Victim Data is null");
+
         if (DamageData.Attacker.faction == DamageData.Victim.faction)
         {
-            print("FriendlyFire");
             return true;
         }
         else

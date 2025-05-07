@@ -105,6 +105,82 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &4498342279956697064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3519743028347724441}
+  - component: {fileID: 8812504416660846951}
+  - component: {fileID: 1700324729149086553}
+  m_Layer: 0
+  m_Name: DamageCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3519743028347724441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4498342279956697064}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3975486923997664355}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8812504416660846951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4498342279956697064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764a152797e4e694f8148d8be49af6d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _OwnerContext: {fileID: 0}
+  _OwnerGameObject: {fileID: 0}
+  _TargetGameObject: {fileID: 0}
+  _ChargeDamage: 10
+  _BiteDamage: 5
+  _knockback: 5
+  _DelayBetweenAttacksInsideCollider: 2
+  _Active: 0
+--- !u!136 &1700324729149086553
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4498342279956697064}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.6
+  m_Height: 2.1
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.011995316, z: 0}
 --- !u!1 &7929540413048053642
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,6 +219,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 20860731919058209}
+  - {fileID: 3519743028347724441}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8052103314474723903
@@ -234,12 +311,13 @@ MonoBehaviour:
   context: {fileID: 5264349107030598379}
   _KKC: {fileID: 8216457493952775844}
   _rb: {fileID: 7992021049402438738}
-  _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   target: {fileID: 0}
+  _Collider: {fileID: 8812504416660846951}
   speed: 6
   movementspeed: 8
-  attackingspeed: 6
+  attackingspeed: 2
   dashspeed: 15
+  DashRate: 1.5
   MovementAcceleration: 50
   distanceToTarget: 0
   rotationspeed: 30
@@ -303,6 +381,7 @@ MonoBehaviour:
   _RB: {fileID: 0}
   DestroyOnDeath: 0
   DesactivateOnDeath: 1
+  Died: 0
   _Context: {fileID: 0}
 --- !u!54 &7992021049402438738
 Rigidbody:

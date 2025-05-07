@@ -160,6 +160,8 @@ MonoBehaviour:
   MaxHealth: 100
   _RB: {fileID: 0}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 0}
 --- !u!54 &26468421
 Rigidbody:
@@ -559,6 +561,8 @@ MonoBehaviour:
   MaxHealth: 100
   _RB: {fileID: 0}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 0}
 --- !u!1 &104896530
 GameObject:
@@ -593,6 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SolidCollider: {fileID: 1838517527}
+  roomSpawnerManager: {fileID: 0}
   IsSolid: 0
 --- !u!4 &104896532
 Transform:
@@ -831,6 +836,8 @@ MonoBehaviour:
   MaxHealth: 100
   _RB: {fileID: 0}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 0}
 --- !u!1 &199950265
 GameObject:
@@ -1106,6 +1113,8 @@ MonoBehaviour:
   MaxHealth: 100
   _RB: {fileID: 0}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 0}
 --- !u!114 &282020965
 MonoBehaviour:
@@ -1679,6 +1688,8 @@ MonoBehaviour:
   MaxHealth: 100
   _RB: {fileID: 0}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 0}
 --- !u!1 &360548702
 GameObject:
@@ -1816,6 +1827,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 397246611}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &408656027 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1489878496788334027, guid: c9b37eb471cfbfe4b8e7d2c83992eee4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6728285340898564725}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &438599745
 GameObject:
   m_ObjectHideFlags: 0
@@ -4427,6 +4444,8 @@ MonoBehaviour:
   MaxHealth: 100
   _RB: {fileID: 0}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 0}
 --- !u!114 &1287888136
 MonoBehaviour:
@@ -4486,12 +4505,13 @@ MonoBehaviour:
   context: {fileID: 0}
   _KKC: {fileID: 1287888136}
   _rb: {fileID: 0}
-  _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   target: {fileID: 1665243321}
+  _Collider: {fileID: 0}
   speed: 6
   movementspeed: 8
   attackingspeed: 6
   dashspeed: 15
+  DashRate: 0
   MovementAcceleration: 50
   distanceToTarget: 0
   rotationspeed: 30
@@ -4775,6 +4795,8 @@ MonoBehaviour:
   MaxHealth: 100
   _RB: {fileID: 0}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 0}
 --- !u!114 &1316342254
 MonoBehaviour:
@@ -4834,12 +4856,13 @@ MonoBehaviour:
   context: {fileID: 0}
   _KKC: {fileID: 1316342254}
   _rb: {fileID: 0}
-  _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   target: {fileID: 1665243321}
+  _Collider: {fileID: 0}
   speed: 6
   movementspeed: 8
   attackingspeed: 6
   dashspeed: 15
+  DashRate: 0
   MovementAcceleration: 50
   distanceToTarget: 0
   rotationspeed: 30
@@ -5009,6 +5032,8 @@ MonoBehaviour:
   MaxHealth: 100
   _RB: {fileID: 0}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 0}
 --- !u!114 &1381973361
 MonoBehaviour:
@@ -5641,6 +5666,8 @@ MonoBehaviour:
   MaxHealth: 100
   _RB: {fileID: 0}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 0}
 --- !u!114 &1625787947
 MonoBehaviour:
@@ -5700,12 +5727,13 @@ MonoBehaviour:
   context: {fileID: 0}
   _KKC: {fileID: 1625787947}
   _rb: {fileID: 0}
-  _mat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   target: {fileID: 1665243321}
+  _Collider: {fileID: 0}
   speed: 6
   movementspeed: 8
   attackingspeed: 6
   dashspeed: 15
+  DashRate: 0
   MovementAcceleration: 50
   distanceToTarget: 0
   rotationspeed: 30
@@ -6024,6 +6052,8 @@ MonoBehaviour:
   MaxHealth: 100
   _RB: {fileID: 0}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 0}
 --- !u!1 &1812369490
 GameObject:
@@ -6781,15 +6811,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5264349107030598379, guid: 0455b6b188e6fc547bf9ffc98b1f4940,
+        type: 3}
+      propertyPath: PlayerTransform
+      value: 
+      objectReference: {fileID: 408656027}
     - target: {fileID: 7929540413048053642, guid: 0455b6b188e6fc547bf9ffc98b1f4940,
         type: 3}
       propertyPath: m_Name
       value: Chaser
-      objectReference: {fileID: 0}
-    - target: {fileID: 7929540413048053642, guid: 0455b6b188e6fc547bf9ffc98b1f4940,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6924,74 +6954,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f93b46a29e4a6334e8602e0b483004f2, type: 3}
---- !u!1001 &1388623931411654094
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3816935548940100204, guid: 9084b750d4e45904c8c7af6ec14e5352,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 404.255
-      objectReference: {fileID: 0}
-    - target: {fileID: 3816935548940100204, guid: 9084b750d4e45904c8c7af6ec14e5352,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 48.69484
-      objectReference: {fileID: 0}
-    - target: {fileID: 3816935548940100204, guid: 9084b750d4e45904c8c7af6ec14e5352,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 203.44
-      objectReference: {fileID: 0}
-    - target: {fileID: 3816935548940100204, guid: 9084b750d4e45904c8c7af6ec14e5352,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3816935548940100204, guid: 9084b750d4e45904c8c7af6ec14e5352,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3816935548940100204, guid: 9084b750d4e45904c8c7af6ec14e5352,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3816935548940100204, guid: 9084b750d4e45904c8c7af6ec14e5352,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3816935548940100204, guid: 9084b750d4e45904c8c7af6ec14e5352,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3816935548940100204, guid: 9084b750d4e45904c8c7af6ec14e5352,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3816935548940100204, guid: 9084b750d4e45904c8c7af6ec14e5352,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8708587822586893467, guid: 9084b750d4e45904c8c7af6ec14e5352,
-        type: 3}
-      propertyPath: m_Name
-      value: Backstab
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9084b750d4e45904c8c7af6ec14e5352, type: 3}
 --- !u!1001 &2301708121308783317
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7173,4 +7135,3 @@ SceneRoots:
   - {fileID: 930839636}
   - {fileID: 1070289869}
   - {fileID: 601183472}
-  - {fileID: 1388623931411654094}

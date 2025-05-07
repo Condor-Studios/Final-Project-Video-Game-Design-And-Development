@@ -463,6 +463,8 @@ MonoBehaviour:
   MaxHealth: 100
   _RB: {fileID: 103244012193870917}
   DestroyOnDeath: 0
+  DesactivateOnDeath: 0
+  Died: 0
   _Context: {fileID: 388799400367065248}
 --- !u!1 &3991095584117298949
 GameObject:
@@ -630,6 +632,7 @@ MonoBehaviour:
   _MeleeAttack: {fileID: 4522773646099621157}
   _ChargedMeleeCombat: {fileID: 8523669415137956118}
   _SkillManager: {fileID: 6517383520978276483}
+  IsAlive: 1
   _PlayerContext: {fileID: 388799400367065248}
 --- !u!114 &4522773646099621157
 MonoBehaviour:
@@ -696,7 +699,7 @@ MonoBehaviour:
   PlayerTransform: {fileID: 5558094186996978387}
   KCCMotor: {fileID: 2216195455046947952}
   faction: 0
-  EnemyValueScore: 0
+  EnemyValueScore: 1000
 --- !u!114 &6517383520978276483
 MonoBehaviour:
   m_ObjectHideFlags: 0

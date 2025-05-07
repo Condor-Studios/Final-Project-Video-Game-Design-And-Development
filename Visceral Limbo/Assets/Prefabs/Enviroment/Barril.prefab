@@ -14777,6 +14777,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 41eee88bc85cdb34c8eb5828c6c133b1,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 2189849915831026756}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 41eee88bc85cdb34c8eb5828c6c133b1,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3568182296298995347}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 41eee88bc85cdb34c8eb5828c6c133b1,
         type: 3}
@@ -14835,7 +14839,25 @@ MonoBehaviour:
   DestroyOnDeath: 0
   DesactivateOnDeath: 0
   Died: 0
-  _Context: {fileID: 0}
+  _Context: {fileID: 2189849915831026756}
+--- !u!114 &2189849915831026756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415037378930908518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3289ddf945ef324ea0b2b94eaabb29d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 1
+  PlayerGameObject: {fileID: 6415037378930908518}
+  PlayerTransform: {fileID: 5930425071783364572}
+  KCCMotor: {fileID: 0}
+  faction: 4
+  EnemyValueScore: 0
 --- !u!54 &3568182296298995347
 Rigidbody:
   m_ObjectHideFlags: 0

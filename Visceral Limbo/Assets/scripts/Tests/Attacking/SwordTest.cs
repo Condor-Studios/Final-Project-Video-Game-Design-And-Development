@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class SwordTest : Visceral_WeaponBase
 {
@@ -56,8 +57,12 @@ public class SwordTest : Visceral_WeaponBase
         Vector3 Dir = other.transform.position - this.transform.position;
         Dir = Dir.normalized;
         Dir.y = 0;
+        if (damageScore.Victim == null) HPComp.SimpleDamage(damageScore.DamageAmount);
+        else
+        {
+            HPComp.TakeDamageWithKnockback(Dir, KnockBack, damageScore);
+        }
 
-        HPComp.TakeDamageWithKnockback(Dir, KnockBack, damageScore);
     }
 
 }

@@ -5,17 +5,35 @@ using KinematicCharacterController;
 
 public class DumbChaserAI : DumbEnemy, ICharacterController
 {
+
+    [Header("References")]
+    /// <summary> the context of the character, should have most useful information</summary>
     public PlayerContext context;
+    /// <summary>
+    /// The Kinematic Character motor 
+    /// </summary>
     [SerializeField] KinematicCharacterMotor _KKC;
     [SerializeField] Rigidbody _rb;
-    [SerializeField] Material _mat;
     [SerializeField] Transform target;
-    [SerializeField] float speed,movementspeed,attackingspeed,dashspeed,MovementAcceleration,distanceToTarget;
-    [SerializeField] float rotationspeed;
-    [SerializeField] bool SuccessfullAttack;
+    [SerializeField] Charge_Collider _Collider;
+    [Space]
 
-    Vector3 RequestedAdditiveVelocity;
-    Vector3 RequestedForceVelocity;
+
+    [Header("Variables")]
+    ///<summary> velocidad actual del chaser</summary>
+    [SerializeField] float speed; //velocidad actual
+    [SerializeField] float movementspeed; //velocidad normal de movimiento
+    [SerializeField] float attackingspeed; // velocidad de carga de ataque, debería de ser mas lenta
+    [SerializeField] float dashspeed; // burst de movimiento de dash, se aplica 1 sola vez
+    [SerializeField] float DashRate; // tiempo necesario para dashear
+    [SerializeField] float MovementAcceleration; // aceleracion de movimiento
+    [SerializeField] float distanceToTarget; //distancia al objetivo
+    [SerializeField] float rotationspeed; // velocidad de rotacion
+    [SerializeField] bool SuccessfullAttack; // booleano de ataque realizado
+
+
+    Vector3 RequestedAdditiveVelocity; // KKC, pedido de velocidad extra aditiva
+    Vector3 RequestedForceVelocity; // kkc, pedido de fuerza al rigidbody
 
     private Vector3 targetdirection;
 
@@ -28,13 +46,16 @@ public class DumbChaserAI : DumbEnemy, ICharacterController
         if(_rb == null) _rb = GetComponent<Rigidbody>();
 
         _KKC.AttachedRigidbodyOverride = _rb;
-        target = PlayerTransform();
+        if(target== null) target = PlayerTransform();
 
         context= GetComponent<PlayerContext>();
         if(context == null)
         {
             context = this.gameObject.AddComponent<PlayerContext>();
         }
+
+        if(_Collider == null) _Collider = GetComponentInChildren<Charge_Collider>();
+        _Collider.VS_InitializeWithParameters(context, this.gameObject);
     }
 
 
@@ -48,7 +69,6 @@ public class DumbChaserAI : DumbEnemy, ICharacterController
                 Debug.LogError("Player transform is null");
                 return;
             }
-
         }
         if (_KKC.AttachedRigidbody == null) _KKC.AttachedRigidbodyOverride = _rb;
 
@@ -65,10 +85,8 @@ public class DumbChaserAI : DumbEnemy, ICharacterController
         else
         {
             SuccessfullAttack = false;
-            _mat.color = Color.white;
             StopAllCoroutines();
             speed = movementspeed;
-
         }
     }
 
@@ -78,7 +96,7 @@ public class DumbChaserAI : DumbEnemy, ICharacterController
     {
         speed = attackingspeed;
         SuccessfullAttack = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(DashRate);
         Vector3 Dashattack = targetdirection.normalized * dashspeed;
         RequestForceVelocity(Dashattack);
         SuccessfullAttack = false;
@@ -171,13 +189,14 @@ public class DumbChaserAI : DumbEnemy, ICharacterController
         if(_KKC.AttachedRigidbody.velocity.sqrMagnitude > 0 )
         {
             var Dir = Vector3.Distance(target.transform.position, _KKC.Capsule.transform.position);
-
+            _Collider.ToggleAttack(true);
             if(Dir > 10 )
             {
                 _KKC.AttachedRigidbody.velocity = Vector3.Slerp(_KKC.AttachedRigidbodyVelocity, Vector3.zero, 0.1f + Time.deltaTime);
                 if (_KKC.AttachedRigidbodyVelocity.sqrMagnitude <= 0.1f)
                 {
                     _KKC.AttachedRigidbody.velocity = Vector3.zero;
+                    _Collider.ToggleAttack(false);
                 }
 
             }

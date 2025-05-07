@@ -62,8 +62,11 @@ public class BulletDumb : MonoBehaviour
             DamageDT.Victim = other.GetComponent<PlayerContext>();
             DamageDT.ElementalDamage = ElementType.Physical;
             DamageDT.FactionID = FactionID.LimboMonster1;
-            
-            HPComp.TakeDamageWithKnockback(dir.normalized,5,DamageDT);
+            if (DamageDT.Victim == null) HPComp.SimpleDamage(DamageDT.DamageAmount);
+            else
+            {
+                HPComp.TakeDamageWithKnockback(dir.normalized, 5, DamageDT);
+            }     
         }
     }
 }
