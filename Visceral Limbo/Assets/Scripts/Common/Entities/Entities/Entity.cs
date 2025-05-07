@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Common.Entities.Buffs;
 using Common.Entities.Gameplay;
 using Interfaces;
@@ -20,9 +21,10 @@ namespace Common.Entities.Entities
         Warlock,
     }
     
-    [RequireComponent(typeof(Passives.PassiveEffectHandler))]
+    [RequireComponent(typeof(Passives.PassiveEffectHandler),typeof(PassiveEffectHUD))]
     public class Entity : MonoBehaviour, IDamageable, IHealed
     {
+        private PassiveEffectHUD _hud;
         [SerializeField]
         protected int maxHealth = 100;
         [SerializeField]
@@ -48,6 +50,8 @@ namespace Common.Entities.Entities
                 Debug.Log("[Entity] PriorityQueue initialized successfully.");
                 _activeBuffs.Awake();
             }
+            
+            _hud = GetComponent<PassiveEffectHUD>();
         }
         
         protected virtual void Start()
@@ -156,6 +160,12 @@ namespace Common.Entities.Entities
             BuffInstance newBuff = new BuffInstance(buff, this);
             _activeBuffs.Enqueue(newBuff);
             Debug.Log($"{gameObject.name} received buff: {buff.buffName}");
+
+            if (_hud)
+            {
+                string prefix = buff.effects.Any(eff => eff.isDebuff) ? "-" : !string.IsNullOrEmpty("+") ? "-" : "+";
+                _hud.ShowEvent($"Applied {prefix}{buff.buffName}");
+            }
         }
         
         public void AddBuffInstance(BuffInstance buffInstance)
@@ -195,6 +205,12 @@ namespace Common.Entities.Entities
             
             _activeBuffs.RemoveBuff(buff);
             Debug.Log($"[Entity] {gameObject.name} removed buff: {buff.buffName}");
+
+            if (_hud)
+            {
+                var prefix = buff.effects.Any(eff => eff.isDebuff) ? "-" : "+";
+                _hud.ShowEvent($"Removed {prefix}{buff.buffName}");
+            }
         }
 
         public System.Collections.Generic.List<BuffInstance> GetActiveBuffs()
@@ -211,4 +227,4 @@ namespace Common.Entities.Entities
     }
 }
         
-       
+      

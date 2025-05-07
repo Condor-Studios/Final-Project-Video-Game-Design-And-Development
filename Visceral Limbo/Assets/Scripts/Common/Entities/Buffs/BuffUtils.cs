@@ -19,6 +19,14 @@ namespace Common.Entities.Buffs
         }
 
         // 2. LINQ - Grupo 1 (Where)
+        
+        public static List<BuffInstance> GetAllBuffs(Entity entity)
+        {
+            return entity.GetActiveBuffs()
+                .Where(buff => buff.Buff.effects.Any(eff => !eff.isDebuff))
+                .ToList();
+        }
+        
         public static List<BuffInstance> GetAllDebuffs(Entity entity)
         {
             return entity.GetActiveBuffs()

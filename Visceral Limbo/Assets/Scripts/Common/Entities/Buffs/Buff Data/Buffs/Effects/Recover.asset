@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c10a862fc7074d6fb91f2df67eb361b, type: 3}
   m_Name: Recover
   m_EditorClassIdentifier: 
-  effectName: Unnamed Effect
+  effectName: Clear Last Debuff
   isDelta: 0
   isDebuff: 0
-  triggerEvent: 0
+  triggerEvent: 5
   value: 0

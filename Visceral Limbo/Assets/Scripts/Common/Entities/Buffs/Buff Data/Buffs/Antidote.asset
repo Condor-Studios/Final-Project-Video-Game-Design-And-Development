@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631199866edb34480945e6f67176f90d, type: 3}
   m_Name: Antidote
   m_EditorClassIdentifier: 
-  buffName: 
+  buffName: Antidote
   duration: 0
-  isStackable: 0
-  effects: []
+  isStackable: 1
+  effects:
+  - {fileID: 11400000, guid: e487e71be41b4441a800ddd5e516eff5, type: 2}
