@@ -7,6 +7,7 @@ using System.Linq;
 
 public class DialogueManager : Visceral_Script
 {
+    public static DialogueManager instance;
     [Header("UI")]
     public TextMeshProUGUI DialogueText;
     public Image SpeakerIcon;
@@ -24,15 +25,16 @@ public class DialogueManager : Visceral_Script
 
     [SerializeField]private List<GameObject> CurrentOptionsList = new List<GameObject>();
 
+
     private Coroutine TypingCoroutine;
     private Coroutine AutoAdvanceTextCoroutine;
 
     public DialogueData CurrentDialogue;
 
 
-    public override void VS_Initialize()
+    public void Start()
     {
-        
+        if (instance == null && instance != this) instance = this;
     }
 
     public void StartDialogue(DialogueData DialogeDT)

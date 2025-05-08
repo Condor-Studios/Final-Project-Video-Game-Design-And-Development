@@ -590,6 +590,7 @@ GameObject:
   - component: {fileID: 8523669415137956118}
   - component: {fileID: 388799400367065248}
   - component: {fileID: 6517383520978276483}
+  - component: {fileID: 1600011019852541342}
   m_Layer: 6
   m_Name: PlayerObj
   m_TagString: Untagged
@@ -695,11 +696,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 100
-  PlayerGameObject: {fileID: 2619682033311675946}
-  PlayerTransform: {fileID: 5558094186996978387}
+  PlayerGameObject: {fileID: 2740337010980209942}
+  PlayerTransform: {fileID: 4609580972296786928}
   KCCMotor: {fileID: 2216195455046947952}
   faction: 0
-  EnemyValueScore: 1000
+  EnemyValueScore: 500
 --- !u!114 &6517383520978276483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,6 +714,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Loadout: {fileID: 11400000, guid: 2ff53cc084cc4b84ca80d72f4c9114f6, type: 2}
+--- !u!81 &1600011019852541342
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4039303074304250013}
+  m_Enabled: 1
 --- !u!1 &4050267560074687294
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class Health_Component : Visceral_Component
     public Rigidbody _RB;
     public bool DestroyOnDeath,DesactivateOnDeath,Died;
     [SerializeField] PlayerContext _Context;
+    public PlayerContext Context { get { return _Context; } }
 
 
     public event Action OnDeath, OnDamaged;
@@ -19,6 +20,8 @@ public class Health_Component : Visceral_Component
         _RB= GetComponent<Rigidbody>();
         _Context= GetComponentInParent<PlayerContext>();
 
+        if (_Context.faction == FactionID.Player) OnDamaged += updateHealthBar;
+            
     }
 
     public void TakeDamage(DamageScore DamageDT)
@@ -39,10 +42,15 @@ public class Health_Component : Visceral_Component
         {
             Vector3 FinalForce = Direction * knockback;
             //_RB.AddForce(FinalForce, ForceMode.Impulse);
-            _Context.KCCMotor.AttachedRigidbody.AddForce(FinalForce, ForceMode.Impulse);
+            if(_Context.KCCMotor != null)
+            {
+                _Context.KCCMotor.AttachedRigidbody.AddForce(FinalForce, ForceMode.Impulse);
+            }
+            
         }
-        if (CurrentHealth <= 0 && !Died )
+        if (CurrentHealth <= 0 && !Died)
         {
+            print("calling death");
             Death(DamageDT);
         }
     }
@@ -53,7 +61,7 @@ public class Health_Component : Visceral_Component
         OnDamaged?.Invoke();
         if (CurrentHealth <= 0 && !Died)
         {
-            Death();
+            print("dead");
         }
     }
 
@@ -70,7 +78,7 @@ public class Health_Component : Visceral_Component
         OnDamaged?.Invoke();
         if (CurrentHealth <= 0 && !Died)
         {
-            Death();
+            print("dead");
         }
     }
 
@@ -91,40 +99,23 @@ public class Health_Component : Visceral_Component
             this.gameObject.SetActive(false);
             _Context.PlayerGameObject.SetActive(false);
         }
-
     }
-
-    void Death()
-    {
-        OnDeath?.Invoke();
-        Died = true;
-        if (DestroyOnDeath)
-        {
-            Destroy(this.gameObject);
-        }
-        else if(DesactivateOnDeath)
-        {
-            this.gameObject.SetActive(false);
-            _Context.PlayerGameObject.SetActive(false);
-        }
-    
-    }
-
 
     private DamageScore CreateFinalScore(DamageScore DamageDT)
     {
         Died = true;
         DamageScore FinalScore = DamageDT;
-        if(_Context.KCCMotor.GroundingStatus.IsStableOnGround && !DamageDT.IsAirBorneKill)
+        if(_Context.KCCMotor != null)
         {
-            FinalScore.IsAirBorneKill = false;
+            if (_Context.KCCMotor.GroundingStatus.IsStableOnGround && !DamageDT.IsAirBorneKill)
+            {
+                FinalScore.IsAirBorneKill = false;
+            }
+            else
+            {
+                FinalScore.IsAirBorneKill = true;
+            }
         }
-        else
-        {
-            FinalScore.IsAirBorneKill = true;
-        }
-   
-
         if(CurrentHealth < -MaxHealth * 0.25)
         {
             FinalScore.Overkill = CurrentHealth * -1;
@@ -140,5 +131,12 @@ public class Health_Component : Visceral_Component
         return FinalScore;
     }
 
+    private void updateHealthBar()
+    {
+        if(_Context.faction == FactionID.Player)
+        {
+            Combat_UI_Manager._Instance.UpdatePlayerHealthBar(CurrentHealth,MaxHealth);
+        }
+    }
 
 }

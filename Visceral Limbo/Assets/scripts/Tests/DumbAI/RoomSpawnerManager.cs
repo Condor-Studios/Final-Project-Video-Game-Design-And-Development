@@ -8,8 +8,10 @@ public class RoomSpawnerManager : MonoBehaviour
    public PlayerContext playerContext { get; private set; }
     [SerializeField] private Spawner[] Spawners;
     [SerializeField] private List<RoomEnterTrigger> roomTriggers;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private DialogueData _finishCombatDialogue;
 
-    [SerializeField] bool MinionsAlive, SpawnersSpent;
+    [SerializeField] bool MinionsAlive, SpawnersSpent, StopThisManager;
 
     private void Start()
     {
@@ -32,6 +34,7 @@ public class RoomSpawnerManager : MonoBehaviour
 
     public void NotifyMinionDeath()
     {
+        if (StopThisManager) return;
         MinionsAlive = Spawners.Any(x => x.HasMinion);
         SpawnersSpent = Spawners.All(x => x.IsSpent);
         if(!MinionsAlive && !SpawnersSpent)
@@ -50,11 +53,14 @@ public class RoomSpawnerManager : MonoBehaviour
 
         if(!MinionsAlive && SpawnersSpent)
         {
-            print("Finishing combat");
+            
             foreach (var item in roomTriggers)
             {
                 item.SetSolidState(false);
             }
+            StopThisManager = true;
+            audioSource.Play();
+            DialogueManager.instance.StartDialogue(_finishCombatDialogue);
         }
 
 

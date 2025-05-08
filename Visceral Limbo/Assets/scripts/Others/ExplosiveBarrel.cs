@@ -11,6 +11,7 @@ public class ExplosiveBarrel : MonoBehaviour
     public float damage;
     public float knockbackForce;
     public LayerMask targetLayer;
+    [SerializeField] AudioSource _BarrelLaughs;
 
     private Health_Component healthComponent;
 
@@ -72,7 +73,10 @@ public class ExplosiveBarrel : MonoBehaviour
 
             enemy.SimpleDamage(damageTuple);
         }
-
+        if(filteredTargets.Count > 0)
+        {
+            _BarrelLaughs.Play();
+        }
         
 
         Destroy(this.gameObject);
