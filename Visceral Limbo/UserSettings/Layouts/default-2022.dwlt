@@ -17,7 +17,7 @@ MonoBehaviour:
     x: 0
     y: 43
     width: 1920
-    height: 997
+    height: 989
   m_ShowMode: 4
   m_Title: Scene
   m_RootView: {fileID: 2}
@@ -45,7 +45,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1920
-    height: 997
+    height: 989
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 977
+    y: 969
     width: 1920
     height: 20
   m_MinSize: {x: 0, y: 0}
@@ -114,15 +114,11 @@ MonoBehaviour:
     x: 0
     y: 30
     width: 1920
-    height: 947
+    height: 939
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-<<<<<<< HEAD
-  controlID: 66
-=======
-  controlID: 11530
->>>>>>> origin/sebalevelgame
+  controlID: 79
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,15 +139,11 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1920
-    height: 947
+    height: 939
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-<<<<<<< HEAD
-  controlID: 67
-=======
-  controlID: 11531
->>>>>>> origin/sebalevelgame
+  controlID: 80
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -172,15 +164,11 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1521
-    height: 947
+    height: 939
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-<<<<<<< HEAD
-  controlID: 68
-=======
-  controlID: 11532
->>>>>>> origin/sebalevelgame
+  controlID: 81
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -201,15 +189,11 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1521
-    height: 649
+    height: 644
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-<<<<<<< HEAD
-  controlID: 69
-=======
-  controlID: 11533
->>>>>>> origin/sebalevelgame
+  controlID: 82
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -228,7 +212,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 239
-    height: 649
+    height: 644
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 14}
@@ -254,7 +238,7 @@ MonoBehaviour:
     x: 239
     y: 0
     width: 1282
-    height: 649
+    height: 644
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 15}
@@ -263,7 +247,7 @@ MonoBehaviour:
   - {fileID: 13}
   - {fileID: 16}
   m_Selected: 0
-  m_LastSelected: 1
+  m_LastSelected: 2
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -280,9 +264,9 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 649
+    y: 644
     width: 1521
-    height: 298
+    height: 295
   m_MinSize: {x: 231, y: 271}
   m_MaxSize: {x: 10001, y: 10021}
   m_ActualView: {fileID: 17}
@@ -291,7 +275,7 @@ MonoBehaviour:
   - {fileID: 18}
   - {fileID: 19}
   m_Selected: 0
-  m_LastSelected: 1
+  m_LastSelected: 2
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -310,15 +294,9 @@ MonoBehaviour:
     x: 1521
     y: 0
     width: 399
-<<<<<<< HEAD
-    height: 947
+    height: 939
   m_MinSize: {x: 276, y: 71}
   m_MaxSize: {x: 4001, y: 4021}
-=======
-    height: 939
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
->>>>>>> origin/sebalevelgame
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 20}
@@ -349,7 +327,7 @@ MonoBehaviour:
     x: 239
     y: 73
     width: 1280
-    height: 628
+    height: 623
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -403,35 +381,22 @@ MonoBehaviour:
       x: 0
       y: 21
       width: 1280
-<<<<<<< HEAD
-      height: 607
-    m_Scale: {x: 0.56203705, y: 0.56203705}
-    m_Translation: {x: 640, y: 303.5}
-=======
       height: 602
     m_Scale: {x: 0.6273669, y: 0.6273669}
     m_Translation: {x: 640, y: 305.7693}
->>>>>>> origin/sebalevelgame
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-<<<<<<< HEAD
-      x: -1138.715
-      y: -540
-      width: 2277.43
-      height: 1080
-=======
       x: -1020.1367
       y: -487.3851
       width: 2040.2734
       height: 959.5661
->>>>>>> origin/sebalevelgame
     m_MinimalGUI: 1
-  m_defaultScale: 0.56203705
-  m_LastWindowPixelSize: {x: 1280, y: 628}
+  m_defaultScale: 0.5574074
+  m_LastWindowPixelSize: {x: 1280, y: 623}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -461,7 +426,7 @@ MonoBehaviour:
     x: 0
     y: 73
     width: 238
-    height: 628
+    height: 623
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -474,17 +439,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-<<<<<<< HEAD
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 3642ffff
-      m_LastClickedID: -48586
-      m_ExpandedIDs: 28d7feff2a4dfffff44dffffa44effffa850ffff7e57ffff3871ffff82c5ffffb6caffffbacaffffcacaffff78deffff3cf9fffff4ffffff
-=======
-      scrollPos: {x: 0, y: 2870}
-      m_SelectedIDs: ecf1ffff
-      m_LastClickedID: -3604
-      m_ExpandedIDs: 16fbffff0a7800005a7a00004c7c0000
->>>>>>> origin/sebalevelgame
+      scrollPos: {x: 0, y: 9334}
+      m_SelectedIDs: d223ffff
+      m_LastClickedID: -56366
+      m_ExpandedIDs: 525affffd25dffff4cf7fffffc780000627e0000847e0000707f00006680000090800000d6810000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -532,7 +490,7 @@ MonoBehaviour:
     x: 239
     y: 73
     width: 1280
-    height: 628
+    height: 623
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -897,22 +855,16 @@ MonoBehaviour:
   m_WindowGUID: cc27987af1a868c49b0894db9c0f5429
   m_Gizmos: 1
   m_OverrideSceneCullingMask: 6917529027641081856
-  m_SceneIsLit: 1
+  m_SceneIsLit: 0
   m_SceneLighting: 1
   m_2DMode: 0
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-<<<<<<< HEAD
-    m_Target: {x: 882.622, y: 669.03033, z: -1712.2715}
+    m_Target: {x: 889.3226, y: 658.4142, z: -1725.0392}
     speed: 2
-    m_Value: {x: 882.6244, y: 669.03033, z: -1712.2748}
-=======
-    m_Target: {x: 879.4794, y: 664.77954, z: -1600.3348}
-    speed: 2
-    m_Value: {x: 879.4794, y: 664.77954, z: -1600.3348}
->>>>>>> origin/sebalevelgame
+    m_Value: {x: 889.3226, y: 658.4142, z: -1725.0392}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -945,7 +897,7 @@ MonoBehaviour:
         m_Value: 1
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
-      m_Size: {x: 0.25, y: 0.25}
+      m_Size: {x: 1, y: 1}
     zGrid:
       m_Fade:
         m_Target: 0
@@ -953,28 +905,18 @@ MonoBehaviour:
         m_Value: 0
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
-      m_Size: {x: 0.25, y: 0.25}
+      m_Size: {x: 1, y: 1}
     m_ShowGrid: 1
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-<<<<<<< HEAD
-    m_Target: {x: -0.025320912, y: -0.4775842, z: 0.013737047, w: -0.8781934}
+    m_Target: {x: 0.115178786, y: -0.85374665, z: 0.21326882, w: 0.46092653}
     speed: 2
-    m_Value: {x: -0.02536023, y: -0.4749142, z: 0.013660065, w: -0.87956053}
+    m_Value: {x: 0.116508044, y: -0.85200286, z: 0.21419144, w: 0.46329147}
   m_Size:
-    m_Target: 0.2869047
+    m_Target: 13.548179
     speed: 2
-    m_Value: 0.30042377
-=======
-    m_Target: {x: -0.040793702, y: 0.93417877, z: -0.33603528, w: -0.11323279}
-    speed: 2
-    m_Value: {x: -0.041295737, y: 0.93396336, z: -0.33595768, w: -0.114628464}
-  m_Size:
-    m_Target: 6.466238
-    speed: 2
-    m_Value: 6.1877875
->>>>>>> origin/sebalevelgame
+    m_Value: 13.548179
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -992,7 +934,7 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 1
-  m_LastSceneViewRotation: {x: -0.14555801, y: 0.12627491, z: -0.018952575, w: -0.98113686}
+  m_LastSceneViewRotation: {x: 0.01983768, y: 0.97748315, z: -0.10778719, w: 0.1805712}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -1020,10 +962,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 240
+    x: 239
     y: 73
-    width: 1279
-    height: 614
+    width: 1280
+    height: 623
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1038,6 +980,7 @@ MonoBehaviour:
     m_KeySerializationHelper:
     - {fileID: 5991103478063099694, guid: 742e65099eea27f4b8305e0d36596fa5, type: 2}
     - {fileID: -8016199861638921521, guid: 0e486ff854ec4a34db69e00b7b91e6ed, type: 2}
+    - {fileID: -1153785605690432179, guid: 0ae9c5337f8368e498b96b853df0195f, type: 2}
     m_ValueSerializationHelper:
     - e00: 0.8924499
       e01: 0
@@ -1071,11 +1014,27 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
+    - e00: 1.153709
+      e01: 0
+      e02: 0
+      e03: -28.3199
+      e10: 0
+      e11: 1.153709
+      e12: 0
+      e13: 154.94948
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
   m_PreviewAnimator: {fileID: 0}
-  m_AnimatorController: {fileID: 9100000, guid: 0e486ff854ec4a34db69e00b7b91e6ed,
+  m_AnimatorController: {fileID: 9100000, guid: 0ae9c5337f8368e498b96b853df0195f,
     type: 2}
   m_BreadCrumbs:
-  - m_Target: {fileID: -8016199861638921521, guid: 0e486ff854ec4a34db69e00b7b91e6ed,
+  - m_Target: {fileID: -1153785605690432179, guid: 0ae9c5337f8368e498b96b853df0195f,
       type: 2}
     m_ScrollPosition: {x: 0, y: 0}
   stateMachineGraph: {fileID: 0}
@@ -1111,9 +1070,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 722
+    y: 717
     width: 1520
-    height: 277
+    height: 274
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1135,11 +1094,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-<<<<<<< HEAD
-    - Assets
-=======
     - Assets/Prefabs/Enviroment
->>>>>>> origin/sebalevelgame
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1147,30 +1102,17 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 58
   m_LastFolders:
-<<<<<<< HEAD
-  - Assets
-  m_LastFoldersGridSize: 56
-  m_LastProjectPath: C:\Users\leoma\Documents\GitHub\Final-Project-Video-Game-Design-And-Development\Visceral
-=======
   - Assets/Prefabs/Enviroment
   m_LastFoldersGridSize: 58
   m_LastProjectPath: D:\Da Vinci\Tesis\Final-Project-Video-Game-Design-And-Development\Visceral
->>>>>>> origin/sebalevelgame
     Limbo
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-<<<<<<< HEAD
-    scrollPos: {x: 0, y: 31}
-    m_SelectedIDs: ac870000
-    m_LastClickedID: 34732
-    m_ExpandedIDs: 00000000323300003633000042330000ac870000ae870000b0870000b2870000b4870000b6870000b8870000ba870000bc870000be870000c0870000c2870000c4870000c6870000c8870000ca870000cc870000ce870000d0870000d2870000d4870000d6870000d8870000da870000dc870000de870000e0870000e2870000e4870000e6870000e8870000ea870000ec870000ee8700002889000030890000c2a1000006a200000aa200000ea2000012a20000
-=======
-    scrollPos: {x: 0, y: 466}
-    m_SelectedIDs: 1a890000
-    m_LastClickedID: 35098
-    m_ExpandedIDs: 0000000056870000588700005a8700005c8700005e87000060870000
->>>>>>> origin/sebalevelgame
+    scrollPos: {x: 0, y: 530}
+    m_SelectedIDs: 348e0000
+    m_LastClickedID: 36404
+    m_ExpandedIDs: 00000000c28d0000c48d0000c68d0000c88d0000ca8d0000cc8d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1198,11 +1140,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-<<<<<<< HEAD
-    m_ExpandedIDs: 00000000323300003633000042330000ac870000ae870000b0870000b2870000b4870000b6870000b8870000ba870000bc870000be870000c0870000c2870000c4870000c6870000c8870000ca870000cc870000ce870000d0870000d2870000d4870000d6870000d8870000da870000dc870000de870000e0870000e2870000e4870000e6870000e8870000ea870000ec870000ee870000
-=======
-    m_ExpandedIDs: 0000000056870000588700005a8700005c8700005e87000060870000
->>>>>>> origin/sebalevelgame
+    m_ExpandedIDs: 00000000c28d0000c48d0000c68d0000c88d0000ca8d0000cc8d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1280,9 +1218,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 722
+    y: 717
     width: 1520
-    height: 277
+    height: 274
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1315,9 +1253,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 714
+    y: 717
     width: 1520
-    height: 277
+    height: 274
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1330,11 +1268,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-<<<<<<< HEAD
-  m_LastSelectedObjectID: -93762
-=======
-  m_LastSelectedObjectID: -7434
->>>>>>> origin/sebalevelgame
+  m_LastSelectedObjectID: -9354
 --- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1359,7 +1293,7 @@ MonoBehaviour:
     x: 1521
     y: 73
     width: 398
-    height: 926
+    height: 918
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
