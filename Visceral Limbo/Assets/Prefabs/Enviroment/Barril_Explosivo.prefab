@@ -194,6 +194,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5740898821945009805, guid: 507628e2ef3abbb4d8f277fe932eb0e1,
         type: 3}
+      propertyPath: _Context
+      value: 
+      objectReference: {fileID: 3903896694003383362}
+    - target: {fileID: 5740898821945009805, guid: 507628e2ef3abbb4d8f277fe932eb0e1,
+        type: 3}
       propertyPath: _BarrelLaughs
       value: 
       objectReference: {fileID: 3053213924800868155}
@@ -242,6 +247,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 507628e2ef3abbb4d8f277fe932eb0e1, type: 3}
+--- !u!114 &3903896694003383362 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2189849915831026756, guid: 507628e2ef3abbb4d8f277fe932eb0e1,
+    type: 3}
+  m_PrefabInstance: {fileID: 2904405841151244294}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3289ddf945ef324ea0b2b94eaabb29d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8792046372604116954 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5930425071783364572, guid: 507628e2ef3abbb4d8f277fe932eb0e1,

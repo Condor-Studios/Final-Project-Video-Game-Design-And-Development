@@ -35,6 +35,7 @@ public class RoomSpawnerManager : MonoBehaviour
     public void NotifyMinionDeath()
     {
         if (StopThisManager) return;
+
         MinionsAlive = Spawners.Any(x => x.HasMinion);
         SpawnersSpent = Spawners.All(x => x.IsSpent);
         if(!MinionsAlive && !SpawnersSpent)

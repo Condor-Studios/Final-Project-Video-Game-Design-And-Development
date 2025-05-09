@@ -83,14 +83,12 @@ public class Charge_Collider : Visceral_Script
             DamageScore DamageDT = new DamageScore();
             DamageDT.Attacker = _OwnerContext;
             DamageDT.DamageAmount = Damage;
-            DamageDT.Victim = Target.GetComponent<PlayerContext>();
             DamageDT.ElementalDamage = ElementType.Physical;
             DamageDT.FactionID = FactionID.LimboMonster1;
-            if (DamageDT.Victim == null) HPComp.SimpleDamage(DamageDT.DamageAmount);
-            else
-            {
-                HPComp.TakeDamageWithKnockback(dir.normalized, 5, DamageDT);
-            }
+
+            if (HPComp.Context == null) { HPComp.SimpleDamage(Damage);return; }
+            HPComp.TakeDamageWithKnockback(dir.normalized, 5, DamageDT);
+
         }
     }
 

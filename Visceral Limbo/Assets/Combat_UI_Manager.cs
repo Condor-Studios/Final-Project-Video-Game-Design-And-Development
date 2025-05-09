@@ -31,6 +31,14 @@ public class Combat_UI_Manager : MonoBehaviour
         }
     }
 
+    public void DisplayWin(bool visible)
+    {
+        _WinWindow.SetActive(visible);
+    }
 
+    public void DisplayLose(bool visible)
+    {
+        _LoseWindow.SetActive(visible);
+    }
 
 }

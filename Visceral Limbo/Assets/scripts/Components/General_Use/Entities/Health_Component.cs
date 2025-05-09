@@ -136,6 +136,10 @@ public class Health_Component : Visceral_Component
         if(_Context.faction == FactionID.Player)
         {
             Combat_UI_Manager._Instance.UpdatePlayerHealthBar(CurrentHealth,MaxHealth);
+            if(CurrentHealth <= 0)
+            {
+                Combat_UI_Manager._Instance.DisplayLose(true);
+            }
         }
     }
 

@@ -7,6 +7,7 @@ using Unity.Collections;
 
 public class ExplosiveBarrel : MonoBehaviour
 {
+    [SerializeField] PlayerContext _Context;
     public float explosionRadius;
     public float damage;
     public float knockbackForce;
@@ -66,12 +67,20 @@ public class ExplosiveBarrel : MonoBehaviour
             .Where(x => Vector3.Distance(transform.position, x.transform.position) < explosionRadius * 0.75f)
             .ToList();
 
+        if (filteredTargets.Count <= 0) { Destroy(this.gameObject); return; }
+
         foreach (var enemy in filteredTargets) //Hecho por Lucas - Tupla
         {
             Vector3 dir = (enemy.transform.position - transform.position).normalized;
             var damageTuple = new Tuple<Vector3, float, float>(dir, damage, knockbackForce);
 
-            enemy.SimpleDamage(damageTuple);
+            DamageScore DamageDT = new DamageScore();
+            DamageDT.Attacker = _Context;
+            DamageDT.DamageAmount = damage;
+            DamageDT.ElementalDamage = ElementType.Fire;
+            DamageDT.FactionID = _Context.faction;
+
+            enemy.TakeDamageWithKnockback(damageTuple.Item1,damageTuple.Item3,DamageDT);
         }
         if(filteredTargets.Count > 0)
         {
