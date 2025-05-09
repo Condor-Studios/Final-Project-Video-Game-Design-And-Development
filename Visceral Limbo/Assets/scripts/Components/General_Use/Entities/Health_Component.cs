@@ -61,7 +61,7 @@ public class Health_Component : Visceral_Component
         OnDamaged?.Invoke();
         if (CurrentHealth <= 0 && !Died)
         {
-            print("dead");
+            Death(new DamageScore());
         }
     }
 
@@ -78,17 +78,20 @@ public class Health_Component : Visceral_Component
         OnDamaged?.Invoke();
         if (CurrentHealth <= 0 && !Died)
         {
-            print("dead");
+            Death(new DamageScore());
         }
     }
 
     void Death(DamageScore DamageDT)
     {
-        OnDeath?.Invoke(); 
-        var FinalScore = CreateFinalScore(DamageDT);
+        if(DamageDT.Attacker != null)
+        {
+            var FinalScore = CreateFinalScore(DamageDT);
+            ScoreManager.Instance.ProcessKill(FinalScore);
+        }
 
+        OnDeath?.Invoke(); 
         Died = true;
-        ScoreManager.Instance.ProcessKill(FinalScore);
         if (DestroyOnDeath)
         {
             Destroy(this.gameObject);

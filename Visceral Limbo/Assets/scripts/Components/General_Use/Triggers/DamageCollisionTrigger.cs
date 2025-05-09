@@ -5,8 +5,8 @@ using UnityEngine;
 public class DamageCollisionTrigger : MonoBehaviour
 {
     [SerializeField]Collider _Collider;
-    float Damage, KnockBack;
-    bool CanDealDamage;
+    [SerializeField]float Damage, KnockBack;
+    [SerializeField]bool CanDealDamage;
     bool DealKnockback;
 
     private void Start()
@@ -15,7 +15,7 @@ public class DamageCollisionTrigger : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("trigger!!");
+ 
         if (other.TryGetComponent(out Health_Component HPComp) && CanDealDamage)
         {
             var dir = (other.transform.position - this.transform.position).normalized;
@@ -25,6 +25,7 @@ public class DamageCollisionTrigger : MonoBehaviour
             }
             else
             {
+                print("dealing damage!");
                 HPComp.SimpleDamage(Damage);
             }
         }
