@@ -460,7 +460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentHealth: 0
-  MaxHealth: 100
+  MaxHealth: 300
   _RB: {fileID: 103244012193870917}
   DestroyOnDeath: 0
   DesactivateOnDeath: 0

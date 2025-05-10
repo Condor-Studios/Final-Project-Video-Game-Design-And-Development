@@ -82,8 +82,11 @@ public class ExplosiveBarrel : MonoBehaviour
 
             enemy.TakeDamageWithKnockback(damageTuple.Item1,damageTuple.Item3,DamageDT);
         }
+        print(filteredTargets.Count);
+
         if(filteredTargets.Count > 0)
         {
+            _BarrelLaughs.transform.SetParent(null);
             _BarrelLaughs.Play();
         }
         
